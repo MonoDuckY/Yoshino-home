@@ -1,38 +1,50 @@
-// Footer — Cozy Hearth | spec/REQUIREMENTS.md §4.3, §5.1
-// Legal disclaimer (phi thương mại) bắt buộc — NFR 4.3
+// Footer — Cozy Hearth
+// DEC-07: English | DEC-09: Light theme | spec §4.3, §5.1
 export function Footer() {
   return (
     <footer
       id="footer"
-      className="relative w-full py-10 px-6"
+      className="relative w-full py-12 px-6"
       style={{
-        backgroundColor: 'rgba(5, 10, 20, 0.6)',
-        borderTop: '1px solid rgba(125,211,252,0.08)',
+        backgroundColor: 'var(--color-winter-sky)',
+        borderTop: '1px solid rgba(59,157,210,0.12)',
         zIndex: 2,
       }}
     >
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-4 text-center">
-        {/* Legal disclaimer — bắt buộc theo NFR §4.3 */}
+      <div className="max-w-4xl mx-auto flex flex-col items-center gap-5 text-center">
+        {/* Legal disclaimer — required by NFR §4.3 */}
         <p
-          className="text-xs leading-relaxed max-w-2xl"
-          style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-mist)' }}
+          className="text-xs leading-relaxed"
+          style={{
+            fontFamily: 'var(--font-body)',
+            color: 'var(--color-text-secondary)',
+          }}
         >
-          Date A Live và nhân vật Yoshino Himekawa thuộc bản quyền của tác giả{' '}
-          <span style={{ color: 'var(--color-text-snow)' }}>Koushi Tachibana</span>, họa sĩ{' '}
-          <span style={{ color: 'var(--color-text-snow)' }}>Tsunako</span> và nhà xuất bản{' '}
-          <span style={{ color: 'var(--color-text-snow)' }}>KADOKAWA Corporation</span>.
-          Toàn bộ tác phẩm nghệ thuật thuộc quyền sở hữu của các họa sĩ tương ứng.
+          Date A Live and the character Yoshino Himekawa are intellectual property of{' '}
+          <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>Koushi Tachibana</span>,
+          illustrator{' '}
+          <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>Tsunako</span>,
+          and publisher{' '}
+          <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>KADOKAWA Corporation</span>.
+          All artwork belongs to their respective artists. This is a non-commercial fan tribute.
         </p>
 
         <div
-          style={{ width: '4rem', height: '1px', backgroundColor: 'rgba(125,211,252,0.15)' }}
+          style={{
+            width: '3rem',
+            height: '1px',
+            backgroundColor: 'rgba(59,157,210,0.2)',
+          }}
         />
 
         <p
           className="text-xs"
-          style={{ fontFamily: 'var(--font-body)', color: 'rgba(148,163,184,0.5)' }}
+          style={{
+            fontFamily: 'var(--font-body)',
+            color: 'var(--color-text-muted)',
+          }}
         >
-          Fan-made Non-profit Tribute &bull; Thiết kế &amp; phát triển với ❤
+          Fan-made Non-profit Tribute &bull; Designed &amp; built with ❤
         </p>
       </div>
     </footer>

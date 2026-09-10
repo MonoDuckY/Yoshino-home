@@ -1,40 +1,47 @@
-/* ─────────────────────────────────────────────
-   Google Fonts — must be first @import
-   ───────────────────────────────────────────── */
+/* Google Fonts — must precede all other @import rules */
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap");
 
 @import "tailwindcss";
 
-/* ─────────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────────────
    Design Tokens — Yoshino's Home
+   DEC-09: Light "Warm Winter Daylight" palette (updated 2026-09-10)
    Source of truth: spec/REQUIREMENTS.md §6.1
-   ───────────────────────────────────────────── */
+   ───────────────────────────────────────────────────────────────────── */
 @theme {
-  /* Colors */
-  --color-deep-winter:     #0B1325;
-  --color-ice-blue:        #7DD3FC;
-  --color-yoshino-green:   #6EE7B7;
-  --color-text-snow:       #F8FAFC;
-  --color-text-mist:       #94A3B8;
+  /* Background layers */
+  --color-winter-sky:      #ECF1FB;   /* main bg — cool blue-white, daylit sky */
+  --color-warm-ivory:      #FDF6EC;   /* warm ivory — alternate / section bg   */
 
-  /* Glassmorphism surface */
-  --color-glass:           rgba(255, 255, 255, 0.06);
+  /* Accent palette (deepened for contrast on light bg — DEC-09) */
+  --color-ice-blue:        #3B9DD2;   /* primary accent, interactive            */
+  --color-ice-blue-soft:   #7DD3FC;   /* decorative / hover highlight           */
+  --color-yoshino-green:   #10B87E;   /* CTA, success, active states            */
 
-  /* Fonts */
-  --font-display: "Cinzel", "Playfair Display", Georgia, serif;
-  --font-body:    "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  /* Surface */
+  --color-glass:           rgba(255, 255, 255, 0.72);  /* frosted glass card    */
+  --color-glass-hover:     rgba(255, 255, 255, 0.88);
 
-  /* Spacing & layout */
-  --spacing-navbar: 4rem; /* 64px */
+  /* Typography */
+  --color-text-primary:    #18264A;   /* deep navy — main readable text         */
+  --color-text-secondary:  #5C6E8F;   /* muted blue-gray — subtitles, labels    */
+  --color-text-muted:      #8FA3BC;   /* disabled, placeholder                  */
+
+  /* Borders & shadows */
+  --color-border:          rgba(59, 157, 210, 0.18);
+  --color-shadow:          rgba(30, 55, 110, 0.08);
+
+  /* Typography families */
+  --font-display: "Cinzel", "Georgia", serif;
+  --font-body:    "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Layout */
+  --spacing-navbar: 64px;
 }
 
-/* ─────────────────────────────────────────────
-   Base reset & global styles
-   ───────────────────────────────────────────── */
+/* ── Base reset ──────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -42,11 +49,12 @@ html {
 }
 
 body {
-  background-color: var(--color-deep-winter);
-  color: var(--color-text-snow);
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-winter-sky);
+  color: var(--color-text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-
-

@@ -1,4 +1,5 @@
-// App.tsx - Yoshino's Home — Sprint 2
+// App.tsx — Yoshino's Home
+// DEC-09: Light "Warm Winter Daylight" theme
 import { useState } from 'react';
 import { SnowCanvas } from './components/ui/SnowCanvas';
 import { Navbar } from './components/layout/Navbar';
@@ -10,21 +11,30 @@ function App() {
   const [snowActive, setSnowActive] = useState(true);
 
   const handleCallYoshinon = () => {
-    // Sprint 4: will trigger Yoshinon FSM state -> 'welcome'
-    console.info('[Yoshinon] Tour triggered - Sprint 4');
+    // Sprint 4: trigger Yoshinon tour FSM -> 'welcome'
+    console.info('[Yoshinon] Tour triggered — Sprint 4');
   };
 
   return (
-    <div className="relative" style={{ backgroundColor: 'var(--color-deep-winter)' }}>
+    <div
+      className="relative"
+      style={{ backgroundColor: 'var(--color-winter-sky)' }}
+    >
+      {/* Layer 0: Snow Canvas (fixed, behind everything) */}
       <SnowCanvas isActive={snowActive} />
+
+      {/* Layer 1: Fixed Navbar */}
       <Navbar
         snowActive={snowActive}
         onSnowToggle={() => setSnowActive((prev) => !prev)}
       />
+
+      {/* Layer 2: Page content */}
       <main>
         <HeroSection onCallYoshinon={handleCallYoshinon} />
         <GalleryPlaceholder />
       </main>
+
       <Footer />
     </div>
   );

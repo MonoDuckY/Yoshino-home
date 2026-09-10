@@ -1,59 +1,75 @@
 // GalleryPlaceholder — Sprint 2 stub, full Gallery Wall in Sprint 3
+// DEC-07: English | DEC-09: Light theme
 import { motion } from 'framer-motion';
 
 export function GalleryPlaceholder() {
   return (
     <section
       id="gallery"
-      className="relative w-full py-24 px-6"
-      aria-label="Phòng triển lãm nghệ thuật — sắp ra mắt"
-      style={{ zIndex: 2 }}
+      className="relative w-full py-28 px-6"
+      aria-label="Art Gallery — coming in Sprint 3"
+      style={{
+        backgroundColor: 'var(--color-warm-ivory)',
+        zIndex: 2,
+      }}
     >
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.65 }}
         >
           <p
-            className="text-xs tracking-[0.3em] uppercase mb-3"
-            style={{ color: 'var(--color-yoshino-green)', fontFamily: 'var(--font-body)' }}
+            className="text-xs font-semibold tracking-[0.35em] uppercase mb-4"
+            style={{
+              color: 'var(--color-yoshino-green)',
+              fontFamily: 'var(--font-body)',
+            }}
           >
             The Gallery Wall
           </p>
           <h2
-            className="text-3xl md:text-4xl font-bold tracking-widest mb-4"
-            style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-snow)' }}
+            className="text-3xl md:text-4xl font-bold tracking-widest mb-5"
+            style={{
+              fontFamily: 'var(--font-display)',
+              color: 'var(--color-text-primary)',
+            }}
           >
-            PHÒNG TRIỂN LÃM NGHỆ THUẬT
+            ART GALLERY
           </h2>
           <p
-            className="text-sm mb-16"
-            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-mist)' }}
+            className="text-base mb-16 max-w-md mx-auto leading-relaxed"
+            style={{
+              fontFamily: 'var(--font-body)',
+              color: 'var(--color-text-secondary)',
+            }}
           >
-            Những khoảnh khắc dịu dàng và ấm áp của Yoshino
+            Curated artwork celebrating Yoshino's gentle and warm world
           </p>
 
-          {/* Placeholder artwork grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 opacity-25">
+          {/* Placeholder grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 opacity-30">
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="rounded-xl aspect-[3/4]"
+                className="rounded-2xl aspect-[3/4]"
                 style={{
-                  backgroundColor: 'var(--color-glass)',
-                  border: '1px solid rgba(125,211,252,0.1)',
+                  backgroundColor: 'rgba(59,157,210,0.08)',
+                  border: '1px solid rgba(59,157,210,0.15)',
                 }}
               />
             ))}
           </div>
 
           <p
-            className="mt-10 text-xs tracking-wider"
-            style={{ color: 'var(--color-text-mist)', fontFamily: 'var(--font-body)' }}
+            className="mt-12 text-xs tracking-wider font-medium"
+            style={{
+              color: 'var(--color-text-muted)',
+              fontFamily: 'var(--font-body)',
+            }}
           >
-            Sprint 3 — Gallery đang được xây dựng ✦
+            Sprint 3 — Gallery under construction ✦
           </p>
         </motion.div>
       </div>

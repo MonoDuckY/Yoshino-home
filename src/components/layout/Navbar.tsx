@@ -1,5 +1,5 @@
-// Navbar - Fixed top navigation
-// spec/REQUIREMENTS.md §5.1 | h:64px | backdrop-blur:12px | z-50
+// Navbar — Fixed top navigation
+// DEC-07: Full English UI | DEC-09: Light theme | DEC-08: Comfortable spacing
 import React from 'react';
 
 interface NavbarProps {
@@ -8,9 +8,9 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: 'Hồ sơ', href: '#hero' },
-  { label: 'Phòng tranh', href: '#gallery' },
-  { label: 'Credit & Nguồn', href: '#footer' },
+  { label: 'Profile',  href: '#hero'    },
+  { label: 'Gallery',  href: '#gallery' },
+  { label: 'Credits',  href: '#footer'  },
 ];
 
 export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
@@ -22,43 +22,59 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12"
       style={{
         height: 'var(--spacing-navbar)',
-        backgroundColor: 'rgba(11, 19, 37, 0.75)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(125, 211, 252, 0.08)',
+        backgroundColor: 'rgba(236, 241, 251, 0.85)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(59, 157, 210, 0.12)',
+        boxShadow: '0 1px 20px rgba(30, 55, 110, 0.06)',
       }}
     >
       {/* Logo */}
       <a
         href="#hero"
         onClick={(e) => handleNavClick(e, '#hero')}
-        className="flex items-center gap-2 no-underline select-none"
-        aria-label="Yoshino's Home — về đầu trang"
+        className="flex items-center gap-2.5 no-underline select-none"
+        aria-label="Yoshino's Home — back to top"
       >
-        <span aria-hidden="true" style={{ color: 'var(--color-ice-blue)', fontSize: '1.1rem' }}>❄</span>
+        <span
+          aria-hidden="true"
+          style={{ color: 'var(--color-ice-blue)', fontSize: '1.1rem' }}
+        >
+          ❄
+        </span>
         <span
           className="text-base font-semibold tracking-widest hidden sm:block"
-          style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-snow)' }}
+          style={{
+            fontFamily: 'var(--font-display)',
+            color: 'var(--color-text-primary)',
+          }}
         >
           Yoshino&apos;s Home
         </span>
       </a>
 
       {/* Navigation links */}
-      <nav aria-label="Navigation chính">
-        <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
+      <nav aria-label="Primary navigation">
+        <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
           {NAV_LINKS.map(({ label, href }) => (
             <li key={href}>
               <a
                 href={href}
                 onClick={(e) => handleNavClick(e, href)}
-                className="text-sm tracking-wider no-underline transition-colors duration-200"
-                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-mist)' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-ice-blue)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-mist)')}
+                className="text-sm font-medium tracking-wide no-underline transition-colors duration-200"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  color: 'var(--color-text-secondary)',
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = 'var(--color-ice-blue)')
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = 'var(--color-text-secondary)')
+                }
               >
                 {label}
               </a>
@@ -70,18 +86,26 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
       {/* Snow toggle */}
       <button
         onClick={onSnowToggle}
-        aria-label={snowActive ? 'Tắt tuyết rơi' : 'Bật tuyết rơi'}
+        aria-label={snowActive ? 'Turn off snowfall' : 'Turn on snowfall'}
         aria-pressed={snowActive}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all duration-300 cursor-pointer border"
+        className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-300 cursor-pointer border"
         style={{
           fontFamily: 'var(--font-body)',
-          borderColor: snowActive ? 'var(--color-ice-blue)' : 'rgba(125,211,252,0.3)',
-          color: snowActive ? 'var(--color-ice-blue)' : 'var(--color-text-mist)',
-          backgroundColor: snowActive ? 'rgba(125,211,252,0.08)' : 'transparent',
+          borderColor: snowActive
+            ? 'var(--color-ice-blue)'
+            : 'var(--color-border)',
+          color: snowActive
+            ? 'var(--color-ice-blue)'
+            : 'var(--color-text-secondary)',
+          backgroundColor: snowActive
+            ? 'rgba(59, 157, 210, 0.08)'
+            : 'transparent',
         }}
       >
         <span aria-hidden="true">❄</span>
-        <span className="hidden sm:inline">{snowActive ? 'Tắt tuyết' : 'Bật tuyết'}</span>
+        <span className="hidden sm:inline">
+          {snowActive ? 'Snow On' : 'Snow Off'}
+        </span>
       </button>
     </header>
   );
