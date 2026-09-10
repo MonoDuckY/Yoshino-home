@@ -1,5 +1,6 @@
 // HeroSection - 100vh opening screen
 // spec/REQUIREMENTS.md §FR-01, §5.1, §6.3
+// Left: Yoshino standee + breathing float | Right: Dossier Card
 import { motion } from 'framer-motion';
 import { DossierCard } from '../ui/DossierCard';
 import { characterDossier } from '../../data/mockArtworks';
@@ -30,7 +31,7 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
       id="hero"
       className="relative flex items-center min-h-screen w-full overflow-hidden"
       style={{ paddingTop: 'var(--spacing-navbar)' }}
-      aria-label="Ho so nhan vat Yoshino Himekawa"
+      aria-label="Hồ sơ nhân vật Yoshino Himekawa"
     >
       {/* Ambient radial glow */}
       <div
@@ -38,52 +39,58 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 60% 50% at 30% 55%, rgba(125,211,252,0.06) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 70% 45%, rgba(110,231,183,0.04) 0%, transparent 60%)',
+            'radial-gradient(ellipse 60% 50% at 30% 55%, rgba(125,211,252,0.06) 0%, transparent 70%),' +
+            'radial-gradient(ellipse 40% 40% at 70% 45%, rgba(110,231,183,0.04) 0%, transparent 60%)',
           zIndex: 1,
         }}
       />
 
       {/* Content grid */}
       <div
-        className="relative w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 py-12"
+        className="relative w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-20 py-12"
         style={{ zIndex: 2 }}
       >
-        {/* Left: Standee */}
+        {/* ── Left: Standee ── */}
         <motion.div
           className="relative flex-shrink-0 flex items-center justify-center w-full md:w-auto"
           variants={standeeVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Glow ring */}
+          {/* Soft glow ring behind image */}
           <div
             aria-hidden="true"
             className="absolute rounded-full pointer-events-none"
             style={{
-              width: '340px',
-              height: '340px',
-              background: 'radial-gradient(circle, rgba(125,211,252,0.12) 0%, rgba(110,231,183,0.06) 40%, transparent 70%)',
-              filter: 'blur(30px)',
+              width: '360px',
+              height: '360px',
+              background:
+                'radial-gradient(circle, rgba(125,211,252,0.13) 0%, rgba(110,231,183,0.06) 40%, transparent 70%)',
+              filter: 'blur(32px)',
             }}
           />
-          {/* Breathing float animation */}
+
+          {/* Breathing float animation — FR-01 */}
           <motion.img
             src={yoshinoStandee}
-            alt="Yoshino Himekawa - Spirit No. 02, The Hermit"
+            alt="Yoshino Himekawa — Spirit No. 02, The Hermit, trong Astral Dress Zadkiel Coat"
             animate={{ y: [0, -14, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
             className="relative select-none"
             style={{
-              height: 'clamp(300px, 42vh, 500px)',
+              height: 'clamp(300px, 42vh, 520px)',
               width: 'auto',
               objectFit: 'contain',
-              filter: 'drop-shadow(0 0 40px rgba(125,211,252,0.2))',
+              objectPosition: 'center bottom',
+              filter: 'drop-shadow(0 0 48px rgba(125,211,252,0.22))',
             }}
             draggable={false}
           />
+
+          {/* TODO Sprint 2 note: swap hero.png with actual Yoshino transparent PNG */}
         </motion.div>
 
-        {/* Right: Dossier Card */}
+        {/* ── Right: Dossier Card ── */}
         <div className="w-full md:w-auto flex justify-center md:justify-start">
           <DossierCard
             dossier={characterDossier}
@@ -101,8 +108,11 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
         transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         style={{ zIndex: 2 }}
       >
-        <span className="text-xs tracking-[0.2em] uppercase" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-mist)' }}>
-          cuon xuong
+        <span
+          className="text-xs tracking-[0.2em] uppercase"
+          style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-mist)' }}
+        >
+          cuộn xuống
         </span>
         <svg width="16" height="10" viewBox="0 0 16 10" fill="none" style={{ color: 'var(--color-ice-blue)' }}>
           <path d="M1 1L8 8L15 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

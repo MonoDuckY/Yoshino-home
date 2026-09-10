@@ -62,7 +62,7 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
       {/* Name */}
       <motion.div variants={itemVariants} className="mb-1">
         <h1
-          className="text-3xl md:text-4xl font-bold tracking-[0.15em] leading-tight uppercase"
+          className="text-3xl md:text-4xl font-bold tracking-[0.12em] leading-tight uppercase"
           style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-snow)' }}
         >
           {dossier.nameRomanized.split(' ').map((word, i) => (
@@ -74,7 +74,11 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
       <motion.p
         variants={itemVariants}
         className="text-base mb-6"
-        style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-mist)', letterSpacing: '0.05em' }}
+        style={{
+          fontFamily: 'var(--font-display)',
+          color: 'var(--color-text-mist)',
+          letterSpacing: '0.05em',
+        }}
       >
         {dossier.nameKanji}
       </motion.p>
@@ -83,30 +87,44 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
       <motion.div
         variants={itemVariants}
         className="mb-5"
-        style={{ height: '1px', background: 'linear-gradient(to right, rgba(125,211,252,0.3), transparent)' }}
+        style={{
+          height: '1px',
+          background: 'linear-gradient(to right, rgba(125,211,252,0.3), transparent)',
+        }}
       />
 
-      {/* Stats */}
-      <motion.dl variants={staggerChildren} className="grid grid-cols-2 gap-4 mb-5">
+      {/* Stats grid */}
+      <motion.dl variants={staggerChildren} className="grid grid-cols-2 gap-x-6 gap-y-4 mb-5">
         <motion.div variants={itemVariants} className="flex flex-col gap-1">
-          <dt className="text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-ice-blue)', opacity: 0.7 }}>
-            ✦ Linh phuc
+          <dt
+            className="text-xs uppercase tracking-widest flex items-center gap-1.5"
+            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-ice-blue)', opacity: 0.75 }}
+          >
+            ✦ Linh phục
           </dt>
           <dd className="text-sm font-medium" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-snow)' }}>
             {dossier.astralDress}
           </dd>
         </motion.div>
+
         <motion.div variants={itemVariants} className="flex flex-col gap-1">
-          <dt className="text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-ice-blue)', opacity: 0.7 }}>
-            ❅ Thien su
+          <dt
+            className="text-xs uppercase tracking-widest flex items-center gap-1.5"
+            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-ice-blue)', opacity: 0.75 }}
+          >
+            ❅ Thiên sứ
           </dt>
           <dd className="text-sm font-medium" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-snow)' }}>
             {dossier.angelName}
           </dd>
         </motion.div>
+
         <motion.div variants={itemVariants} className="flex flex-col gap-1 col-span-2">
-          <dt className="text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-ice-blue)', opacity: 0.7 }}>
-            ♡ Tinh cach
+          <dt
+            className="text-xs uppercase tracking-widest flex items-center gap-1.5"
+            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-ice-blue)', opacity: 0.75 }}
+          >
+            ♡ Tính cách
           </dt>
           <dd className="text-sm font-medium leading-snug" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-snow)' }}>
             {dossier.personalitySummary}
@@ -114,15 +132,21 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
         </motion.div>
       </motion.dl>
 
-      {/* keyQuote - DEC-05: italic serif, border-left ice-blue */}
+      {/* keyQuote — DEC-05: italic Serif, border-left ice-blue, above CTAs */}
       <motion.blockquote
         variants={itemVariants}
         className="mb-7 pl-3"
         style={{ borderLeft: '2px solid rgba(125, 211, 252, 0.35)' }}
       >
         <p
-          className="text-sm leading-relaxed"
-          style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', color: 'rgba(125, 211, 252, 0.85)' }}
+          style={{
+            fontFamily: 'Georgia, "Playfair Display", serif',
+            fontStyle: 'italic',
+            fontSize: '0.875rem',
+            lineHeight: '1.6',
+            color: 'rgba(125, 211, 252, 0.82)',
+            letterSpacing: '0.01em',
+          }}
         >
           &ldquo;{dossier.keyQuote}&rdquo;
         </p>
@@ -130,6 +154,7 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
 
       {/* CTA buttons */}
       <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
+        {/* Primary — yoshino-green */}
         <button
           onClick={onExploreGallery}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 cursor-pointer"
@@ -148,8 +173,10 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
             e.currentTarget.style.boxShadow = 'none';
           }}
         >
-          Kham pha tranh ↓
+          Khám phá tranh ↓
         </button>
+
+        {/* Secondary — ghost */}
         <button
           onClick={onCallYoshinon}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-300 cursor-pointer"
@@ -168,7 +195,7 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
             e.currentTarget.style.color = 'var(--color-text-snow)';
           }}
         >
-          🐰 Hoi Yoshinon
+          🐰 Hỏi Yoshinon
         </button>
       </motion.div>
     </motion.div>

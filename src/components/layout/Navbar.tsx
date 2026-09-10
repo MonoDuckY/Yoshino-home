@@ -8,9 +8,9 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: 'Ho so', href: '#hero' },
-  { label: 'Phong tranh', href: '#gallery' },
-  { label: 'Credit & Nguon', href: '#footer' },
+  { label: 'Hồ sơ', href: '#hero' },
+  { label: 'Phòng tranh', href: '#gallery' },
+  { label: 'Credit & Nguồn', href: '#footer' },
 ];
 
 export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
@@ -36,7 +36,7 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
         href="#hero"
         onClick={(e) => handleNavClick(e, '#hero')}
         className="flex items-center gap-2 no-underline select-none"
-        aria-label="Yoshino's Home"
+        aria-label="Yoshino's Home — về đầu trang"
       >
         <span aria-hidden="true" style={{ color: 'var(--color-ice-blue)', fontSize: '1.1rem' }}>❄</span>
         <span
@@ -48,7 +48,7 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
       </a>
 
       {/* Navigation links */}
-      <nav aria-label="Navigation chinh">
+      <nav aria-label="Navigation chính">
         <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
           {NAV_LINKS.map(({ label, href }) => (
             <li key={href}>
@@ -70,7 +70,7 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
       {/* Snow toggle */}
       <button
         onClick={onSnowToggle}
-        aria-label={snowActive ? 'Tat tuyet roi' : 'Bat tuyet roi'}
+        aria-label={snowActive ? 'Tắt tuyết rơi' : 'Bật tuyết rơi'}
         aria-pressed={snowActive}
         className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium tracking-wider transition-all duration-300 cursor-pointer border"
         style={{
@@ -81,7 +81,7 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
         }}
       >
         <span aria-hidden="true">❄</span>
-        <span className="hidden sm:inline">{snowActive ? 'Tat tuyet' : 'Bat tuyet'}</span>
+        <span className="hidden sm:inline">{snowActive ? 'Tắt tuyết' : 'Bật tuyết'}</span>
       </button>
     </header>
   );
