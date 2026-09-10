@@ -1,7 +1,38 @@
-﻿# CHANGELOG.md — Yoshino's Home
+# CHANGELOG.md — Yoshino's Home
 
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
+
+---
+
+## [2026-09-10] — Sprint 2 Complete: Hero Section & Dossier Card
+
+### ✅ Đã hoàn thành
+- **Navbar** — fixed 64px, `backdrop-blur: 12px`, logo Cinzel, nav links smooth-scroll, snow toggle button
+- **HeroSection** — 100vh, 2-cột Desktop / flex-col Mobile (DEC-04)
+  - Standee breathing float: `y: [0, -14, 0]` với `duration: 4.5s` (FR-01)
+  - Radial glow ring phía sau standee
+  - Scroll indicator animate ở cuối section
+- **DossierCard** (Glassmorphism) — `backdrop-blur: 12px`, `rgba(255,255,255,0.06)` bg
+  - Spirit tag, H1 HIMEKAWA/YOSHINO, Kanji subtitle
+  - Stats grid 2×2: Linh phục | Thiên sứ | Tính cách (col-span-2)
+  - `keyQuote` — italic Georgia/Playfair serif + `border-left: 2px ice-blue/35` (DEC-05)
+  - CTA: "Khám phá tranh ↓" (yoshino-green) + "🐰 Hỏi Yoshinon" (ghost)
+  - Staggered entrance animation (Framer Motion variants)
+- **GalleryPlaceholder** — stub section #gallery với placeholder grid 2×4
+- **Footer** — legal disclaimer đầy đủ (NFR §4.3), "Fan-made Non-profit Tribute"
+- **Fix** — khôi phục tiếng Việt đầy đủ dấu trong tất cả components
+
+### 📁 Files mới
+- `src/components/layout/Navbar.tsx`
+- `src/components/ui/DossierCard.tsx`
+- `src/components/sections/HeroSection.tsx`
+- `src/components/sections/GalleryPlaceholder.tsx`
+- `src/components/sections/Footer.tsx`
+
+### 📋 Commits
+- `9d39b30` feat(sprint-2): Hero section, Navbar, DossierCard, Footer
+- `7b76847` fix(sprint-2): restore Vietnamese diacritics, polish keyQuote font
 
 ---
 
