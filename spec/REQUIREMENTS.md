@@ -1,7 +1,8 @@
 # REQUIREMENTS.md — Yoshino's Home
 
-> Tài liệu này là phiên bản chuẩn hóa và hợp nhất của PRD & DRD gốc, **tích hợp toàn bộ quyết định kỹ thuật đã được thống nhất** trong phiên review ngày 2026-09-10.
+> Tài liệu này là phiên bản chuẩn hóa và hợp nhất của PRD & DRD gốc, **tích hợp toàn bộ quyết định kỹ thuật đã được thống nhất**.
 > Nguồn gốc tài liệu gốc: `docs/[PRD & DRD] Yoshino's Home - Product & Design Requirements Document.docx`
+> **Cập nhật lần cuối: 2026-09-11** — Sprint 3 hoàn thành (Gallery Wall); Sprint 4 (Yoshinon + Sanity CMS) tiếp theo.
 
 ---
 
@@ -42,7 +43,7 @@ Tầm nhìn cốt lõi: Tạo ra một *"căn nhà mùa đông ấm áp"* trên 
 | Phòng triển lãm | Lưới tranh, 4 filter states (All/Official/Fanart/Collab), Hover overlay, Credit, External link | Comments, Like, Lightbox với zoom |
 | Yoshinon Mascot | Floating widget, Chào mừng, Tour 4 bước | Live2D vật lý, AI Chatbot tự do |
 | Môi trường | Canvas tuyết 60 FPS, Toggle bật/tắt, Glassmorphism theme | Weather switch, BGM |
-| CMS | Sanity.io integration (Sprint 3) | Admin auth riêng trên frontend |
+| CMS | Sanity.io integration (Sprint 4) | Admin auth riêng trên frontend |
 
 ### 2.2. User Stories & Acceptance Criteria
 
@@ -411,7 +412,7 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 |---|---|---|---|
 | DEC-01 | `All` trong Gallery Filter là Category hay UI State? | **UI State**. `ArtworkCategory` chỉ có 3 giá trị domain. `GalleryFilter = 'all' \| ArtworkCategory` là type riêng cho UI. | 2026-09-10 |
 | DEC-02 | Sync giữa Sanity Schema và TypeScript Interface? | **Schema Sanity được chuẩn hóa** để match Interface: bổ sung `artistHandle`, `publishedDate`, `curatorNote`. `blurDataUrl` lấy từ `asset->metadata.lqip` tự động. | 2026-09-10 |
-| DEC-03 | Sanity: tích hợp từ Sprint nào? | **Mock Data First**: Sprint 1–2 dùng `src/data/mockArtworks.ts`. Sprint 3 thay bằng `client.fetch()` từ Sanity. | 2026-09-10 |
+| DEC-03 | Sanity: tích hợp từ Sprint nào? | **Mock Data First**: Sprint 1–3 dùng `src/data/mockArtworks.ts`. **Sprint 4** thay bằng `client.fetch()` từ Sanity *(dời từ Sprint 3 — lý do: UI Gallery hoàn thiện với mock data trước, Sanity wire-in sau khi có account + projectId)*. | 2026-09-11 *(cập nhật)* |
 | DEC-04 | Mobile Responsive có hay không? | **Graceful Degradation**: Desktop-first nhưng có mobile breakpoints. Hero → flex-col, Gallery → grid-cols-1, Snow → 25 hạt, Yoshinon → thu gọn icon. | 2026-09-10 |
 | DEC-05 | `keyQuote` hiển thị ở đâu? | **Trong Dossier Card**, bên dưới bảng thông số 2×2, trên CTA buttons. Kiểu chữ: italic Serif, `border-l-2 border-ice-blue/40 pl-3`. | 2026-09-10 |
 | DEC-06 | Cơ chế "Highlight" trong Yoshinon Tour? | **Smooth Scroll + Pulsing Glow Ring**: `scrollIntoView({ behavior: 'smooth', block: 'center' })` + class `ring-2 ring-yoshino-green shadow-[0_0_20px_rgba(110,231,183,0.4)]`. Không dùng thư viện ngoài (Driver.js/Intro.js). | 2026-09-10 |
@@ -423,9 +424,21 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 
 ## 9. Implementation Roadmap
 
-| Sprint | Nhiệm vụ cốt lõi | Output |
-|---|---|---|
-| **Sprint 1** — Design Tokens & Setup | Vite + React + TypeScript init; Tailwind config với Design Tokens; Canvas tuyết 60 FPS độc lập; Mock data file | Dev env chuẩn, Canvas chạy, mock artworks sẵn |
-| **Sprint 2** — Hero & Dossier | Hero section 100vh; Standee breathing float; Glassmorphism Dossier Card với `keyQuote`; Snow toggle button | Hero hoàn chỉnh hiển thị sắc nét Desktop |
-| **Sprint 3** — Gallery Wall | Sanity setup + Schema; API fetch; Filter logic; ArtworkCard hover overlay + lazy load | Gallery hoạt động mượt, dữ liệu thực từ CMS |
-| **Sprint 4** — Yoshinon & Polish | Floating widget; Tour state machine; Smooth scroll + glow ring highlight; Core Web Vitals tuning; Footer legal | MVP v1.0 hoàn chỉnh, sẵn sàng deploy |
+> **Cập nhật 2026-09-11** — Phản ánh thực tế các Sprint đã hoàn thành và điều chỉnh kế hoạch.
+
+### Trạng thái hiện tại
+
+| Sprint | Nhiệm vụ cốt lõi | Output | Status |
+|---|---|---|---|
+| **Sprint 1** — Design Tokens & Setup | Vite + React + TypeScript; Tailwind v4 `@theme` Design Tokens; Snow Canvas 60 FPS; TypeScript contracts; Mock data | Dev env chuẩn, Canvas chạy, mock artworks sẵn | ✅ **DONE** `6c1334e` |
+| **Sprint 2** — Hero & Dossier | Hero 100vh; Standee breathing float; Glassmorphism Dossier Card + `keyQuote` (DEC-05); Snow toggle Navbar; Footer legal | Hero hoàn chỉnh Desktop | ✅ **DONE** `9d39b30` |
+| **Sprint 2b** — Design Revision | DEC-07 English UI; DEC-08 Spacious layout; DEC-09 Light "Warm Winter Daylight" palette; Real Yoshino standee | UI chuyên nghiệp, light theme | ✅ **DONE** `0a790b6` |
+| **Sprint 3** — Gallery Wall (Mock Data) | FilterBar 4 states + spring animation; ArtworkCard hover overlay + lazy load + category badges; GallerySection với client-side filtering | Gallery hoạt động mượt với mock data | ✅ **DONE** `35f4d7e` |
+| **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Schema + API fetch** (thay `mockArtworks.ts`) | MVP v1.0 hoàn chỉnh, dữ liệu thực từ CMS |  **NEXT** |
+| **Sprint 5** — Polish & Deploy | Core Web Vitals tuning (FCP < 1.2s, LCP < 2.0s, CLS < 0.05); Image WebP conversion; Vercel deploy + domain | Live production URL | 🔜 Planned |
+
+### Ghi chú điều chỉnh kế hoạch
+
+- **Sanity CMS** được dời từ Sprint 3 → Sprint 4. Lý do: Sprint 3 hoàn toàn có thể build Gallery UI với `mockArtworks.ts` trước — Sanity cần user tạo account + project + cấp `projectId`/`dataset`. Quy trình tốt hơn: UI hoàn thiện trước, CMS wire-in sau.
+- **Sprint 2b** (Design Revision) phát sinh do yêu cầu thay đổi ngôn ngữ, spacing, và color palette sau khi Sprint 2 hoàn thành. Đây là bài học về tầm quan trọng của design sign-off trước khi code.
+- **Sprint 5** tách riêng để tập trung vào production-readiness (performance, SEO, deploy) — không mix với feature work.
