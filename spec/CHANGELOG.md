@@ -5,6 +5,47 @@
 
 ---
 
+## [2026-09-11] — Sprint 3 Complete: Gallery Wall
+
+### ✅ Đã hoàn thành
+- **FilterBar** — 4 states: All Works / Official Art / Community Fanart / Collaborations
+  - Framer Motion `layoutId` spring animation trên active pill
+  - `aria-pressed` attribute cho accessibility
+- **ArtworkCard** — `aspect-ratio: 3/4` fixed → CLS = 0 (NFR §4.1)
+  - `loading="lazy"` + `decoding="async"` trên tất cả ảnh
+  - Category badges màu-coded: ice-blue (Official) / green (Fanart) / amber (Collab)
+  - Hover overlay với `AnimatePresence`: title, artist handle, curatorNote (line-clamp-2)
+  - **"View Source ↗"** button → `target="_blank"` (US-03 compliant)
+- **GallerySection** — client-side filtering với `useState<GalleryFilter>('all')`
+  - `filterArtworks()` từ `src/types/index.ts` (DEC-01)
+  - `AnimatePresence mode="popLayout"` cho card exit animation
+  - Work count indicator + empty state handling
+- **App.tsx** — `GalleryPlaceholder` → `GallerySection` swap
+
+### 📁 Files mới
+- `src/components/ui/FilterBar.tsx`
+- `src/components/ui/ArtworkCard.tsx`
+- `src/components/sections/GallerySection.tsx`
+
+### 📋 Commits
+- `35f4d7e` feat(sprint-3): Gallery Wall — FilterBar, ArtworkCard, GallerySection
+
+---
+
+## [2026-09-11] — Design Revision: DEC-07/08/09
+
+### Quyết định mới
+- **DEC-07** — Full English UI (Profile / Gallery / Credits / Explore Gallery / Ask Yoshinon)
+- **DEC-08** — Spacious layout: DossierCard `p-10 md:p-12`, `max-w-lg`, tăng gaps/letter-spacing
+- **DEC-09** — Light "Warm Winter Daylight" palette: bg `#ECF1FB` + `#FDF6EC`, text navy `#18264A`, snow cornflower blue
+- Standee: swap `hero.png` placeholder → ảnh Yoshino + Yoshinon thật (PNG transparent)
+
+### 📋 Commits
+- `0a790b6` refactor: DEC-07/08/09 — English UI, light palette, spacious layout
+- `85df2d7` feat: replace placeholder standee with real Yoshino artwork
+
+---
+
 ## [2026-09-10] — Sprint 2 Complete: Hero Section & Dossier Card
 
 ### ✅ Đã hoàn thành
