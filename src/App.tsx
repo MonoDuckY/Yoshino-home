@@ -1,19 +1,25 @@
-// App.tsx — Yoshino's Home
-// DEC-09: Light 'Warm Winter Daylight' theme
 import { useState } from 'react';
 import { SnowCanvas } from './components/ui/SnowCanvas';
 import { Navbar } from './components/layout/Navbar';
 import { HeroSection } from './components/sections/HeroSection';
 import { GallerySection } from './components/sections/GallerySection';
 import { Footer } from './components/sections/Footer';
+import { YoshinonMascot } from './components/ui/YoshinonMascot';
+import { useTourGuide } from './hooks/useTourGuide';
 
 function App() {
   const [snowActive, setSnowActive] = useState(true);
-
-  const handleCallYoshinon = () => {
-    // Sprint 4: trigger Yoshinon tour FSM -> 'welcome'
-    console.info('[Yoshinon] Tour triggered — Sprint 4');
-  };
+  const {
+    tourState,
+    currentStep,
+    currentStepIndex,
+    totalSteps,
+    openWelcome,
+    startTour,
+    nextStep,
+    prevStep,
+    dismissTour,
+  } = useTourGuide();
 
   return (
     <div
@@ -31,11 +37,24 @@ function App() {
 
       {/* Layer 2: Page content */}
       <main>
-        <HeroSection onCallYoshinon={handleCallYoshinon} />
+        <HeroSection onCallYoshinon={openWelcome} />
         <GallerySection />
       </main>
 
       <Footer />
+
+      {/* Layer 3: Yoshinon Tour Guide Mascot (fixed bottom-right) */}
+      <YoshinonMascot
+        tourState={tourState}
+        currentStep={currentStep}
+        currentStepIndex={currentStepIndex}
+        totalSteps={totalSteps}
+        onStartTour={startTour}
+        onNextStep={nextStep}
+        onPrevStep={prevStep}
+        onDismiss={dismissTour}
+        onOpenWelcome={openWelcome}
+      />
     </div>
   );
 }

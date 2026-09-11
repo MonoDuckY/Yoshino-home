@@ -5,6 +5,34 @@
 
 ---
 
+## [2026-09-11] — Sprint 4 Complete: Yoshinon Tour Guide & Sanity.io CMS Integration
+
+### ✅ Đã hoàn thành
+- **Yoshinon Tour Guide (FR-03, US-04, DEC-06)**:
+  - Mascot puppet widget fixed góc dưới phải (`bottom: 24px; right: 32px; z-index: 40`), animation vẫy tay và breathing float.
+  - State machine FSM 5 trạng thái: `idle` → `welcome` → `touring` → `completed` → `dismissed`.
+  - Tự động kích hoạt sau 2s khi tải trang (`sessionStorage` check), hoặc kích hoạt thủ công qua nút "🐰 Ask Yoshinon" trong DossierCard.
+  - Highlight engine native: `scrollIntoView` smooth + pulsing green glow ring `.tour-highlight-target` (DEC-06).
+  - 4 bước tour chi tiết với step indicator pills, next/back/skip, và copywriting dí dỏm bằng tiếng Anh (DEC-07).
+  - Mobile responsive (DEC-04) co giãn gọn gàng trên màn hình hẹp.
+- **Sanity.io CMS Integration (FR-02, §7.2, DEC-02, DEC-03)**:
+  - Cài đặt `@sanity/client` và `@sanity/image-url`.
+  - Chuẩn hóa schema file `sanity/schemas/artwork.ts` theo DRD §7.2.
+  - Setup service `src/lib/sanity.ts` với GROQ query đầy đủ metadata LQIP (`blurDataUrl`), kích thước, credit họa sĩ.
+  - **Graceful Fallback Mechanism**: Tự động fallback về `mockArtworks.ts` khi chưa cấu hình `VITE_SANITY_PROJECT_ID` hoặc offline, không làm gián đoạn trải nghiệm người dùng.
+  - Template biến môi trường `.env.example`.
+  - Hook `useArtworks` và Skeleton loading state trong `GallerySection`.
+
+### 📁 Files mới
+- `src/components/ui/YoshinonMascot.tsx`
+- `src/hooks/useTourGuide.ts`
+- `src/hooks/useArtworks.ts`
+- `src/lib/sanity.ts`
+- `sanity/schemas/artwork.ts`
+- `.env.example`
+
+---
+
 ## [2026-09-11] — Sprint 3 Complete: Gallery Wall
 
 ### ✅ Đã hoàn thành

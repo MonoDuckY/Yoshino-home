@@ -33,6 +33,7 @@ const itemVariants = {
 export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: DossierCardProps) {
   return (
     <motion.div
+      id="dossier-card"
       variants={cardVariants}
       initial="hidden"
       animate="visible"

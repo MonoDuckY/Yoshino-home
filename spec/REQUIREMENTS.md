@@ -434,8 +434,8 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | **Sprint 2** — Hero & Dossier | Hero 100vh; Standee breathing float; Glassmorphism Dossier Card + `keyQuote` (DEC-05); Snow toggle Navbar; Footer legal | Hero hoàn chỉnh Desktop | ✅ **DONE** `9d39b30` |
 | **Sprint 2b** — Design Revision | DEC-07 English UI; DEC-08 Spacious layout; DEC-09 Light "Warm Winter Daylight" palette; Real Yoshino standee | UI chuyên nghiệp, light theme | ✅ **DONE** `0a790b6` |
 | **Sprint 3** — Gallery Wall (Mock Data) | FilterBar 4 states + spring animation; ArtworkCard hover overlay + lazy load + category badges; GallerySection với client-side filtering | Gallery hoạt động mượt với mock data | ✅ **DONE** `35f4d7e` |
-| **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Schema + API fetch** (thay `mockArtworks.ts`) | MVP v1.0 hoàn chỉnh, dữ liệu thực từ CMS |  **NEXT** |
-| **Sprint 5** — Polish & Deploy | Core Web Vitals tuning (FCP < 1.2s, LCP < 2.0s, CLS < 0.05); Image WebP conversion; Vercel deploy + domain | Live production URL | 🔜 Planned |
+| **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Schema + API fetch** (thay `mockArtworks.ts`) | MVP v1.0 hoàn chỉnh, dữ liệu thực từ CMS | ✅ **DONE** |
+| **Sprint 5** — Polish & Deploy | Core Web Vitals tuning (FCP < 1.2s, LCP < 2.0s, CLS < 0.05); Image WebP conversion; Vercel deploy + domain | Live production URL |  **NEXT** |
 
 ### Ghi chú điều chỉnh kế hoạch
 

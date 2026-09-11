@@ -1,18 +1,19 @@
-// GallerySection — Sprint 3: Full Gallery Wall
-// spec/REQUIREMENTS.md §FR-02, §5.1
-// DEC-01: filter logic | DEC-03: Mock Data First | DEC-07: English | DEC-09: Light theme
+// GallerySection — Sprint 4: Full Gallery Wall with Sanity.io CMS Integration
+// spec/REQUIREMENTS.md §FR-02, §5.1, §7.2
+// DEC-01: filter logic | DEC-03: Sanity CMS + Fallback | DEC-07: English | DEC-09: Light theme
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FilterBar } from '../ui/FilterBar';
 import { ArtworkCard } from '../ui/ArtworkCard';
-import { mockArtworks } from '../../data/mockArtworks';
 import { filterArtworks } from '../../types';
 import type { GalleryFilter } from '../../types';
+import { useArtworks } from '../../hooks/useArtworks';
 
 export function GallerySection() {
   const [activeFilter, setActiveFilter] = useState<GalleryFilter>('all');
+  const { artworks, loading } = useArtworks();
 
-  const displayedArtworks = filterArtworks(mockArtworks, activeFilter);
+  const displayedArtworks = filterArtworks(artworks, activeFilter);
 
   return (
     <section
@@ -57,16 +58,31 @@ export function GallerySection() {
         </motion.header>
 
         {/* ── Artwork Grid ── */}
-        <motion.div
-          layout
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
-        >
-          <AnimatePresence mode="popLayout">
-            {displayedArtworks.map((artwork, i) => (
-              <ArtworkCard key={artwork.id} artwork={artwork} index={i} />
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="aspect-[3/4] rounded-xl overflow-hidden animate-pulse border"
+                style={{
+                  backgroundColor: 'rgba(59, 157, 210, 0.08)',
+                  borderColor: 'var(--color-border)',
+                }}
+              />
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </div>
+        ) : (
+          <motion.div
+            layout
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+          >
+            <AnimatePresence mode="popLayout">
+              {displayedArtworks.map((artwork, i) => (
+                <ArtworkCard key={artwork.id} artwork={artwork} index={i} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
 
         {/* Empty state (edge case if a category has 0 items) */}
         {displayedArtworks.length === 0 && (

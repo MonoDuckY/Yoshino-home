@@ -1,4 +1,4 @@
-﻿// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
 // Yoshino's Home — TypeScript Data Contracts
 // Source of truth: spec/REQUIREMENTS.md §7.1
 // ─────────────────────────────────────────────
@@ -57,6 +57,7 @@ export type TourState = 'idle' | 'welcome' | 'touring' | 'completed' | 'dismisse
 
 export interface TourStep {
   id: number;
+  title: string;
   targetId: string;  // DOM element ID to scroll to and highlight
   message: string;
 }

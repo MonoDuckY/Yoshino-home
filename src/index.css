@@ -58,3 +58,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+
+/* ── Tour Guide Highlight (DEC-06) ──────────────────────────────────── */
+@keyframes tour-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(16, 184, 126, 0.7), 0 0 25px rgba(16, 184, 126, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(16, 184, 126, 0.95), 0 0 35px rgba(16, 184, 126, 0.55);
+  }
+}
+
+.tour-highlight-target {
+  animation: tour-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
