@@ -39,42 +39,17 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'artistHandle',
-      title: 'Artist Handle (@...)',
-      type: 'string',
-      description: 'e.g. @tsunako_official',
-    }),
-    defineField({
-      name: 'platform',
-      title: 'Publishing Platform',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Official Kadokawa', value: 'official' },
-          { title: 'Pixiv', value: 'pixiv' },
-          { title: 'X (Twitter)', value: 'twitter' },
-          { title: 'ArtStation', value: 'artstation' },
-        ],
-      },
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: 'sourceUrl',
       title: 'Original Source URL',
       type: 'url',
       validation: (rule) => rule.required().uri({ scheme: ['http', 'https'] }),
     }),
     defineField({
-      name: 'publishedDate',
-      title: 'Published Date',
-      type: 'date',
-    }),
-    defineField({
       name: 'curatorNote',
       title: 'Curator Note (Review / Thoughts)',
       type: 'text',
       rows: 3,
-      description: 'Your personal thoughts or background note for this artwork',
+      description: 'Your personal thoughts or background note for this artwork (optional)',
     }),
   ],
   preview: {

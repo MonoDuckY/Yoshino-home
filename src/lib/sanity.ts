@@ -31,6 +31,7 @@ export function urlFor(source: any) {
 
 export interface SanityArtworkDoc {
   _id: string;
+  _createdAt: string;
   title: string;
   category: ArtworkCategory;
   imageUrl?: string;
@@ -38,15 +39,23 @@ export interface SanityArtworkDoc {
   width?: number;
   height?: number;
   artistName: string;
-  artistHandle?: string;
-  platform: 'official' | 'pixiv' | 'twitter' | 'artstation';
   sourceUrl: string;
-  publishedDate?: string;
   curatorNote?: string;
 }
 
-const ARTWORKS_QUERY = `*[_type == "artwork"] | order(publishedDate desc) {
+/** Infer platform automatically from source URL */
+function inferPlatform(url: string): 'pixiv' | 'twitter' | 'artstation' | 'official' {
+  if (!url) return 'official';
+  const lower = url.toLowerCase();
+  if (lower.includes('pixiv.net')) return 'pixiv';
+  if (lower.includes('twitter.com') || lower.includes('x.com')) return 'twitter';
+  if (lower.includes('artstation.com')) return 'artstation';
+  return 'official';
+}
+
+const ARTWORKS_QUERY = `*[_type == "artwork"] | order(_createdAt desc) {
   _id,
+  _createdAt,
   title,
   category,
   "imageUrl": image.asset->url,
@@ -54,10 +63,7 @@ const ARTWORKS_QUERY = `*[_type == "artwork"] | order(publishedDate desc) {
   "width": image.asset->metadata.dimensions.width,
   "height": image.asset->metadata.dimensions.height,
   artistName,
-  artistHandle,
-  platform,
   sourceUrl,
-  publishedDate,
   curatorNote
 }`;
 
@@ -88,11 +94,9 @@ export async function fetchArtworks(): Promise<{ artworks: Artwork[]; isFallback
       height: doc.height || 560,
       credit: {
         name: doc.artistName,
-        platform: doc.platform,
-        handle: doc.artistHandle,
+        platform: inferPlatform(doc.sourceUrl),
         sourceUrl: doc.sourceUrl,
       },
-      publishedDate: doc.publishedDate,
       curatorNote: doc.curatorNote,
     }));
 

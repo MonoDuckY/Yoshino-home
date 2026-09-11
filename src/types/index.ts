@@ -15,7 +15,7 @@ export type GalleryFilter = 'all' | ArtworkCategory;
 
 export interface ArtistCredit {
   name: string;
-  platform: 'pixiv' | 'twitter' | 'artstation' | 'official';
+  platform?: 'pixiv' | 'twitter' | 'artstation' | 'official' | string;
   handle?: string;    // e.g. "@tsunako_official"
   sourceUrl: string;
 }
