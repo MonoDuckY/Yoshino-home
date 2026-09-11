@@ -15,21 +15,31 @@
   - Highlight engine native: `scrollIntoView` smooth + pulsing green glow ring `.tour-highlight-target` (DEC-06).
   - 4 bước tour chi tiết với step indicator pills, next/back/skip, và copywriting dí dỏm bằng tiếng Anh (DEC-07).
   - Mobile responsive (DEC-04) co giãn gọn gàng trên màn hình hẹp.
-- **Sanity.io CMS Integration (FR-02, §7.2, DEC-02, DEC-03)**:
+- **Sanity.io CMS Integration (FR-02, §7.2, DEC-02, DEC-03, DEC-10)**:
   - Cài đặt `@sanity/client` và `@sanity/image-url`.
-  - Chuẩn hóa schema file `sanity/schemas/artwork.ts` theo DRD §7.2.
+  - Cài đặt và cấu hình độc lập **Sanity Studio v3 workspace** tại `studio/` (`npm run studio` trên `http://localhost:3333`).
+  - Chuẩn hóa schema file `studio/schemas/artwork.ts` và `sanity/schemas/artwork.ts`.
+  - **DEC-10 (Schema Simplification)**: Tinh giản form Studio, loại bỏ 3 trường nhập tay dư thừa (`artistHandle`, `platform`, `publishedDate`); tự động nhận diện `platform` (`inferPlatform`) từ URL Pixiv/Twitter và sắp xếp theo `_createdAt desc`.
   - Setup service `src/lib/sanity.ts` với GROQ query đầy đủ metadata LQIP (`blurDataUrl`), kích thước, credit họa sĩ.
   - **Graceful Fallback Mechanism**: Tự động fallback về `mockArtworks.ts` khi chưa cấu hình `VITE_SANITY_PROJECT_ID` hoặc offline, không làm gián đoạn trải nghiệm người dùng.
   - Template biến môi trường `.env.example`.
   - Hook `useArtworks` và Skeleton loading state trong `GallerySection`.
+  - **Live Verification**: Đã đăng thành công tác phẩm đầu tiên *"Yoshino x Natsumi"* (họa sĩ だいふく) qua Sanity Studio và hiển thị mượt mà trên website.
 
 ### 📁 Files mới
+- `studio/sanity.config.ts`, `studio/sanity.cli.ts`, `studio/schemas/artwork.ts`, `studio/schemas/index.ts`, `studio/package.json`
 - `src/components/ui/YoshinonMascot.tsx`
 - `src/hooks/useTourGuide.ts`
 - `src/hooks/useArtworks.ts`
 - `src/lib/sanity.ts`
 - `sanity/schemas/artwork.ts`
 - `.env.example`
+
+### 📋 Commits
+- `ed4a4ee` feat(sprint-4): Yoshinon Tour Guide widget & Sanity CMS integration
+- `4e99cc7` feat: setup Sanity Studio workspace in studio/ directory
+- `a01d170` chore: ignore .sanity directory
+- `b8b7ba9` refactor(sanity): simplify artwork schema by removing redundant handle, platform, and date fields
 
 ---
 

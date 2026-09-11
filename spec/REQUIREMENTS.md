@@ -323,7 +323,7 @@ const filterArtworks = (artworks: Artwork[], filter: GalleryFilter): Artwork[] =
 };
 ```
 
-### 7.2. Sanity Schema (Final — chuẩn hóa)
+### 7.2. Sanity Schema (Final — Chuẩn hóa tinh gọn)
 
 ```javascript
 export default {
@@ -347,6 +347,7 @@ export default {
           { title: 'Community Fanart', value: 'fanart' },
           { title: 'Collaboration & Events', value: 'collab' },
         ],
+        layout: 'radio',
       },
       validation: (Rule) => Rule.required(),
     },
@@ -356,7 +357,7 @@ export default {
       type: 'image',
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
-      // blurDataUrl được lấy qua: image.asset->metadata.lqip (không cần trường riêng)
+      // blurDataUrl được lấy tự động qua: image.asset->metadata.lqip
     },
     {
       name: 'artistName',
@@ -365,31 +366,10 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'artistHandle',
-      title: 'Handle / Username (@...)',
-      type: 'string',
-      // Optional — ví dụ: "@tsunako_official"
-    },
-    {
-      name: 'platform',
-      title: 'Nền tảng xuất bản',
-      type: 'string',
-      options: {
-        list: ['Pixiv', 'X (Twitter)', 'Official Kadokawa', 'ArtStation'],
-      },
-      validation: (Rule) => Rule.required(),
-    },
-    {
       name: 'sourceUrl',
-      title: 'Đường dẫn bài đăng gốc',
+      title: 'Đường dẫn bài đăng gốc (Pixiv, Twitter/X, ArtStation...)',
       type: 'url',
       validation: (Rule) => Rule.required().uri({ scheme: ['http', 'https'] }),
-    },
-    {
-      name: 'publishedDate',
-      title: 'Ngày đăng tranh',
-      type: 'date',
-      // Optional
     },
     {
       name: 'curatorNote',
@@ -419,6 +399,7 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | DEC-07 | Ngôn ngữ hiển thị trên UI? | **English toàn bộ UI** — tiếng Anh là ngôn ngữ phổ biến toàn cầu. Dữ liệu nội dung (keyQuote, tên nhân vật Kanji) giữ nguyên bản gốc. | 2026-09-10 |
 | DEC-08 | Spacing & layout — card cảm giác bí bách? | **Mở rộng padding** — DossierCard: `p-10 md:p-12`, `max-w-lg`. Tăng `gap` giữa các element. Letter-spacing labels thoáng hơn. Gap giữa 2 cột Hero tăng. | 2026-09-10 |
 | DEC-09 | Color theme — dark hay light? | **Light "Warm Winter Daylight"** — chuyển từ dark `#0B1325` sang palette sáng ấm áp, mô phỏng ánh nắng mùa đông. Background: `#ECF1FB` (winter sky blue-white). Text: dark navy `#18264A`. Glass: `rgba(255,255,255,0.72)`. Snow particles: soft blue `rgba(100,160,220,α)`. Các accent colors được làm sâu hơn để đủ contrast trên nền sáng: Ice Blue `#3B9DD2`, Yoshino Green `#10B87E`. | 2026-09-10 |
+| DEC-10 | Tinh giản Sanity Studio Form Fields | **Loại bỏ 3 trường thủ công**: `artistHandle`, `platform`, `publishedDate` khỏi form Studio để giảm thao tác nhập liệu; `platform` được tự động nhận diện từ `sourceUrl` (`pixiv.net`, `x.com`, `artstation.com`); thứ tự hiển thị sắp xếp theo `_createdAt desc`. | 2026-09-11 |
 
 ---
 
@@ -434,7 +415,7 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | **Sprint 2** — Hero & Dossier | Hero 100vh; Standee breathing float; Glassmorphism Dossier Card + `keyQuote` (DEC-05); Snow toggle Navbar; Footer legal | Hero hoàn chỉnh Desktop | ✅ **DONE** `9d39b30` |
 | **Sprint 2b** — Design Revision | DEC-07 English UI; DEC-08 Spacious layout; DEC-09 Light "Warm Winter Daylight" palette; Real Yoshino standee | UI chuyên nghiệp, light theme | ✅ **DONE** `0a790b6` |
 | **Sprint 3** — Gallery Wall (Mock Data) | FilterBar 4 states + spring animation; ArtworkCard hover overlay + lazy load + category badges; GallerySection với client-side filtering | Gallery hoạt động mượt với mock data | ✅ **DONE** `35f4d7e` |
-| **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Schema + API fetch** (thay `mockArtworks.ts`) | MVP v1.0 hoàn chỉnh, dữ liệu thực từ CMS | ✅ **DONE** |
+| **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Studio workspace + simplified schema + API fetch** | MVP v1.0 hoàn chỉnh, Sanity Studio & dữ liệu thực live | ✅ **DONE** `ed4a4ee`, `b8b7ba9` |
 | **Sprint 5** — Polish & Deploy | Core Web Vitals tuning (FCP < 1.2s, LCP < 2.0s, CLS < 0.05); Image WebP conversion; Vercel deploy + domain | Live production URL |  **NEXT** |
 
 ### Ghi chú điều chỉnh kế hoạch

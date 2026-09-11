@@ -1,4 +1,4 @@
-﻿# ❄️ Yoshino's Home — Project Spec Hub
+# ❄️ Yoshino's Home — Project Spec Hub
 
 > **Bộ nhớ dài hạn của dự án.** Folder `spec/` là nguồn sự thật duy nhất (Single Source of Truth) cho mọi quyết định đã được thống nhất. Đọc các file này trước khi bắt đầu bất kỳ phiên làm việc nào.
 
@@ -38,8 +38,9 @@
 ## 📍 Trạng thái hiện tại
 
 - **Phiên bản:** 1.0 MVP
-- **Sprint hiện tại:** Chưa bắt đầu (Pre-Sprint — Requirements finalized)
-- **Ngày align requirements:** 2026-09-10
+- **Sprint hoàn thành:** Sprint 1, 2, 2b, 3, 4 (✅ **DONE**)
+- **Sprint tiếp theo:** Sprint 5 — Polish & Deploy (🔜 **NEXT**)
+- **Cập nhật lần cuối:** 2026-09-11 (Sanity Studio & CMS live, Yoshinon Tour Guide FSM live)
 
 ---
 
