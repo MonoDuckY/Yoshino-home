@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { DossierCard } from '../ui/DossierCard';
 import { characterDossier } from '../../data/mockArtworks';
-import yoshinoStandee from '../../assets/hero.png';
+import yoshinoStandee from '../../assets/dkl7imf-1f7a71db-86e6-4bd8-9dae-c2a54fb74ee4.png';
 
 interface HeroSectionProps {
   onCallYoshinon: () => void;
@@ -70,22 +70,33 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
             }}
           />
 
-          {/* Breathing float — FR-01 */}
-          <motion.img
-            src={yoshinoStandee}
-            alt="Yoshino Himekawa — Spirit No. 02, The Hermit, wearing the Zadkiel Coat Astral Dress"
+          {/* Breathing float — FR-01
+              overflow-hidden crops the DATE A LIVE V logo at bottom */}
+          <motion.div
             animate={{ y: [0, -14, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative select-none"
+            className="relative select-none overflow-hidden"
             style={{
-              height: 'clamp(300px, 44vh, 540px)',
+              height: 'clamp(400px, 60vh, 640px)',
               width: 'auto',
-              objectFit: 'contain',
-              objectPosition: 'center bottom',
-              filter: 'drop-shadow(0 8px 32px rgba(59,157,210,0.18)) drop-shadow(0 2px 8px rgba(30,55,110,0.12))',
+              maxWidth: '380px',
             }}
-            draggable={false}
-          />
+          >
+            <img
+              src={yoshinoStandee}
+              alt="Yoshino Himekawa — Spirit No. 02, The Hermit, wearing the Zadkiel Coat Astral Dress"
+              style={{
+                height: '125%',           /* push logo ~25% below the clip boundary */
+                width: 'auto',
+                maxWidth: 'none',
+                objectFit: 'contain',
+                objectPosition: 'top center',
+                filter: 'drop-shadow(0 8px 40px rgba(59,157,210,0.18)) drop-shadow(0 2px 12px rgba(30,55,110,0.10))',
+                display: 'block',
+              }}
+              draggable={false}
+            />
+          </motion.div>
         </motion.div>
 
         {/* ── Right: Dossier Card ── */}
