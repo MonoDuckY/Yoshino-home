@@ -1,10 +1,10 @@
 // App.tsx — Yoshino's Home
-// DEC-09: Light "Warm Winter Daylight" theme
+// DEC-09: Light 'Warm Winter Daylight' theme
 import { useState } from 'react';
 import { SnowCanvas } from './components/ui/SnowCanvas';
 import { Navbar } from './components/layout/Navbar';
 import { HeroSection } from './components/sections/HeroSection';
-import { GalleryPlaceholder } from './components/sections/GalleryPlaceholder';
+import { GallerySection } from './components/sections/GallerySection';
 import { Footer } from './components/sections/Footer';
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
       {/* Layer 2: Page content */}
       <main>
         <HeroSection onCallYoshinon={handleCallYoshinon} />
-        <GalleryPlaceholder />
+        <GallerySection />
       </main>
 
       <Footer />
