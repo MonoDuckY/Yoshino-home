@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { SnowCanvas } from './components/ui/SnowCanvas';
 import { Navbar } from './components/layout/Navbar';
 import { HeroSection } from './components/sections/HeroSection';
+import { DataSection } from './components/sections/DataSection';
 import { GallerySection } from './components/sections/GallerySection';
+import { GuestbookSection } from './components/sections/GuestbookSection';
 import { Footer } from './components/sections/Footer';
 import { YoshinonMascot } from './components/ui/YoshinonMascot';
 import { useTourGuide } from './hooks/useTourGuide';
@@ -38,7 +40,9 @@ function App() {
       {/* Layer 2: Page content */}
       <main>
         <HeroSection onCallYoshinon={openWelcome} />
+        <DataSection />
         <GallerySection />
+        <GuestbookSection />
       </main>
 
       <Footer />

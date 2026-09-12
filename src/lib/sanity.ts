@@ -1,13 +1,12 @@
-// src/lib/sanity.ts — Sanity CMS Client & Fetch Service
-// spec/REQUIREMENTS.md §FR-02, §7.2, DEC-02, DEC-03
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-import type { Artwork, ArtworkCategory } from '../types';
-import { mockArtworks } from '../data/mockArtworks';
+import type { Artwork, ArtworkCategory, GuestbookEntry } from '../types';
+import { mockArtworks, mockGuestbookEntries } from '../data/mockArtworks';
 
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
 const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
 const apiVersion = import.meta.env.VITE_SANITY_API_VERSION || '2024-03-01';
+const writeToken = import.meta.env.VITE_SANITY_WRITE_TOKEN;
 
 export const isSanityConfigured = Boolean(projectId && projectId.trim() !== '');
 
@@ -16,7 +15,17 @@ export const sanityClient = isSanityConfigured
       projectId,
       dataset,
       apiVersion,
-      useCdn: true,
+      useCdn: false, // set false so newly submitted wishes appear immediately without CDN edge cache delay
+    })
+  : null;
+
+export const sanityWriteClient = isSanityConfigured && writeToken
+  ? createClient({
+      projectId,
+      dataset,
+      apiVersion,
+      useCdn: false, // write mutations must never use CDN
+      token: writeToken,
     })
   : null;
 
@@ -43,6 +52,16 @@ export interface SanityArtworkDoc {
   curatorNote?: string;
 }
 
+export interface SanityGuestbookDoc {
+  _id: string;
+  _createdAt: string;
+  authorName: string;
+  message: string;
+  badgeIcon?: string;
+  approved?: boolean;
+  createdAt?: string;
+}
+
 /** Infer platform automatically from source URL */
 function inferPlatform(url: string): 'pixiv' | 'twitter' | 'artstation' | 'official' {
   if (!url) return 'official';
@@ -65,6 +84,16 @@ const ARTWORKS_QUERY = `*[_type == "artwork"] | order(_createdAt desc) {
   artistName,
   sourceUrl,
   curatorNote
+}`;
+
+const GUESTBOOK_QUERY = `*[_type == "guestbook" && approved != false] | order(coalesce(createdAt, _createdAt) desc) {
+  _id,
+  _createdAt,
+  authorName,
+  message,
+  badgeIcon,
+  approved,
+  createdAt
 }`;
 
 /**
@@ -107,3 +136,74 @@ export async function fetchArtworks(): Promise<{ artworks: Artwork[]; isFallback
     return { artworks: mockArtworks, isFallback: true };
   }
 }
+
+/**
+ * Fetch guestbook entries from Sanity CMS with graceful fallback to mockGuestbookEntries
+ */
+export async function fetchGuestbookEntries(): Promise<{ entries: GuestbookEntry[]; isFallback: boolean }> {
+  if (!sanityClient || !isSanityConfigured) {
+    console.info('[Sanity] VITE_SANITY_PROJECT_ID not configured. Using mockGuestbookEntries.');
+    return { entries: mockGuestbookEntries, isFallback: true };
+  }
+
+  try {
+    const rawDocs = await sanityClient.fetch<SanityGuestbookDoc[]>(GUESTBOOK_QUERY);
+
+    if (!rawDocs || rawDocs.length === 0) {
+      console.warn('[Sanity] No guestbook entries found in Sanity dataset. Falling back to mockGuestbookEntries.');
+      return { entries: mockGuestbookEntries, isFallback: true };
+    }
+
+    const mappedEntries: GuestbookEntry[] = rawDocs.map((doc) => ({
+      id: doc._id,
+      authorName: doc.authorName,
+      message: doc.message,
+      createdAt: (doc.createdAt || doc._createdAt || new Date().toISOString()).split('T')[0],
+      badgeIcon: doc.badgeIcon || '❄️',
+    }));
+
+    return { entries: mappedEntries, isFallback: false };
+  } catch (error) {
+    console.error('[Sanity] Failed to fetch guestbook entries from Sanity:', error);
+    console.info('[Sanity] Graceful fallback activated: serving mockGuestbookEntries.');
+    return { entries: mockGuestbookEntries, isFallback: true };
+  }
+}
+
+/**
+ * Create a new guestbook entry in Sanity CMS
+ */
+export async function createGuestbookEntry(entry: {
+  authorName: string;
+  message: string;
+  badgeIcon: string;
+}): Promise<GuestbookEntry> {
+  if (!sanityWriteClient) {
+    console.info('[Sanity] No write client available (missing VITE_SANITY_WRITE_TOKEN). Entry saved locally.');
+    return {
+      id: `gb-local-${Date.now()}`,
+      authorName: entry.authorName,
+      message: entry.message,
+      badgeIcon: entry.badgeIcon,
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+  }
+
+  const doc = await sanityWriteClient.create({
+    _type: 'guestbook',
+    authorName: entry.authorName,
+    message: entry.message,
+    badgeIcon: entry.badgeIcon,
+    approved: true,
+    createdAt: new Date().toISOString(),
+  });
+
+  return {
+    id: doc._id,
+    authorName: doc.authorName,
+    message: doc.message,
+    badgeIcon: doc.badgeIcon,
+    createdAt: (doc.createdAt || doc._createdAt).split('T')[0],
+  };
+}
+

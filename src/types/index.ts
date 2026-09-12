@@ -51,6 +51,47 @@ export interface CharacterDossier {
 }
 
 // ---------------------
+// Costume Types (DEC-18)
+// ---------------------
+
+export interface Costume {
+  id: string;
+  name: string;
+  badge: string;
+  description: string;
+  imageUrl: string;
+  accentColor?: string;
+}
+
+// ---------------------
+// Archive / Data Types (DEC-17)
+// ---------------------
+
+export interface ArchiveRecord {
+  id: string;
+  tag: string;
+  title: string;
+  kanji?: string;
+  subtitle: string;
+  icon: string;
+  description: string;
+  details: { label: string; value: string }[];
+  quote?: string;
+}
+
+// ---------------------
+// Guestbook Types (DEC-19)
+// ---------------------
+
+export interface GuestbookEntry {
+  id: string;
+  authorName: string;
+  message: string;
+  createdAt: string;
+  badgeIcon?: string;
+}
+
+// ---------------------
 // Tour Types (Yoshinon)
 // ---------------------
 

@@ -8,9 +8,11 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: 'Profile',  href: '#hero'    },
-  { label: 'Gallery',  href: '#gallery' },
-  { label: 'Credits',  href: '#footer'  },
+  { label: 'Profile',   href: '#hero'      },
+  { label: 'Archive',   href: '#data'      },
+  { label: 'Gallery',   href: '#gallery'   },
+  { label: 'Guestbook', href: '#guestbook' },
+  { label: 'Credits',   href: '#footer'    },
 ];
 
 export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {

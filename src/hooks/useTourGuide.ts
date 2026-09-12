@@ -13,24 +13,38 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     id: 1,
-    title: 'Character Profile',
-    targetId: 'dossier-card',
+    title: 'Wardrobe & Outfits',
+    targetId: 'hero-wardrobe',
     message:
-      "Here is her official Spirit profile! Her Astral Dress is the Zadkiel Coat, and her Angel is Zadkiel — a giant icy puppet who protects her from any danger!",
+      "Take a look here! You can switch Yoshino's attire between her iconic Zadkiel Coat Astral Dress, cozy Winter Casual knit, and Raizen High uniform!",
   },
   {
     id: 2,
-    title: 'The Gallery Wall',
-    targetId: 'gallery',
+    title: 'Spirit Chronicle & Lore',
+    targetId: 'data',
     message:
-      "Down here is our curated art gallery! You can filter artworks by Official Art, Community Fanart, or Collaborations. Hover on any card to view the original source!",
+      "Down here is the Ratatoskr Archive Dossier! Discover Yoshino's origins, physical traits, her sub-zero angel Zadkiel, and of course, yours truly — Yoshinon!",
   },
   {
     id: 3,
-    title: 'Enjoy Your Stay!',
+    title: 'The Gallery Wall',
+    targetId: 'gallery',
+    message:
+      "Down here is our curated art gallery! You can filter artworks across Official Art, Community Fanart, or Collaborations. Hover on any card to view original source and artist details!",
+  },
+  {
+    id: 4,
+    title: 'Winter Hearth Wishes',
+    targetId: 'guestbook',
+    message:
+      "Warm your hands by our guestbook hearth! You can leave a sweet note and a stamp for Yoshino to keep her cozy through the winter chill!",
+  },
+  {
+    id: 5,
+    title: 'Enjoy Your Sanctuary!',
     targetId: 'footer',
     message:
-      "That's all for the tour! Feel free to explore and enjoy the falling snow. You can call me anytime by clicking 'Ask Yoshinon' or tapping my icon below!",
+      "That wraps up our tour! Relax and enjoy the soft falling snow. Feel free to call me anytime whenever you need a companion!",
   },
 ];
 

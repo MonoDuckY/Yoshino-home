@@ -8,6 +8,7 @@ import type { Artwork, ArtworkCategory } from '../../types';
 interface ArtworkCardProps {
   artwork: Artwork;
   index: number;
+  className?: string;
 }
 
 const CATEGORY_BADGE: Record<ArtworkCategory, { label: string; color: string; bg: string }> = {
@@ -28,7 +29,7 @@ const CATEGORY_BADGE: Record<ArtworkCategory, { label: string; color: string; bg
   },
 };
 
-export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
+export function ArtworkCard({ artwork, index, className }: ArtworkCardProps) {
   const [hovered, setHovered] = useState(false);
   const badge = CATEGORY_BADGE[artwork.category];
   const aspectRatio =
@@ -41,7 +42,7 @@ export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.94 }}
       transition={{ duration: 0.35, delay: index * 0.04, ease: 'easeOut' }}
-      className="group relative rounded-2xl overflow-hidden cursor-pointer w-full"
+      className={`group relative rounded-2xl overflow-hidden cursor-pointer ${className ?? 'w-full'}`}
       style={{
         aspectRatio,
         backgroundColor: 'rgba(255, 255, 255, 0.72)',

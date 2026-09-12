@@ -37,13 +37,15 @@ Tầm nhìn cốt lõi: Tạo ra một *"căn nhà mùa đông ấm áp"* trên 
 
 ### 2.1. Scope Matrix
 
-| Khu vực | MVP In-Scope | Backlog V2+ |
-|---|---|---|
-| Hồ sơ nhân vật | Thẻ Identity, Standee breathing animation | Story Timeline, Voice Lines Player |
-| Phòng triển lãm | Lưới tranh, 4 filter states (All/Official/Fanart/Collab), Hover overlay, Credit, External link | Comments, Like, Lightbox với zoom |
-| Yoshinon Mascot | Floating widget, Chào mừng, Tour 4 bước | Live2D vật lý, AI Chatbot tự do |
-| Môi trường | Canvas tuyết 60 FPS, Toggle bật/tắt, Glassmorphism theme | Weather switch, BGM |
-| CMS | Sanity.io integration (Sprint 4) | Admin auth riêng trên frontend |
+| Khu vực | MVP In-Scope (Sprint 1–4) | Sprint 5 (Creative Exhibition & Lore) | Backlog V2+ |
+|---|---|---|---|
+| Hồ sơ nhân vật | Thẻ Identity, Standee breathing animation | **Appearance / Costume Switcher (Hololive ref)**, Song ngữ Nhật-Anh (DEC-13) | Voice Lines Audio Player, Live2D |
+| Bối cảnh & Dữ liệu | Bảng thông số 2×2 tóm tắt | **Màn "Data" (Character Archive Chronicles)**: Xuất thân, Ngoại hình, Zadkiel - Độ không tuyệt đối, Yoshinon alter-ego (FR-05) | Interactive 3D Model, Timeline chi tiết các Vol |
+| Phòng triển lãm | Lưới tranh, 4 filter states, Hover overlay, Credit | **Exhibition Walkthrough**: Sticky Horizontal Scroll (Awwwards/FWA style), Pinned FilterBar, Progress indicator (FR-02) | Lightbox Zoom chi tiết, Bình luận tranh |
+| Cộng đồng | Chưa có | **Sổ lưu bút (Mini Guestbook — Winter Hearth Wishes)** kết nối Sanity CMS (FR-06) | Hệ thống tài khoản fan, Upvote tranh |
+| Yoshinon Mascot | Floating widget, Chào mừng, Tour 4 bước | **Nâng cấp Tour Guide FSM 6 bước** dẫn dắt qua Data, Walkthrough & Guestbook (FR-03) | AI Chatbot hội thoại tự do |
+| Môi trường & Tech | Canvas tuyết 60 FPS, Toggle bật/tắt, Light palette | **Tuyết rơi toàn trang xuyên suốt** (DEC-11), Standee WebP 217KB, Rollup Code-Splitting (DEC-14) | BGM Audio Player, Theme switcher |
+| CMS | Sanity.io artwork schema (Sprint 4) | **Guestbook Schema** trên Sanity Studio v3 (DEC-19) | Đăng nhập OAuth2 quản trị trực tiếp trên web |
 
 ### 2.2. User Stories & Acceptance Criteria
 
@@ -87,40 +89,59 @@ Tầm nhìn cốt lõi: Tạo ra một *"căn nhà mùa đông ấm áp"* trên 
 
 ### FR-01: Hero & Character Dossier
 
-- Render ảnh Yoshino định dạng WebP/PNG trong suốt với `floating` breathing animation
+- Render ảnh Yoshino định dạng WebP/PNG trong suốt với `floating` breathing animation (DEC-14: Retina 2x WebP ~217KB, fetchPriority='high')
+- **Appearance / Costume Switcher (DEC-18)**: Thanh chọn trang phục phong cách Hololive (`Zadkiel Coat Astral Dress`, `Winter Casual`, `Raizen High Uniform`) với animation cross-fade mượt mà (`AnimatePresence mode="wait"`)
 - Dossier Card (Glassmorphism):
   - Spirit Identifier: `Spirit No. 02 — The Hermit`
   - Họ tên: `氷芽川 四糸乃 (Himekawa Yoshino)`
   - Thiên sứ: `Zadkiel (Frozen Puppet — Con rối băng khổng lồ)`
   - Linh phục: `Zadkiel Coat (Thần Uy Linh Trang Số 4)`
-  - Tính cách: `Nhút nhát, vị tha, quan tâm người khác — kiểm soát băng giá tuyệt đối`
-  - **`keyQuote`** *(đã quyết định — Decision #5)*: italic Serif, border-left xanh băng, đặt trên CTA
+  - Tính cách: English summary `Shy, gentle, and deeply caring — yet wielding the absolute power of freezing ice.` (DEC-13)
+  - **`keyQuote`** (DEC-13): Trình bày song ngữ tinh tế với câu tiếng Nhật nguyên bản `「私……誰も傷つけたくないんです……」` và phụ đề tiếng Anh `“I... don't want to hurt anyone...”`
+  - 2 CTA: [Explore Gallery ↓] và [🐰 Ask Yoshinon]
 
-### FR-02: The Gallery Wall
+### FR-02: Gallery Wall (Adaptive Multi-column Masonry Layout)
 
-- Bộ lọc 4 UI states: `all` | `official` | `fanart` | `collab`
-- Lazy Loading cho tất cả ảnh trong gallery
-- ArtworkCard: Hiển thị theo tỷ lệ tự nhiên (adaptive natural aspect ratio) dựa trên `width/height` từ metadata, tôn trọng 100% bố cục gốc của tác giả (16:9, 4:3, 3:4, 9:16, 1:1,...), chống giật layout (CLS < 0.05)
-- Bố cục Masonry Layout thác nước nghệ thuật (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`)
-- Category badge góc, hover overlay với attribution và nút "View Source ↗"
+- **Cơ chế Cuộn dọc Thuần túy (DEC-16 Revision - Phương án B)**: Toàn bộ website duy trì trục lướt dọc tự nhiên 100% (Hero → Data Archive → Gallery Wall → Guestbook → Footer), ngăn chặn triệt để hiện tượng "kẹt cuộn" (scroll trap) khi phòng tranh mở rộng hàng chục hoặc hàng trăm tác phẩm.
+- **Bố cục Masonry Đa cột (DEC-12)**: Sử dụng CSS multi-column (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`) với `break-inside-avoid`, cho phép thưởng lãm nhiều bức tranh cùng lúc trên một màn hình thoáng đãng.
+- **Pinned Header & FilterBar**: 4 trạng thái lọc (`All`, `Official Art`, `Community Fanart`, `Collaborations`) lọc động không giật lag.
+- **Adaptive Natural Aspect Ratio**: Hiển thị theo tỷ lệ tự nhiên dựa trên `width/height` từ metadata, tôn trọng 100% bố cục gốc của tác giả (16:9, 4:3, 3:4, 9:16, 1:1,...), chống giật layout (CLS < 0.05, DEC-12).
+- Category badge góc, hover overlay với attribution và nút "View Source ↗" (US-03).
 
-### FR-03: Yoshinon Tour Guide
+### FR-03: Yoshinon Tour Guide (Upgraded 6-Step FSM)
 
 - `position: fixed; bottom: 24px; right: 32px; z-index: 40`
-- State machine: `Idle → Welcome → Touring → Completed → Dismissed`
-- 4 bước tour:
-  1. **Intro** — Giới thiệu Yoshino và căn phòng tuyết
-  2. **Profile** — Chỉ vào Dossier Card và Zadkiel
-  3. **Gallery** — Dẫn xuống phòng tranh, hướng dẫn filter
-  4. **Farewell** — Cảm ơn, thu về trạng thái mascot thường trực
+- State machine mở rộng: `Idle → Welcome → Touring (Steps 1–6) → Completed → Dismissed`
+- 6 bước tour chi tiết:
+  1. **Intro & Welcome** — Giới thiệu Yoshino và căn phòng tuyết ấm áp
+  2. **Costume Wardrobe** — Hướng dẫn thử đổi trang phục cho Yoshino trên Hero
+  3. **Archive Lore** — Dẫn sang màn Data khám phá xuất thân và bí mật về Zadkiel
+  4. **Gallery Wall** — Hướng dẫn thưởng lãm phòng tranh đa cột với bộ lọc danh mục
+  5. **Guestbook** — Mời để lại một dòng lưu bút gửi tặng Yoshino
+  6. **Farewell** — Lời chúc thưởng lãm vui vẻ và thu về trạng thái mascot thường trực
 
 ### FR-04: Snow Canvas
 
-- Canvas tuyết rơi cố định toàn màn hình (`fixed inset-0 pointer-events-none`), hiển thị xuyên suốt toàn bộ các section (Hero, Gallery, Credits, Footer) nhờ hệ thống nền trong suốt và ambient lighting
+- Canvas tuyết rơi cố định toàn màn hình (`fixed inset-0 pointer-events-none`), hiển thị xuyên suốt toàn bộ các section (Hero, Data, Gallery, Guestbook, Footer) nhờ hệ thống nền trong suốt và ambient lighting (DEC-11)
 - 50–80 hạt tuyết (Desktop); **giảm còn 25 hạt trên Mobile** *(Decision #4)*
 - Mỗi hạt: radius 1–3.5px, velocity Y 0.4–1.8px/frame, drift X theo sin, opacity 0.25–0.70
 - Toggle button trên navbar
 - Tự động pause khi `document.hidden === true` (tiết kiệm CPU khi ẩn tab)
+
+### FR-05: Character Data & Archive Chronicles (DEC-17)
+
+- Màn thông tin chuyên sâu đặt giữa Profile và Gallery với phong cách kính mờ Frost Glassmorphism
+- 4 phân khu dữ liệu tương tác (Interactive Dossier Tabs / Bento Grid):
+  1. **Origins & Spirit Identity**: Xuất thân Second Spirit, First Appearance (Light Novel Volume 2 / Anime S1 Ep. 4), bản chất linh hồn
+  2. **Physical Traits & Attire**: Chiều cao 144 cm, tóc xoăn xanh lam, gương mặt búp bê sứ, áo mưa tai thỏ Zadkiel Coat
+  3. **Angel Zadkiel (氷結傀儡)**: Quyền năng Độ Không Tuyệt Đối (-273.15°C), Siryon Cannon, Frost Barrier
+  4. **Yoshinon The Alter-Ego**: Cơ chế phòng vệ tâm lý khi tổn thương, chú thỏ bịt mắt hải tặc và sự tự tin bù trừ
+
+### FR-06: Mini Guestbook — Winter Hearth Wishes (DEC-19)
+
+- Bảng lưu bút mùa đông đặt trước chân trang: Nơi fan và người ghé thăm để lại tin nhắn ngắn (tối đa 120 ký tự), tên/biệt danh và thả tim tuyết ❄
+- Giao diện: Các mảnh giấy tuyết (Frost Note Cards) xếp so le nghệ thuật
+- Tích hợp schema `guestbook` trên Sanity CMS để lưu trữ và quản trị kiểm duyệt tin nhắn
 
 ---
 
@@ -160,32 +181,41 @@ Trang hoạt động phi thương mại. Footer bắt buộc có:
 ```
 [Top Navigation Bar — fixed, h:64px, backdrop-blur:12px]
   ├── Logo: Yoshino's Home ❄
-  ├── Nav Links: [Hồ sơ] | [Phòng tranh] | [Credit & Nguồn]
-  └── Controls: [❄ Bật/Tắt Tuyết]
+  ├── Nav Links: [Profile] | [Data] | [Gallery] | [Guestbook] | [Credits]
+  └── Controls: [❄ Snow On/Off]
 
 [Section 1: Hero & Living Room — 100vh]
-  ├── Canvas: Falling Snowflakes (50–80 particles)
-  ├── Col Left: Yoshino Standee (breathing float + radial glow)
-  └── Col Right: Dossier Card (Glassmorphism)
+  ├── Canvas: Full-viewport Snowflakes (50–80 particles)
+  ├── Col Left: Yoshino Standee + Costume Switcher (Hololive pattern)
+  └── Col Right: Dossier Card (Glassmorphism, Bilingual Quote JP/EN)
         ├── Tag: SPIRIT NO. 02 • THE HERMIT
         ├── H1: HIMEKAWA YOSHINO + Kanji
-        ├── Stats Grid 2×2: Linh phục | Thiên sứ | Tính cách | (mở rộng sau)
-        ├── keyQuote (italic serif, border-left ice-blue)
-        └── CTAs: [Khám phá tranh ↓] [Hỏi Yoshinon]
+        ├── Stats Grid 2×2: Astral Dress | Angel | Personality (English)
+        ├── keyQuote (Bilingual: 「私……誰も傷つけたくないんです……」 + English subtitle)
+        └── CTAs: [Explore Gallery ↓] [🐰 Ask Yoshinon]
 
-[Section 2: The Gallery Wall]
-  ├── Heading + Epigraph
-  ├── Filter Bar: [Tất cả] | [Official Art] | [Fanart] | [Collaborations]
-  └── Art Grid (max-w:1280px, centered)
-        └── ArtworkCard × N (Thumbnail | Badge | Hover Overlay | External Link)
+[Section 2: Character Archive & Data Chronicles]
+  ├── Section Heading: ARCHIVE / CHRONICLES
+  └── Interactive Dossier Grid (Origins, Physique, Angel Zadkiel, Yoshinon)
 
-[Section 3: Footer — Cozy Hearth]
-  ├── Attribution & Artist Thanks
-  ├── Legal Disclaimer (phi thương mại)
+[Section 3: Exhibition Walkthrough (Horizontal Scroll Gallery)]
+  ├── Sticky 350vh Viewport (Scroll Y -> Translate X)
+  ├── Pinned Header & FilterBar: [All] | [Official] | [Fanart] | [Collab]
+  ├── Scroll Progress Bar & Walkthrough Hint
+  └── Horizontal Track with Natural Ratio Artworks (ArtworkCard × N)
+
+[Section 4: Winter Hearth Wishes (Mini Guestbook)]
+  ├── Section Heading: WINTER HEARTH WISHES
+  ├── Note Wall: Frost Note Cards with visitor wishes
+  └── Interactive Form: Leave a warm wish + nickname + snow heart
+
+[Section 5: Footer — Cozy Hearth]
+  ├── Legal Disclaimer (phi thương mại Kadokawa/Tsunako)
+  ├── Attribution & Fan Tribute Credits
   └── Developer Portfolio Link
 
 [Floating Element]
-  └── Yoshinon Widget (fixed, bottom-right)
+  └── Yoshinon Widget (fixed, bottom-right, 6-step Interactive Tour)
 ```
 
 ### 5.2. End-to-End User Journey
@@ -408,12 +438,17 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | DEC-12 | Bố cục tranh Gallery với đa dạng tỷ lệ khung hình | **Adaptive Natural Aspect Ratio & Masonry Layout**: Bỏ khóa cứng `aspect-ratio: 3/4` và `object-cover` gây cắt xén tranh; chuyển sang bố cục Masonry đa cột (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`), tự động tính `aspectRatio` từ `width/height` của ảnh để giữ trọn vẹn bố cục gốc của họa sĩ (16:9, 4:3, 3:4, 9:16, 1:1,...) mà vẫn đảm bảo CLS < 0.05. | 2026-09-12 |
 | DEC-13 | Ngôn ngữ nội dung Thẻ Hồ Sơ (Phương án B Song ngữ) | **Bilingual Japanese Quote & English Copy Cohesion**: Thống nhất `personalitySummary` sang tiếng Anh; `keyQuote` trình bày dạng song ngữ nghệ thuật với câu thoại tiếng Nhật nguyên bản `「私……誰も傷つけたくないんです……」` kèm phụ đề tiếng Anh `“I... don't want to hurt anyone...”`; các `curatorNote` trong mock data đồng bộ sang tiếng Anh. | 2026-09-12 |
 | DEC-14 | Tối ưu dung lượng Standee & Bundle Size (LCP & FCP) | **Standee WebP Compression & Vite Code-Splitting**: Chuyển ảnh Standee Yoshino từ PNG 2.84 MB sang WebP Retina 2x (800px) ~212 KB (giảm hơn 92% dung lượng), đảm bảo LCP < 2.0s; cấu hình Rollup `manualChunks` trong `vite.config.ts` chia tách vendor libraries (`vendor-react`, `vendor-motion`, `vendor-sanity`), triệt tiêu cảnh báo chunk > 500 kB. | 2026-09-12 |
+| DEC-15 | Định hướng ưu tiên Desktop Creative Exhibition | **Desktop Showcase First & Graceful Fallback**: Tập trung 100% tinh hoa trải nghiệm thị giác và micro-interactions cho Desktop/Laptop; thiết bị di động Mobile sử dụng cơ chế fallback thông minh (tự động co giãn theo trục dọc hoặc swipe ngón tay tự nhiên) mà không làm ảnh hưởng đến layout nghệ thuật chính. | 2026-09-12 |
+| DEC-16 | Bố cục Gallery: Cuộn ngang hay Cuộn dọc thuần túy? | **Pure Vertical Flow with Adaptive Masonry (Phương án B)**: Giữ trục cuộn dọc tự nhiên 100% cho toàn bộ website; giải quyết triệt để rủi ro "scroll trap" khi phòng tranh có hàng chục hoặc hàng trăm tranh khiến người dùng không biết khi nào cuộn xong; kết hợp lưới Masonry đa cột (DEC-12) giúp xem được nhiều tác phẩm cùng lúc, giữ trọn tỷ lệ gốc và lướt qua dễ dàng xuống Guestbook/Footer. | 2026-09-12 *(cập nhật)* |
+| DEC-17 | Kiến trúc Màn Data (Character Archive Chronicles) | **Interactive Bento Lore Cards**: Đặt giữa Profile và Gallery; tổng hợp thông tin nhân vật chính xác từ Date A Live (Xuất thân Second Spirit Vol. 2, Ngoại hình búp bê tuyết 144cm & áo mưa Zadkiel Coat, Thiên sứ Zadkiel - Độ không tuyệt đối, và Nhân cách Yoshinon tự vệ). | 2026-09-12 |
+| DEC-18 | Chuyển đổi trang phục Standee (Hololive Pattern) | **Hero Costume Switcher Pill**: Bố trí thanh chọn trang phục phía dưới Standee Hero (`Zadkiel Coat`, `Winter Casual`, `Raizen Uniform`); chuyển đổi ảnh Standee mượt mà bằng Framer Motion `AnimatePresence mode="wait"`. | 2026-09-12 |
+| DEC-19 | Sổ lưu bút cộng đồng & Sanity CMS Persistence | **Winter Hearth Wishes Note Wall**: Khu vực lưu bút đặt trước Footer cho phép fan gửi lời chúc ngắn (120 ký tự), tên/biệt danh và icon tuyết; lưu trữ và kiểm duyệt qua Sanity CMS schema `guestbook`. | 2026-09-12 |
 
 ---
 
 ## 9. Implementation Roadmap
 
-> **Cập nhật 2026-09-11** — Phản ánh thực tế các Sprint đã hoàn thành và điều chỉnh kế hoạch.
+> **Cập nhật 2026-09-12** — Phản ánh kế hoạch mở rộng toàn diện cho Sprint 5 (Creative Frontend Exhibition) và dời Deploy/Vercel sang Sprint 6.
 
 ### Trạng thái hiện tại
 
@@ -424,7 +459,8 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | **Sprint 2b** — Design Revision | DEC-07 English UI; DEC-08 Spacious layout; DEC-09 Light "Warm Winter Daylight" palette; Real Yoshino standee | UI chuyên nghiệp, light theme | ✅ **DONE** `0a790b6` |
 | **Sprint 3** — Gallery Wall (Mock Data) | FilterBar 4 states + spring animation; ArtworkCard hover overlay + lazy load + category badges; GallerySection với client-side filtering | Gallery hoạt động mượt với mock data | ✅ **DONE** `35f4d7e` |
 | **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Studio workspace + simplified schema + API fetch** | MVP v1.0 hoàn chỉnh, Sanity Studio & dữ liệu thực live | ✅ **DONE** `ed4a4ee`, `b8b7ba9` |
-| **Sprint 5** — Polish & Deploy | Core Web Vitals tuning (FCP < 1.2s, LCP < 2.0s, CLS < 0.05); Image WebP conversion; Vercel deploy + domain | Live production URL |  **NEXT** |
+| **Sprint 5** — Creative Exhibition & Lore | **Màn Data (Archive Lore); Hero Costume Switcher (Hololive ref); Masonry Gallery (Pure Vertical Flow - DEC-16 Revision); Winter Hearth Guestbook + Sanity CMS Persistence; Nâng cấp Tour Guide 6 bước; Tuyết toàn trang; Standee WebP & Bundle split** | Awwwards-tier Interactive Experience hoàn chỉnh | ✅ **DONE** |
+| **Sprint 6** — Polish, SEO & Deploy | Core Web Vitals tuning (LCP < 2.0s, CLS < 0.05); OpenGraph metadata; Vercel deployment + Custom Domain | Live Production URL | 🚀 **NEXT** |
 
 ### Ghi chú điều chỉnh kế hoạch
 

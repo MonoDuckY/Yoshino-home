@@ -1,9 +1,9 @@
 // HeroSection — 100vh opening screen
 // DEC-07: English | DEC-09: Light theme | DEC-14: WebP standee for LCP < 2.0s | spec/REQUIREMENTS.md §FR-01, §5.1
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DossierCard } from '../ui/DossierCard';
-import { characterDossier } from '../../data/mockArtworks';
-import yoshinoStandee from '../../assets/yoshino-standee.webp';
+import { characterDossier, mockCostumes } from '../../data/mockArtworks';
 
 interface HeroSectionProps {
   onCallYoshinon: () => void;
@@ -25,6 +25,9 @@ const standeeVariants = {
 };
 
 export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
+  const [selectedCostumeId, setSelectedCostumeId] = useState<string>(mockCostumes[0].id);
+  const activeCostume = mockCostumes.find((c) => c.id === selectedCostumeId) || mockCostumes[0];
+
   return (
     <section
       id="hero"
@@ -50,9 +53,9 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
         className="relative w-full max-w-7xl mx-auto px-8 md:px-14 lg:px-20 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 lg:gap-24 py-16"
         style={{ zIndex: 2 }}
       >
-        {/* ── Left: Standee ── */}
+        {/* ── Left: Standee & Costume Switcher ── */}
         <motion.div
-          className="relative flex-shrink-0 flex items-center justify-center w-full md:w-auto"
+          className="relative flex-shrink-0 flex flex-col items-center justify-center w-full md:w-auto"
           variants={standeeVariants}
           initial="hidden"
           animate="visible"
@@ -64,8 +67,9 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
             style={{
               width: '380px',
               height: '380px',
+              top: '15%',
               background:
-                'radial-gradient(circle, rgba(59,157,210,0.10) 0%, rgba(16,184,126,0.05) 40%, transparent 70%)',
+                'radial-gradient(circle, rgba(59,157,210,0.12) 0%, rgba(16,184,126,0.06) 40%, transparent 70%)',
               filter: 'blur(36px)',
             }}
           />
@@ -73,33 +77,104 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
           {/* Breathing float — FR-01
               overflow-hidden crops the DATE A LIVE V logo at bottom */}
           <motion.div
-            animate={{ y: [0, -14, 0] }}
+            animate={{ y: [0, -12, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative select-none overflow-hidden"
-            style={{
-              height: 'clamp(400px, 60vh, 640px)',
-              width: 'auto',
-              maxWidth: '380px',
-            }}
+            className="relative"
           >
-            <img
-              src={yoshinoStandee}
-              alt="Yoshino Himekawa — Spirit No. 02, The Hermit, wearing the Zadkiel Coat Astral Dress"
-              width={800}
-              height={1608}
-              fetchPriority="high"
-              style={{
-                height: '125%',           /* push logo ~25% below the clip boundary */
-                width: 'auto',
-                maxWidth: 'none',
-                objectFit: 'contain',
-                objectPosition: 'top center',
-                filter: 'drop-shadow(0 8px 40px rgba(59,157,210,0.18)) drop-shadow(0 2px 12px rgba(30,55,110,0.10))',
-                display: 'block',
-              }}
-              draggable={false}
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCostume.id}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="relative select-none overflow-hidden"
+                style={{
+                  height: 'clamp(380px, 58vh, 620px)',
+                  width: 'auto',
+                  maxWidth: '380px',
+                }}
+              >
+                <img
+                  src={activeCostume.imageUrl}
+                  alt={`Yoshino Himekawa — ${activeCostume.name}`}
+                  width={800}
+                  height={1608}
+                  fetchPriority="high"
+                  style={{
+                    height: '125%',           /* push logo ~25% below the clip boundary */
+                    width: 'auto',
+                    maxWidth: 'none',
+                    objectFit: 'contain',
+                    objectPosition: 'top center',
+                    filter: 'drop-shadow(0 8px 40px rgba(59,157,210,0.18)) drop-shadow(0 2px 12px rgba(30,55,110,0.10))',
+                    display: 'block',
+                  }}
+                  draggable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
+
+          {/* ── Costume Switcher Selector (DEC-18) ── */}
+          <div
+            id="hero-wardrobe"
+            className="mt-4 flex flex-col items-center gap-2.5 z-10 w-full max-w-sm"
+          >
+            <div
+              className="flex items-center gap-1.5 p-1.5 rounded-full"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(59, 157, 210, 0.2)',
+                boxShadow: '0 4px 16px rgba(30, 55, 110, 0.06)',
+              }}
+              role="tablist"
+              aria-label="Costume wardrobe selector"
+            >
+              {mockCostumes.map((costume) => {
+                const isActive = costume.id === selectedCostumeId;
+                return (
+                  <button
+                    key={costume.id}
+                    onClick={() => setSelectedCostumeId(costume.id)}
+                    role="tab"
+                    aria-selected={isActive}
+                    className="relative px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 cursor-pointer"
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      color: isActive
+                        ? '#ffffff'
+                        : 'var(--color-text-secondary)',
+                      backgroundColor: isActive
+                        ? 'var(--color-yoshino-green)'
+                        : 'transparent',
+                      boxShadow: isActive
+                        ? '0 2px 10px rgba(16, 184, 126, 0.35)'
+                        : 'none',
+                    }}
+                  >
+                    {costume.badge}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active costume caption */}
+            <p
+              className="text-[11px] text-center font-medium tracking-wide max-w-xs px-2"
+              style={{
+                fontFamily: 'var(--font-body)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              <span className="font-bold text-[var(--color-ice-blue)]">
+                {activeCostume.name}:
+              </span>{' '}
+              {activeCostume.description}
+            </p>
+          </div>
         </motion.div>
 
         {/* ── Right: Dossier Card ── */}

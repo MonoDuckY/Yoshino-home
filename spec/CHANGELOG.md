@@ -3,6 +3,58 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-12] — Sprint 5 Complete: Creative Frontend Exhibition & Lore Evolution
+
+### 🚀 Tính năng & Nâng cấp đã hoàn thiện (Delivered & Verified)
+- **Character Archive Chronicles — Data Section (FR-05, DEC-17)**:
+  - Màn thông tin hồ sơ chuyên sâu đặt giữa Profile và Gallery với 4 khối Bento Glassmorphism: Origins & Encounter (LN Vol. 2 / Anime S1 Ep. 4, Sephira Chesed), Appearance & Demeanor (144 cm, sky-blue hair, emerald rabbit coat), Angel Zadkiel (Absolute Zero -273.15°C, Siryon mode), and Yoshinon the Familiar (psychological alter-ego, pirate eyepatch).
+- **Hero Costume Switcher (DEC-18)**:
+  - Thanh chọn trang phục phong cách Hololive đặt ngay dưới Standee: `Astral Dress (Spirit Form)`, `Winter Casual (Everyday Life)`, và `Raizen High (School Days)`.
+  - Tích hợp `AnimatePresence mode="wait"` chuyển cảnh mượt mà kèm chú thích chi tiết cho từng bộ trang phục.
+- **Bố cục Gallery thuần cuộn dọc & Lưới Masonry thích ứng (DEC-16 Revision - Phương án B)**:
+  - Loại bỏ hoàn toàn container cuộn ngang `h-[360vh]` và các hiệu ứng ghim sticky gây mỏi tay / scroll trap khi phòng tranh chứa số lượng lớn tranh ảnh.
+  - Toàn bộ website duy trì trục cuộn dọc tự nhiên 100% xuyên suốt 5 màn hình: Profile → Data Archive → Gallery Wall → Guestbook → Footer.
+  - Phòng tranh Gallery hiển thị dạng lưới Masonry đa cột thông minh (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5`), tự động co giãn theo tỷ lệ tự nhiên của tranh (DEC-12), cho phép xem nhiều tác phẩm cùng lúc và lướt qua dễ dàng xuống Guestbook.
+
+### 💡 Bài học kinh nghiệm kiến trúc & UX: Thử nghiệm Cuộn Ngang (Horizontal Scroll) và Lý do Chuyển dịch về Cuộn Dọc Thuần (Pure Vertical Flow)
+
+Trong quá trình định hình Sprint 5, một thử nghiệm sáng tạo lớn đã được đề xuất và hiện thực hóa: **Biến đổi khu vực Gallery (hoặc toàn bộ trải nghiệm khám phá) thành trục cuộn ngang (Horizontal Exhibition Walkthrough)** nhằm tạo cảm giác như khách tham quan đang thả bước qua các gian phòng triển lãm nghệ thuật trong bảo tàng. Tuy nhiên, sau khi kiểm thử và đánh giá trải nghiệm người dùng thực tế, quyết định hủy bỏ cuộn ngang và chuyển hẳn về cuộn dọc thuần túy (Phương án B) đã được thống nhất vì các lý do cốt lõi sau:
+
+#### 1. Rào cản kỹ thuật & Vấn đề công thái học (Ergonomics & Scroll Trap)
+- **Cái bẫy cuộn chuột (Scroll Trap)**: 
+  - Kỹ thuật fake horizontal scroll dựa trên một container cha có chiều cao nhân tạo khổng lồ (ví dụ `height: 360vh` hoặc `400vh`) kết hợp `position: sticky` và `transform: translateX(...)`.
+  - Nếu Gallery chỉ có 4–6 bức ảnh tĩnh cố định, chiều cao này có thể kiểm soát được. Nhưng khi kết nối với Sanity CMS — một hệ thống quản trị nội dung sống có thể mở rộng lên hàng chục, hàng trăm bức ảnh trong tương lai — chiều cao container cha sẽ phải kéo dài vô tận (`1500vh` - `3000vh`).
+  - Hệ quả: Người dùng bị "mắc kẹt" hoàn toàn trong khu vực Gallery. Khi họ chỉ muốn cuộn xuống các phần nội dung tiếp theo như **Guestbook** hay **Credits/Footer**, họ buộc phải lăn bánh xe chuột liên tục hàng chục vòng trong sự ức chế vì không biết khi nào phòng tranh mới kết thúc.
+- **Xung đột nhận thức thao tác (Cognitive Mismatch)**:
+  - 95% chuột máy tính trên thị trường chỉ có con lăn dọc (Vertical Scroll Wheel). Việc ngón tay lăn theo trục dọc nhưng mắt lại thấy nội dung trôi theo trục ngang tạo ra sự lệch pha về phản hồi giác quan (vestibular / motor mismatch), dễ gây mỏi tay và mất phương hướng.
+- **Phá vỡ thanh cuộn tự nhiên (Native Scrollbar)**:
+  - Thanh cuộn dọc của trình duyệt bên phải màn hình tiếp tục trôi xuống trong khi trang web đứng yên và nội dung bên trong trượt ngang, làm mất đi khả năng định vị trực quan ("Tôi đang ở đâu trên trang web?").
+
+#### 2. Khả năng tiếp cận (Accessibility - a11y) & Điều hướng bàn phím
+- Việc ghim `position: sticky` và tính toán `scrollProgress` can thiệp tiêu cực vào các phím điều hướng trợ năng tiêu chuẩn: `Spacebar`, `Page Down`, `Page Up`, `Home`, `End`.
+- Khi người dùng bấm vào các liên kết trên thanh điều hướng (Navbar Links) như `#guestbook` hay `#footer`, trình duyệt tính toán tọa độ cuộn bị lệch do các section con bị dịch chuyển tọa độ qua `transform: translateX`, gây hiện tượng giật cục hoặc rơi vào khoảng trống.
+
+#### 3. Trải nghiệm không nhất quán trên Mobile & Touch Devices
+- Trên màn hình cảm ứng di động, hành vi vuốt dọc là phản xạ tự nhiên ăn sâu vào tiềm thức người dùng. Ép buộc cuộn ngang giả lập bằng sticky trên mobile thường gây giật khung hình (frame drops) và xung đột nghiêm trọng với thanh URL bar tự động ẩn/hiện của Safari iOS / Chrome Android.
+
+#### 4. Bài học rút ra (Key Architectural Takeaways)
+1. **"Đừng hy sinh công thái học cơ bản và tính liền mạch của luồng duyệt web để đổi lấy hiệu ứng thị giác tạm thời khi nội dung mang tính chất co giãn động (Dynamic Data)."**
+2. **Scroll ngang chỉ phù hợp cho các khối nội dung vi mô (Micro-components)**: Ví dụ như một dải Carousel nhỏ, danh sách Tab ngang, hoặc các landing page showcase cực ngắn (chỉ gồm 3–4 slide độc lập và không có footer dài phía sau). Khi website có cấu trúc nhiều section kế thừa nhau (Hero → Data → Gallery → Guestbook → Footer), trục dọc thuần túy luôn là lựa chọn tối ưu, bền vững và thân thiện nhất với người dùng.
+3. **Giải pháp thay thế ưu việt hơn**: Thay vì cuộn ngang, chuyển đổi Gallery sang **Lưới Masonry Đa Cột Thích Ứng (Adaptive Multi-column Grid)** kết hợp giữ nguyên tỷ lệ khung hình tự nhiên của tranh (`aspect-ratio` tự động từ metadata). Giải pháp này vừa đạt được sự phá cách nghệ thuật, xem được nhiều tranh cùng lúc trên màn hình lớn, vừa giữ cho luồng cuộn dọc tự nhiên 60 FPS trơn tru từ đầu trang đến chân trang.
+
+- **Winter Hearth Guestbook (FR-06, DEC-19)**:
+  - Bảng lưu bút fan hâm mộ ấm cúng với form gửi lời chúc, bộ chọn stamp biểu tượng (❄️, 💙, 🐰, ✨, 🍵), đếm ký tự (140 max) và optimistic toast notification.
+  - Schema Sanity CMS `studio/schemas/guestbook.ts` và service `sanity.ts` sẵn sàng lưu trữ và truy vấn lời chúc trên cloud với cấu hình `useCdn: false` đảm bảo dữ liệu hiển thị tức thì theo thời gian thực (0s độ trễ cache).
+- **Yoshinon Tour Guide 6-Step Evolution (FR-03)**:
+  - Nâng cấp máy trạng thái FSM lên 6 bước: Welcome → Wardrobe Switcher → Spirit Archive → Exhibition Walkthrough → Winter Hearth Guestbook → Sanctuary Credits & Farewell.
+  - Smooth scroll tự động căn giữa và pulsing cyan outline `tour-highlight-target` cho từng phần tử.
+- **Kiểm thử & Tối ưu toàn diện**:
+  - `npm run build`: Thành công 100% không lỗi, các vendor chunks (`vendor-react`, `vendor-motion`, `vendor-sanity`) đều dưới 215 kB.
+  - `npm run lint`: 0 errors, 0 warnings.
+  - Visual testing bằng Playwright: Xác thực thành công cả 5 màn hình, tương tác đổi trang phục, gửi lời chúc guestbook và luồng tour 6 bước.
+
+---
+
 ## [2026-09-12] — Pre-Sprint 5 Design Polish: Unified Background, Continuous Snow & Masonry Gallery
 
 ### 🎨 Quyết định & Thay đổi thiết kế
