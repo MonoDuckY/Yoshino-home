@@ -154,24 +154,53 @@ export function DossierCard({ dossier, onExploreGallery, onCallYoshinon }: Dossi
         </motion.div>
       </motion.dl>
 
-      {/* keyQuote — DEC-05: italic serif, border-left ice-blue, above CTAs */}
+      {/* keyQuote — DEC-05, DEC-13: Bilingual Japanese quote + English translation */}
       <motion.blockquote
         variants={itemVariants}
-        className="mb-9 pl-4"
+        className="mb-9 pl-4 space-y-1.5"
         style={{ borderLeft: '2px solid rgba(59, 157, 210, 0.4)' }}
       >
-        <p
-          style={{
-            fontFamily: 'Georgia, "Playfair Display", serif',
-            fontStyle: 'italic',
-            fontSize: '0.9rem',
-            lineHeight: '1.65',
-            color: 'var(--color-ice-blue)',
-            letterSpacing: '0.01em',
-          }}
-        >
-          &ldquo;{dossier.keyQuote}&rdquo;
-        </p>
+        {dossier.keyQuoteJp ? (
+          <>
+            <p
+              className="tracking-wider"
+              style={{
+                fontFamily: '"Cinzel", "Yu Mincho", "Hiragino Mincho ProN", serif',
+                fontSize: '0.92rem',
+                lineHeight: '1.6',
+                color: 'var(--color-ice-blue)',
+                fontWeight: 500,
+              }}
+            >
+              「{dossier.keyQuoteJp.replace(/^「|」$/g, '')}」
+            </p>
+            <p
+              style={{
+                fontFamily: 'Georgia, "Playfair Display", serif',
+                fontStyle: 'italic',
+                fontSize: '0.85rem',
+                lineHeight: '1.5',
+                color: 'var(--color-text-secondary)',
+                letterSpacing: '0.01em',
+              }}
+            >
+              &ldquo;{dossier.keyQuoteEn || dossier.keyQuote}&rdquo;
+            </p>
+          </>
+        ) : (
+          <p
+            style={{
+              fontFamily: 'Georgia, "Playfair Display", serif',
+              fontStyle: 'italic',
+              fontSize: '0.9rem',
+              lineHeight: '1.65',
+              color: 'var(--color-ice-blue)',
+              letterSpacing: '0.01em',
+            }}
+          >
+            &ldquo;{dossier.keyQuote}&rdquo;
+          </p>
+        )}
       </motion.blockquote>
 
       {/* CTA buttons */}

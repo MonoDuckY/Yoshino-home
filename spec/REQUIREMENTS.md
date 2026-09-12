@@ -100,7 +100,9 @@ Tầm nhìn cốt lõi: Tạo ra một *"căn nhà mùa đông ấm áp"* trên 
 
 - Bộ lọc 4 UI states: `all` | `official` | `fanart` | `collab`
 - Lazy Loading cho tất cả ảnh trong gallery
-- ArtworkCard: thumbnail tỷ lệ cố định, category badge góc, hover overlay với attribution
+- ArtworkCard: Hiển thị theo tỷ lệ tự nhiên (adaptive natural aspect ratio) dựa trên `width/height` từ metadata, tôn trọng 100% bố cục gốc của tác giả (16:9, 4:3, 3:4, 9:16, 1:1,...), chống giật layout (CLS < 0.05)
+- Bố cục Masonry Layout thác nước nghệ thuật (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`)
+- Category badge góc, hover overlay với attribution và nút "View Source ↗"
 
 ### FR-03: Yoshinon Tour Guide
 
@@ -114,8 +116,9 @@ Tầm nhìn cốt lõi: Tạo ra một *"căn nhà mùa đông ấm áp"* trên 
 
 ### FR-04: Snow Canvas
 
+- Canvas tuyết rơi cố định toàn màn hình (`fixed inset-0 pointer-events-none`), hiển thị xuyên suốt toàn bộ các section (Hero, Gallery, Credits, Footer) nhờ hệ thống nền trong suốt và ambient lighting
 - 50–80 hạt tuyết (Desktop); **giảm còn 25 hạt trên Mobile** *(Decision #4)*
-- Mỗi hạt: radius 1–3.5px, velocity Y 0.5–2.0px/frame, drift X theo sin, opacity 0.3–0.85
+- Mỗi hạt: radius 1–3.5px, velocity Y 0.4–1.8px/frame, drift X theo sin, opacity 0.25–0.70
 - Toggle button trên navbar
 - Tự động pause khi `document.hidden === true` (tiết kiệm CPU khi ẩn tab)
 
@@ -312,8 +315,9 @@ export interface CharacterDossier {
   nameKanji: string;          // "氷芽川 四糸乃"
   astralDress: string;        // "Zadkiel Coat"
   angelName: string;          // "Zadkiel"
-  personalitySummary: string;
-  keyQuote: string;           // Câu thoại kinh điển — hiển thị trong Dossier Card (xem Decision #5)
+  personalitySummary: string; // Tóm tắt tính cách bằng tiếng Anh (DEC-13)
+  keyQuoteJp: string;         // Câu thoại tiếng Nhật nguyên bản: 「私……誰も傷つけたくないんです……」 (DEC-13)
+  keyQuoteEn: string;         // Bản dịch phụ đề tiếng Anh: "I... don't want to hurt anyone..." (DEC-13)
 }
 
 // Filter logic
@@ -400,6 +404,10 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | DEC-08 | Spacing & layout — card cảm giác bí bách? | **Mở rộng padding** — DossierCard: `p-10 md:p-12`, `max-w-lg`. Tăng `gap` giữa các element. Letter-spacing labels thoáng hơn. Gap giữa 2 cột Hero tăng. | 2026-09-10 |
 | DEC-09 | Color theme — dark hay light? | **Light "Warm Winter Daylight"** — chuyển từ dark `#0B1325` sang palette sáng ấm áp, mô phỏng ánh nắng mùa đông. Background: `#ECF1FB` (winter sky blue-white). Text: dark navy `#18264A`. Glass: `rgba(255,255,255,0.72)`. Snow particles: soft blue `rgba(100,160,220,α)`. Các accent colors được làm sâu hơn để đủ contrast trên nền sáng: Ice Blue `#3B9DD2`, Yoshino Green `#10B87E`. | 2026-09-10 |
 | DEC-10 | Tinh giản Sanity Studio Form Fields | **Loại bỏ 3 trường thủ công**: `artistHandle`, `platform`, `publishedDate` khỏi form Studio để giảm thao tác nhập liệu; `platform` được tự động nhận diện từ `sourceUrl` (`pixiv.net`, `x.com`, `artstation.com`); thứ tự hiển thị sắp xếp theo `_createdAt desc`. | 2026-09-11 |
+| DEC-11 | Đồng bộ màu nền & Hiệu ứng tuyết rơi toàn trang | **Unified Background & Full-site Snow Layering**: Loại bỏ khối nền kem đục cứng `#FDF6EC` ở Gallery và `#ECF1FB` ở Footer; toàn trang dùng chung nền `--color-winter-sky: #ECF1FB`; các section dùng nền trong suốt (`bg-transparent`) kết hợp ambient radial glow nhẹ, giúp `SnowCanvas` (`fixed inset-0`) hiển thị xuyên suốt toàn trang từ Hero đến Footer. | 2026-09-12 |
+| DEC-12 | Bố cục tranh Gallery với đa dạng tỷ lệ khung hình | **Adaptive Natural Aspect Ratio & Masonry Layout**: Bỏ khóa cứng `aspect-ratio: 3/4` và `object-cover` gây cắt xén tranh; chuyển sang bố cục Masonry đa cột (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`), tự động tính `aspectRatio` từ `width/height` của ảnh để giữ trọn vẹn bố cục gốc của họa sĩ (16:9, 4:3, 3:4, 9:16, 1:1,...) mà vẫn đảm bảo CLS < 0.05. | 2026-09-12 |
+| DEC-13 | Ngôn ngữ nội dung Thẻ Hồ Sơ (Phương án B Song ngữ) | **Bilingual Japanese Quote & English Copy Cohesion**: Thống nhất `personalitySummary` sang tiếng Anh; `keyQuote` trình bày dạng song ngữ nghệ thuật với câu thoại tiếng Nhật nguyên bản `「私……誰も傷つけたくないんです……」` kèm phụ đề tiếng Anh `“I... don't want to hurt anyone...”`; các `curatorNote` trong mock data đồng bộ sang tiếng Anh. | 2026-09-12 |
+| DEC-14 | Tối ưu dung lượng Standee & Bundle Size (LCP & FCP) | **Standee WebP Compression & Vite Code-Splitting**: Chuyển ảnh Standee Yoshino từ PNG 2.84 MB sang WebP Retina 2x (800px) ~212 KB (giảm hơn 92% dung lượng), đảm bảo LCP < 2.0s; cấu hình Rollup `manualChunks` trong `vite.config.ts` chia tách vendor libraries (`vendor-react`, `vendor-motion`, `vendor-sanity`), triệt tiêu cảnh báo chunk > 500 kB. | 2026-09-12 |
 
 ---
 

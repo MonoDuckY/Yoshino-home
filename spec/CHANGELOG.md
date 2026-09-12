@@ -3,6 +3,26 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-12] — Pre-Sprint 5 Design Polish: Unified Background, Continuous Snow & Masonry Gallery
+
+### 🎨 Quyết định & Thay đổi thiết kế
+- **DEC-11 (Đồng bộ màu nền & Tuyết rơi toàn trang)**:
+  - Loại bỏ màu nền đục `#FDF6EC` ở GallerySection và `#ECF1FB` ở FooterSection.
+  - Toàn trang dùng chung nền `--color-winter-sky: #ECF1FB`; các section sử dụng nền trong suốt (`bg-transparent`) kết hợp dải ambient radial glow (pha lẫn sắc xanh băng `rgba(59,157,210,0.06)` và lục bảo `rgba(16,184,126,0.04)`).
+  - Canvas tuyết rơi `SnowCanvas` (`fixed inset-0`) hiển thị mượt mà xuyên suốt từ Hero qua Gallery, Credits đến Footer mà không bị che khuất.
+- **DEC-12 (Bố cục tranh Masonry & Tỷ lệ khung hình tự nhiên)**:
+  - Bỏ khóa cứng `aspect-ratio: 3/4` và `object-cover` gây cắt xén tranh trong `ArtworkCard`.
+  - Chuyển `GallerySection` sang bố cục Masonry đa cột (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`) với `break-inside-avoid`.
+  - Tính toán `aspectRatio` tự nhiên linh hoạt dựa trên `width / height` từ metadata của Sanity hoặc mock data, tôn trọng 100% tỷ lệ gốc (16:9, 4:3, 3:4, 9:16, 1:1,...) mà không bị crop bất kỳ góc nào, đồng thời duy trì CLS < 0.05.
+  - Cập nhật mock data đa dạng tỷ lệ để kiểm thử trực quan.
+- **DEC-13 (Ngôn ngữ nội dung Thẻ Hồ Sơ — Song ngữ Nhật-Anh)**:
+  - Thống nhất `personalitySummary` sang tiếng Anh chuẩn (`"Shy, gentle, and deeply caring — yet wielding the absolute power of freezing ice."`).
+  - `keyQuote` trình bày dạng song ngữ nghệ thuật: câu thoại tiếng Nhật nguyên bản `「私……誰も傷つけたくないんです……」` kèm phụ đề tiếng Anh `“I... don't want to hurt anyone...”`.
+  - Cập nhật toàn bộ `curatorNote` trong mock data sang tiếng Anh nhất quán.
+- **DEC-14 (Tối ưu Standee WebP & Rollup Vendor Code-Splitting)**:
+  - Chuyển đổi ảnh Standee từ PNG 2.84 MB sang WebP Retina 2x (800px) ~212 KB (giảm hơn 92% dung lượng), giải quyết triệt để nút thắt cổ chai LCP trên Hero.
+  - Cấu hình Rollup `manualChunks` trong `vite.config.ts` chia tách vendor libraries (`vendor-react`, `vendor-motion`, `vendor-sanity`), loại bỏ cảnh báo bundle size > 500 kB.
+
 ---
 
 ## [2026-09-11] — Sprint 4 Complete: Yoshinon Tour Guide & Sanity.io CMS Integration

@@ -1,6 +1,6 @@
 // ArtworkCard — individual artwork tile in the Gallery Wall
 // spec/REQUIREMENTS.md §FR-02, US-03
-// DEC-09: Light theme | aspect-ratio: 3/4 for CLS < 0.05 (NFR §4.1)
+// DEC-09: Light theme | DEC-12: Adaptive natural aspect ratio for zero crop & CLS < 0.05
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Artwork, ArtworkCategory } from '../../types';
@@ -31,6 +31,8 @@ const CATEGORY_BADGE: Record<ArtworkCategory, { label: string; color: string; bg
 export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
   const [hovered, setHovered] = useState(false);
   const badge = CATEGORY_BADGE[artwork.category];
+  const aspectRatio =
+    artwork.width && artwork.height ? `${artwork.width} / ${artwork.height}` : 'auto';
 
   return (
     <motion.article
@@ -39,12 +41,14 @@ export function ArtworkCard({ artwork, index }: ArtworkCardProps) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.94 }}
       transition={{ duration: 0.35, delay: index * 0.04, ease: 'easeOut' }}
-      className="group relative rounded-2xl overflow-hidden cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden cursor-pointer w-full"
       style={{
-        aspectRatio: '3 / 4',
-        backgroundColor: 'rgba(59,157,210,0.06)',
-        border: '1px solid rgba(59,157,210,0.12)',
-        boxShadow: '0 2px 12px rgba(30,55,110,0.06)',
+        aspectRatio,
+        backgroundColor: 'rgba(255, 255, 255, 0.72)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        border: '1px solid rgba(59, 157, 210, 0.16)',
+        boxShadow: '0 4px 20px rgba(30, 55, 110, 0.08)',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

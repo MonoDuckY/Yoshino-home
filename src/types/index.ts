@@ -44,8 +44,10 @@ export interface CharacterDossier {
   nameKanji: string;          // "氷芽川 四糸乃"
   astralDress: string;        // "Zadkiel Coat"
   angelName: string;          // "Zadkiel"
-  personalitySummary: string;
-  keyQuote: string;           // Displayed in Dossier Card below stats, above CTAs (DEC-05)
+  personalitySummary: string; // English summary (DEC-13)
+  keyQuoteJp: string;         // Japanese original: 「私……誰も傷つけたくないんです……」 (DEC-13)
+  keyQuoteEn: string;         // English subtitle: "I... don't want to hurt anyone..." (DEC-13)
+  keyQuote?: string;          // Optional legacy fallback
 }
 
 // ---------------------

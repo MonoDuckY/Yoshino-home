@@ -1,9 +1,9 @@
 // HeroSection — 100vh opening screen
-// DEC-07: English | DEC-09: Light theme | spec/REQUIREMENTS.md §FR-01, §5.1
+// DEC-07: English | DEC-09: Light theme | DEC-14: WebP standee for LCP < 2.0s | spec/REQUIREMENTS.md §FR-01, §5.1
 import { motion } from 'framer-motion';
 import { DossierCard } from '../ui/DossierCard';
 import { characterDossier } from '../../data/mockArtworks';
-import yoshinoStandee from '../../assets/dkl7imf-1f7a71db-86e6-4bd8-9dae-c2a54fb74ee4.png';
+import yoshinoStandee from '../../assets/yoshino-standee.webp';
 
 interface HeroSectionProps {
   onCallYoshinon: () => void;
@@ -85,6 +85,9 @@ export function HeroSection({ onCallYoshinon }: HeroSectionProps) {
             <img
               src={yoshinoStandee}
               alt="Yoshino Himekawa — Spirit No. 02, The Hermit, wearing the Zadkiel Coat Astral Dress"
+              width={800}
+              height={1608}
+              fetchPriority="high"
               style={{
                 height: '125%',           /* push logo ~25% below the clip boundary */
                 width: 'auto',

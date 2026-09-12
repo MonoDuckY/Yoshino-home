@@ -1,13 +1,13 @@
 // Footer — Cozy Hearth
-// DEC-07: English | DEC-09: Light theme | spec §4.3, §5.1
+// DEC-07: English | DEC-09: Light theme | DEC-11: Unified Background & Continuous Snow | spec §4.3, §5.1
 export function Footer() {
   return (
     <footer
       id="footer"
       className="relative w-full py-12 px-6"
       style={{
-        backgroundColor: 'var(--color-winter-sky)',
-        borderTop: '1px solid rgba(59,157,210,0.12)',
+        backgroundColor: 'transparent',
+        borderTop: '1px solid rgba(59,157,210,0.14)',
         zIndex: 2,
       }}
     >
