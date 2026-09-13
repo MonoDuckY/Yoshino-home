@@ -1,4 +1,4 @@
-// GallerySection — Sprint 5: Pure Vertical Flow with Adaptive Masonry (DEC-16 Revision - Option B)
+// GallerySection — Curated Batching & Scalable Masonry (Option 1)
 // spec/REQUIREMENTS.md §FR-02, §5.1, §7.2, DEC-01, DEC-07, DEC-09, DEC-11, DEC-12, DEC-16
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,11 +8,26 @@ import { filterArtworks } from '../../types';
 import type { GalleryFilter } from '../../types';
 import { useArtworks } from '../../hooks/useArtworks';
 
+const INITIAL_BATCH_SIZE = 8;
+const BATCH_INCREMENT = 8;
+
 export function GallerySection() {
   const [activeFilter, setActiveFilter] = useState<GalleryFilter>('all');
+  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_BATCH_SIZE);
   const { artworks, loading } = useArtworks();
 
+  const handleFilterChange = (filter: GalleryFilter) => {
+    setActiveFilter(filter);
+    setVisibleCount(INITIAL_BATCH_SIZE);
+  };
+
   const displayedArtworks = filterArtworks(artworks, activeFilter);
+  const visibleArtworks = displayedArtworks.slice(0, visibleCount);
+  const hasMore = visibleCount < displayedArtworks.length;
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + BATCH_INCREMENT, displayedArtworks.length));
+  };
 
   return (
     <section
@@ -82,7 +97,7 @@ export function GallerySection() {
           </p>
 
           {/* FilterBar */}
-          <FilterBar active={activeFilter} onChange={setActiveFilter} />
+          <FilterBar active={activeFilter} onChange={handleFilterChange} />
         </motion.header>
 
         {/* ── Adaptive Multi-column Masonry Gallery (DEC-12, DEC-16) ── */}
@@ -116,7 +131,7 @@ export function GallerySection() {
             className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6"
           >
             <AnimatePresence mode="popLayout">
-              {displayedArtworks.map((artwork, i) => (
+              {visibleArtworks.map((artwork, i) => (
                 <div key={artwork.id} className="break-inside-avoid mb-6">
                   <ArtworkCard artwork={artwork} index={i} className="w-full shadow-md" />
                 </div>
@@ -126,7 +141,7 @@ export function GallerySection() {
         )}
 
         {/* Empty state (if filter has 0 items) */}
-        {displayedArtworks.length === 0 && (
+        {displayedArtworks.length === 0 && !loading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -145,15 +160,44 @@ export function GallerySection() {
           </motion.div>
         )}
 
-        {/* Works count indicator */}
-        <motion.p
-          layout
-          className="text-xs text-center mt-12 tracking-wider"
-          style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-muted)' }}
-        >
-          {displayedArtworks.length} work{displayedArtworks.length !== 1 ? 's' : ''} exhibited
-        </motion.p>
+        {/* ── Load More & Works Count Controller ── */}
+        <div className="mt-12 flex flex-col items-center gap-4">
+          {hasMore && (
+            <motion.button
+              type="button"
+              onClick={handleLoadMore}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -2, transition: { duration: 0.2 } }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs font-semibold tracking-wider text-[var(--color-text-primary)] transition-all duration-300 cursor-pointer border shadow-sm group"
+              style={{
+                fontFamily: 'var(--font-body)',
+                backgroundColor: 'var(--color-glass)',
+                backdropFilter: 'blur(12px)',
+                borderColor: 'rgba(59, 157, 210, 0.3)',
+                boxShadow: '0 4px 20px rgba(30, 55, 110, 0.06)',
+              }}
+            >
+              <span>Load More Artworks (+{Math.min(BATCH_INCREMENT, displayedArtworks.length - visibleCount)})</span>
+              <span className="w-6 h-6 rounded-full bg-[rgba(59,157,210,0.12)] text-[var(--color-ice-blue)] flex items-center justify-center text-xs transition-transform duration-300 group-hover:translate-y-0.5">
+                ↓
+              </span>
+            </motion.button>
+          )}
+
+          {displayedArtworks.length > 0 && (
+            <motion.p
+              layout
+              className="text-xs text-center tracking-wider"
+              style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-muted)' }}
+            >
+              Showing {visibleArtworks.length} of {displayedArtworks.length} curated works
+            </motion.p>
+          )}
+        </div>
       </div>
     </section>
   );
 }
+

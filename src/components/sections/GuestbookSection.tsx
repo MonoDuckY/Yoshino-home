@@ -1,27 +1,79 @@
-import React, { useState } from 'react';
+// GuestbookSection — Expanded Frost Noticeboard with Random Shuffle & Search
+// spec/REQUIREMENTS.md §FR-06, DEC-19
+import React, { useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGuestbook } from '../../hooks/useGuestbook';
+import type { GuestbookEntry } from '../../types';
 
-const EMOJI_OPTIONS = ['❄️', '💙', '🐰', '✨', '🍵'];
+const ROTATIONS = [-2.2, 1.6, -1.4, 2.4, -1.8, 1.2, -2.5, 2.0];
+const BATCH_SIZE = 14;
+
+const NOTE_PALETTES = [
+  // 1. Yoshino's Hair & Eyes — Soft Ice Blue
+  {
+    bg: 'rgba(240, 249, 255, 0.95)',
+    border: 'rgba(186, 230, 253, 0.85)',
+    pinColor: '#38BDF8',
+    tapeColor: 'rgba(224, 242, 254, 0.7)',
+    textColor: 'var(--color-text-primary)',
+    accent: 'var(--color-ice-blue)',
+  },
+  // 2. Yoshino's Raincoat (Zadkiel Coat) — Soft Mint (#EDFDF6)
+  {
+    bg: 'rgba(237, 253, 246, 0.95)',
+    border: 'rgba(167, 243, 208, 0.85)',
+    pinColor: '#34D399',
+    tapeColor: 'rgba(209, 250, 229, 0.7)',
+    textColor: 'var(--color-text-primary)',
+    accent: 'var(--color-yoshino-green)',
+  },
+];
 
 export function GuestbookSection() {
   const { entries, loading, postEntry } = useGuestbook();
   const [authorName, setAuthorName] = useState('');
   const [message, setMessage] = useState('');
-  const [selectedEmoji, setSelectedEmoji] = useState('❄️');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [isShuffled, setIsShuffled] = useState(false);
+  const [shuffledList, setShuffledList] = useState<GuestbookEntry[]>([]);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const boardRef = useRef<HTMLDivElement>(null);
+
+  // Compute displayed list: Shuffled -> Default slice
+  const displayedNotes = useMemo(() => {
+    if (isShuffled && shuffledList.length > 0) {
+      return shuffledList.slice(0, BATCH_SIZE);
+    }
+    return entries.slice(0, BATCH_SIZE);
+  }, [entries, isShuffled, shuffledList]);
+
+  // Handle Shuffle button click
+  const handleShuffle = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), 500);
+
+    // Randomize entries
+    const shuffled = [...entries].sort(() => Math.random() - 0.5);
+    setShuffledList(shuffled);
+    setIsShuffled(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!authorName.trim() || !message.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
-    await postEntry({
+    const newDoc = await postEntry({
       authorName: authorName.trim(),
       message: message.trim(),
-      badgeIcon: selectedEmoji,
+      badgeIcon: '❄️',
     });
+
+    // If currently in shuffle mode, insert new note right at the front
+    if (isShuffled) {
+      setShuffledList((prev) => [newDoc, ...prev]);
+    }
 
     setAuthorName('');
     setMessage('');
@@ -33,7 +85,7 @@ export function GuestbookSection() {
   return (
     <section
       id="guestbook"
-      className="relative w-full py-28 px-6 md:px-12 lg:px-20 overflow-hidden"
+      className="relative w-full py-28 px-4 sm:px-6 md:px-10 lg:px-12 overflow-hidden"
       aria-label="Winter Hearth Guestbook"
       style={{ backgroundColor: 'transparent', zIndex: 2 }}
     >
@@ -43,16 +95,16 @@ export function GuestbookSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 60% 50% at 30% 20%, rgba(59,157,210,0.06) 0%, transparent 65%),' +
-            'radial-gradient(ellipse 50% 50% at 75% 70%, rgba(16,184,126,0.05) 0%, transparent 60%)',
+            'radial-gradient(ellipse 70% 50% at 30% 20%, rgba(59,157,210,0.07) 0%, transparent 65%),' +
+            'radial-gradient(ellipse 55% 50% at 75% 70%, rgba(16,184,126,0.06) 0%, transparent 60%)',
           zIndex: 0,
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto" style={{ zIndex: 1 }}>
+      <div className="relative max-w-[1440px] mx-auto" style={{ zIndex: 1 }}>
         {/* Section Header */}
         <motion.header
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -72,279 +124,285 @@ export function GuestbookSection() {
             <span>WINTER HEARTH WISHES</span>
           </div>
           <h2
-            className="text-3xl md:text-5xl font-bold tracking-wider mb-4"
+            className="text-3xl md:text-5xl font-bold tracking-wider mb-3"
             style={{
               fontFamily: 'var(--font-display)',
               color: 'var(--color-text-primary)',
               letterSpacing: '0.08em',
             }}
           >
-            WARM HEARTH GUESTBOOK
+            HEARTH NOTICEBOARD
           </h2>
           <p
-            className="text-base leading-relaxed"
+            className="text-sm md:text-base leading-relaxed"
             style={{
               fontFamily: 'var(--font-body)',
               color: 'var(--color-text-secondary)',
             }}
           >
-            Leave a gentle message for Yoshino and Yoshinon to keep their spirits bright
-            and warm across the falling snow.
+            A spacious sanctuary whiteboard in Yoshino&apos;s home. Pin your warm thoughts and explore wishes from around the world.
           </p>
         </motion.header>
 
-        {/* Guestbook Content Grid: Form (Left) & Messages Wall (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* ── Left Column: Compose Form ── */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-5 rounded-3xl p-8"
+        {/* ── Expanded Whiteboard Canvas Frame ── */}
+        <motion.div
+          ref={boardRef}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative rounded-[2.5rem] border overflow-hidden flex flex-col shadow-2xl"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.72)',
+            backdropFilter: 'blur(22px)',
+            WebkitBackdropFilter: 'blur(22px)',
+            borderColor: 'rgba(255, 255, 255, 0.95)',
+            boxShadow:
+              '0 24px 60px rgba(30, 55, 110, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+          }}
+        >
+          {/* Board Grid Dot Pattern overlay */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none opacity-40"
             style={{
-              backgroundColor: 'var(--color-glass)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(255, 255, 255, 0.9)',
-              boxShadow: '0 8px 32px rgba(30, 55, 110, 0.08)',
+              backgroundImage: 'radial-gradient(rgba(59, 157, 210, 0.25) 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
             }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-2xl">💌</span>
-              <div>
-                <h3
-                  className="text-xl font-bold"
-                  style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
-                >
-                  Send a Warm Wish
-                </h3>
-                <p
-                  className="text-xs text-[var(--color-text-secondary)]"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
-                  Your message will be pinned to Yoshino&apos;s winter hearth.
-                </p>
-              </div>
+          />
+
+          {/* ── Whiteboard Clean Toolbar ── */}
+          <div className="relative z-10 flex items-center justify-between px-6 md:px-8 py-3.5 border-b border-[rgba(59,157,210,0.14)] bg-white/60 backdrop-blur-md">
+            {/* Left title */}
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">📌</span>
+              <span
+                className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase text-[var(--color-text-primary)]"
+                style={{ fontFamily: 'var(--font-body)' }}
+              >
+                Yoshino&apos;s Memory Board
+              </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {/* Author name */}
-              <div>
-                <label
-                  htmlFor="authorName"
-                  className="block text-xs font-semibold uppercase tracking-wider mb-1.5"
-                  style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                >
-                  Your Name / Nickname
-                </label>
-                <input
-                  id="authorName"
-                  type="text"
-                  required
-                  maxLength={24}
-                  value={authorName}
-                  onChange={(e) => setAuthorName(e.target.value)}
-                  placeholder="e.g. TenguuFriend"
-                  className="w-full px-4 py-2.5 rounded-xl text-sm transition-all outline-none"
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    border: '1px solid rgba(59, 157, 210, 0.25)',
-                    color: 'var(--color-text-primary)',
-                    fontFamily: 'var(--font-body)',
-                  }}
-                />
-              </div>
-
-              {/* Message text */}
-              <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label
-                    htmlFor="wishMessage"
-                    className="text-xs font-semibold uppercase tracking-wider"
-                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                  >
-                    Your Message
-                  </label>
-                  <span
-                    className="text-[11px]"
-                    style={{ color: message.length > 120 ? '#EF4444' : 'var(--color-text-muted)' }}
-                  >
-                    {message.length} / 140
-                  </span>
-                </div>
-                <textarea
-                  id="wishMessage"
-                  required
-                  rows={3}
-                  maxLength={140}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Share warmth, gentle encouragement, or cheer for Yoshinon..."
-                  className="w-full px-4 py-2.5 rounded-xl text-sm transition-all outline-none resize-none"
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    border: '1px solid rgba(59, 157, 210, 0.25)',
-                    color: 'var(--color-text-primary)',
-                    fontFamily: 'var(--font-body)',
-                  }}
-                />
-              </div>
-
-              {/* Emoji badge selector */}
-              <div>
-                <span
-                  className="block text-xs font-semibold uppercase tracking-wider mb-2"
-                  style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                >
-                  Choose a Stamp
-                </span>
-                <div className="flex gap-2">
-                  {EMOJI_OPTIONS.map((emoji) => (
-                    <button
-                      key={emoji}
-                      type="button"
-                      onClick={() => setSelectedEmoji(emoji)}
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all cursor-pointer"
-                      style={{
-                        backgroundColor:
-                          selectedEmoji === emoji ? 'rgba(59, 157, 210, 0.18)' : 'rgba(255, 255, 255, 0.6)',
-                        border:
-                          selectedEmoji === emoji
-                            ? '2px solid var(--color-ice-blue)'
-                            : '1px solid rgba(59, 157, 210, 0.15)',
-                        transform: selectedEmoji === emoji ? 'scale(1.08)' : 'scale(1)',
-                      }}
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Submit button */}
+            {/* Right controls: Large Dice Shuffle Button */}
+            <div className="flex items-center">
               <button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-2 w-full py-3.5 rounded-xl text-sm font-semibold tracking-wide text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2"
+                type="button"
+                onClick={handleShuffle}
+                title="Shuffle wishes"
+                aria-label="Shuffle wishes"
+                className="w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-300 cursor-pointer border shadow-xs hover:bg-white hover:shadow-md hover:scale-110 active:scale-95 group"
                 style={{
-                  fontFamily: 'var(--font-body)',
-                  backgroundColor: 'var(--color-yoshino-green)',
-                  boxShadow: '0 4px 16px rgba(16, 184, 126, 0.3)',
-                  opacity: isSubmitting ? 0.7 : 1,
-                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  backgroundColor: isShuffled ? 'rgba(59, 157, 210, 0.12)' : 'rgba(255, 255, 255, 0.85)',
+                  borderColor: 'rgba(59, 157, 210, 0.3)',
+                  color: 'var(--color-ice-blue)',
                 }}
               >
-                <span>{isSubmitting ? 'Sending to Hearth...' : 'Send Wish'}</span>
-                <span>❄️</span>
-              </button>
-            </form>
-
-            {/* Success toast notification */}
-            <AnimatePresence>
-              {showSuccessToast && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="mt-4 p-3 rounded-xl text-xs font-medium text-center"
-                  style={{
-                    backgroundColor: 'rgba(16, 184, 126, 0.12)',
-                    color: 'var(--color-yoshino-green)',
-                    border: '1px solid rgba(16, 184, 126, 0.3)',
-                  }}
+                <motion.span
+                  animate={{ rotate: isSpinning ? 360 : 0 }}
+                  transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  className="inline-block select-none leading-none transform transition-transform group-hover:rotate-12"
                 >
-                  ✨ Thank you! Your warm wish has been posted to Yoshino&apos;s hearth.
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+                  🎲
+                </motion.span>
+              </button>
+            </div>
+          </div>
 
-          {/* ── Right Column: Wishes Wall ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4"
-          >
-            {loading ? (
-              Array.from({ length: 4 }).map((_, idx) => (
+          {/* Success Toast banner */}
+          <AnimatePresence>
+            {showSuccessToast && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="relative z-20 bg-emerald-500/10 border-b border-emerald-500/20 px-6 py-2.5 text-xs font-semibold text-center text-[var(--color-yoshino-green)] flex items-center justify-center gap-2"
+              >
+                <span>🎉</span>
+                <span>Your warm wish has been pinned to Yoshino&apos;s board!</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* ── Scrollable / Drag-enabled Board Canvas ── */}
+          <div className="relative z-10 p-6 md:p-10 h-[620px] md:h-[680px] overflow-y-auto overflow-x-hidden scrollbar-thin">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-7 items-start">
+              {/* ── 0. Sticky Pad Composer: The Blank Paper Note to Write On ── */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative rounded-2xl p-5 border-2 border-dashed shadow-md transition-all duration-300 sm:col-span-1"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  borderColor: 'rgba(16, 184, 126, 0.5)',
+                  boxShadow: '0 8px 24px rgba(16, 184, 126, 0.08)',
+                  transform: 'rotate(-1deg)',
+                }}
+              >
+                {/* Washi tape at top */}
                 <div
-                  key={idx}
-                  className="rounded-2xl p-6 h-40 animate-pulse border"
+                  aria-hidden="true"
+                  className="w-14 h-4 rounded-xs -mt-7 mb-3 mx-auto shadow-xs border border-white/60"
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.65)',
-                    borderColor: 'rgba(59, 157, 210, 0.16)',
+                    backgroundColor: 'rgba(167, 243, 208, 0.8)',
+                    transform: 'rotate(1.5deg)',
                   }}
                 />
-              ))
-            ) : (
-              <AnimatePresence mode="popLayout">
-                {entries.map((entry) => (
-                <motion.article
-                  key={entry.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35 }}
-                  className="rounded-2xl p-6 flex flex-col justify-between border select-none transition-all duration-300"
-                  style={{
-                    backgroundColor: 'var(--color-glass)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    borderColor: 'rgba(255, 255, 255, 0.85)',
-                    boxShadow: '0 4px 16px rgba(30, 55, 110, 0.05)',
-                  }}
-                >
-                  <div>
-                    {/* Header: Badge & Date */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xl">{entry.badgeIcon || '❄️'}</span>
-                      <time
-                        dateTime={entry.createdAt}
-                        className="text-[11px]"
-                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-muted)' }}
-                      >
-                        {entry.createdAt}
-                      </time>
-                    </div>
 
-                    {/* Message */}
-                    <p
-                      className="text-sm leading-relaxed mb-4"
-                      style={{
-                        fontFamily: 'var(--font-body)',
-                        color: 'var(--color-text-primary)',
-                      }}
-                    >
-                      &ldquo;{entry.message}&rdquo;
-                    </p>
-                  </div>
-
-                  {/* Author */}
-                  <div
-                    className="pt-3 flex items-center gap-2"
-                    style={{ borderTop: '1px solid rgba(59, 157, 210, 0.1)' }}
+                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-emerald-100">
+                  <span className="text-sm">✏️</span>
+                  <span
+                    className="text-xs font-bold uppercase tracking-wider text-[var(--color-yoshino-green)]"
+                    style={{ fontFamily: 'var(--font-body)' }}
                   >
-                    <span
-                      className="text-xs font-semibold"
+                    Pin a Warm Wish
+                  </span>
+                </div>
+
+                <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+                  <div>
+                    <input
+                      type="text"
+                      required
+                      maxLength={24}
+                      value={authorName}
+                      onChange={(e) => setAuthorName(e.target.value)}
+                      placeholder="Your name / nickname..."
+                      className="w-full px-3 py-1.5 rounded-lg text-xs outline-none border transition-all focus:ring-1 focus:ring-[var(--color-yoshino-green)]"
                       style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        borderColor: 'rgba(16, 184, 126, 0.3)',
+                        color: 'var(--color-text-primary)',
                         fontFamily: 'var(--font-body)',
-                        color: 'var(--color-ice-blue)',
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <textarea
+                      required
+                      rows={3}
+                      maxLength={140}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Warm words for Yoshino & Yoshinon..."
+                      className="w-full px-3 py-2 rounded-xl text-xs outline-none resize-none border transition-all focus:ring-1 focus:ring-[var(--color-yoshino-green)]"
+                      style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        borderColor: 'rgba(16, 184, 126, 0.3)',
+                        color: 'var(--color-text-primary)',
+                        fontFamily: 'var(--font-body)',
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[10px] text-[var(--color-text-muted)]">
+                      {message.length}/140
+                    </span>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !authorName.trim() || !message.trim()}
+                      className="px-4 py-1.5 rounded-lg text-xs font-semibold text-white transition-all duration-200 flex items-center gap-1.5 shadow-sm active:scale-95"
+                      style={{
+                        backgroundColor: 'var(--color-yoshino-green)',
+                        opacity: isSubmitting || !authorName.trim() || !message.trim() ? 0.6 : 1,
+                        cursor: isSubmitting || !authorName.trim() || !message.trim() ? 'not-allowed' : 'pointer',
+                        fontFamily: 'var(--font-body)',
                       }}
                     >
-                      ~ {entry.authorName}
-                    </span>
+                      <span>{isSubmitting ? 'Pinning...' : 'Pin Wish 📌'}</span>
+                    </button>
                   </div>
-                </motion.article>
-              ))}
-            </AnimatePresence>
-          )}
+                </form>
+              </motion.div>
+
+              {/* ── 1..N: The Pinned Note Slips on the Board ── */}
+              {loading ? (
+                Array.from({ length: 6 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="h-44 rounded-2xl animate-pulse bg-white/60 border border-sky-100"
+                  />
+                ))
+              ) : (
+                <AnimatePresence mode="popLayout">
+                  {displayedNotes.map((entry, idx) => {
+                    const palette = NOTE_PALETTES[idx % NOTE_PALETTES.length];
+                    const rotation = ROTATIONS[idx % ROTATIONS.length];
+
+                    return (
+                      <motion.div
+                        key={entry.id}
+                        layout
+                        drag
+                        dragConstraints={boardRef}
+                        dragElastic={0.15}
+                        whileHover={{ scale: 1.05, rotate: 0, zIndex: 30 }}
+                        whileDrag={{ scale: 1.08, rotate: 0, zIndex: 40 }}
+                        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                        className="relative rounded-2xl p-5 border cursor-grab active:cursor-grabbing shadow-sm hover:shadow-xl transition-shadow select-none group"
+                        style={{
+                          backgroundColor: palette.bg,
+                          borderColor: palette.border,
+                          transform: `rotate(${rotation}deg)`,
+                        }}
+                      >
+                        {/* Metallic Push-Pin on top center */}
+                        <div
+                          aria-hidden="true"
+                          className="w-4 h-4 rounded-full -mt-7 mb-3 mx-auto shadow-md border-2 border-white/90 transition-transform group-hover:scale-110"
+                          style={{
+                            backgroundColor: palette.pinColor,
+                            boxShadow: `0 3px 6px ${palette.pinColor}40`,
+                          }}
+                        />
+
+                        {/* Note Body Message */}
+                        <p
+                          className="text-xs md:text-sm leading-relaxed mb-4 text-[var(--color-text-primary)] break-words italic"
+                          style={{ fontFamily: 'var(--font-body)' }}
+                        >
+                          &ldquo;{entry.message}&rdquo;
+                        </p>
+
+                        {/* Note Footer: Author + Date */}
+                        <div className="pt-2.5 border-t border-[rgba(59,157,210,0.12)] flex items-center justify-between gap-2">
+                          <span
+                            className="text-xs font-bold truncate"
+                            style={{
+                              fontFamily: 'var(--font-body)',
+                              color: palette.accent,
+                            }}
+                          >
+                            ~ {entry.authorName}
+                          </span>
+
+                          <span className="text-[10px] text-[var(--color-text-muted)] flex-shrink-0">
+                            {entry.createdAt}
+                          </span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              )}
+
+              {/* Empty state */}
+              {!loading && displayedNotes.length === 0 && (
+                <div className="col-span-full py-16 text-center text-xs text-[var(--color-text-muted)]">
+                  No warm wishes pinned yet. Be the first to leave one!
+                </div>
+              )}
+            </div>
+          </div>
         </motion.div>
-        </div>
       </div>
     </section>
   );
 }
+

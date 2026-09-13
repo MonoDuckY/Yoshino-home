@@ -2,7 +2,7 @@
 
 > Tài liệu này là phiên bản chuẩn hóa và hợp nhất của PRD & DRD gốc, **tích hợp toàn bộ quyết định kỹ thuật đã được thống nhất**.
 > Nguồn gốc tài liệu gốc: `docs/[PRD & DRD] Yoshino's Home - Product & Design Requirements Document.docx`
-> **Cập nhật lần cuối: 2026-09-11** — Sprint 3 hoàn thành (Gallery Wall); Sprint 4 (Yoshinon + Sanity CMS) tiếp theo.
+> **Cập nhật lần cuối: 2026-09-13** — Sprint 5 hoàn thành phần lõi; triển khai Sprint 5b tinh chỉnh thiết kế chuyên sâu (Data Dossier Terminal, Curated Gallery Batching, Hearth Noticeboard 2-Color Palette & Sanity Artwork Hide Toggle).
 
 ---
 
@@ -448,7 +448,7 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 
 ## 9. Implementation Roadmap
 
-> **Cập nhật 2026-09-12** — Phản ánh kế hoạch mở rộng toàn diện cho Sprint 5 (Creative Frontend Exhibition) và dời Deploy/Vercel sang Sprint 6.
+> **Cập nhật 2026-09-13** — Sprint 5 hoàn thành khung tính năng cốt lõi. Tiếp tục triển khai chuỗi Sprint tinh chỉnh thiết kế (Design Refinements) trước khi bước sang tối ưu triển khai sản phẩm.
 
 ### Trạng thái hiện tại
 
@@ -459,11 +459,12 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | **Sprint 2b** — Design Revision | DEC-07 English UI; DEC-08 Spacious layout; DEC-09 Light "Warm Winter Daylight" palette; Real Yoshino standee | UI chuyên nghiệp, light theme | ✅ **DONE** `0a790b6` |
 | **Sprint 3** — Gallery Wall (Mock Data) | FilterBar 4 states + spring animation; ArtworkCard hover overlay + lazy load + category badges; GallerySection với client-side filtering | Gallery hoạt động mượt với mock data | ✅ **DONE** `35f4d7e` |
 | **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Studio workspace + simplified schema + API fetch** | MVP v1.0 hoàn chỉnh, Sanity Studio & dữ liệu thực live | ✅ **DONE** `ed4a4ee`, `b8b7ba9` |
-| **Sprint 5** — Creative Exhibition & Lore | **Màn Data (Archive Lore); Hero Costume Switcher (Hololive ref); Masonry Gallery (Pure Vertical Flow - DEC-16 Revision); Winter Hearth Guestbook + Sanity CMS Persistence; Nâng cấp Tour Guide 6 bước; Tuyết toàn trang; Standee WebP & Bundle split** | Awwwards-tier Interactive Experience hoàn chỉnh | ✅ **DONE** |
+| **Sprint 5** — Creative Exhibition & Lore | **Màn Data (Archive Lore); Hero Costume Switcher (Hololive ref); Masonry Gallery (Pure Vertical Flow - DEC-16 Revision); Winter Hearth Guestbook + Sanity CMS Persistence; Nâng cấp Tour Guide 6 bước; Tuyết toàn trang; Standee WebP & Bundle split** | Khung tính năng cốt lõi hoàn chỉnh | ✅ **DONE** |
+| **Sprint 5b** — Design Refinements & User Experience Tuning | **Master-Detail Dossier Terminal (DEC-17); Curated Masonry Gallery (Batch 8 + Load More); Hearth Noticeboard (Dice Shuffle, 2-Color Yoshino Palette: Mint `#EDFDF6` & Ice Blue `#F0F9FF`, Clean Toolbar); Sanity Studio Artwork Hide Toggle (`hidden: boolean`)** | Giao diện tinh gọn, trải nghiệm thực tế mượt mà | 🔄 **IN PROGRESS** (Tinh chỉnh thiết kế liên tục) |
 | **Sprint 6** — Polish, SEO & Deploy | Core Web Vitals tuning (LCP < 2.0s, CLS < 0.05); OpenGraph metadata; Vercel deployment + Custom Domain | Live Production URL | 🚀 **NEXT** |
 
 ### Ghi chú điều chỉnh kế hoạch
 
 - **Sanity CMS** được dời từ Sprint 3 → Sprint 4. Lý do: Sprint 3 hoàn toàn có thể build Gallery UI với `mockArtworks.ts` trước — Sanity cần user tạo account + project + cấp `projectId`/`dataset`. Quy trình tốt hơn: UI hoàn thiện trước, CMS wire-in sau.
 - **Sprint 2b** (Design Revision) phát sinh do yêu cầu thay đổi ngôn ngữ, spacing, và color palette sau khi Sprint 2 hoàn thành. Đây là bài học về tầm quan trọng của design sign-off trước khi code.
-- **Sprint 5** tách riêng để tập trung vào production-readiness (performance, SEO, deploy) — không mix với feature work.
+- **Sprint 5 & Chuỗi Sprint Tinh chỉnh Thiết kế (Design Refinements)**: Sprint 5 đã hoàn tất nền tảng tính năng cốt lõi. Tuy nhiên, hành trình hoàn thiện một sản phẩm đạt độ thẩm mỹ cao và trải nghiệm người dùng tự nhiên là việc còn dài và cần nhiều vòng lặp thử nghiệm. Giai đoạn hiện tại (Sprint 5b và các sprint phụ trợ) tập trung mài giũa tỉ mỉ từng chi tiết giao diện (Master-Detail Data Dossier, Curated Masonry Gallery, Hearth Noticeboard tinh giản với 2 màu thương hiệu Yoshino) dựa trên tương tác thực tế của người dùng trước khi tiến hành đóng gói triển khai (Sprint 6).

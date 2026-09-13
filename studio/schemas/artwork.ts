@@ -51,6 +51,13 @@ export default defineType({
       rows: 3,
       description: 'Your personal thoughts or background note for this artwork (optional)',
     }),
+    defineField({
+      name: 'hidden',
+      title: 'Hide from Gallery',
+      type: 'boolean',
+      description: 'Gạt bật tùy chọn này để tạm ẩn tác phẩm khỏi phòng tranh mà không cần xóa',
+      initialValue: false,
+    }),
   ],
   preview: {
     select: {

@@ -72,7 +72,7 @@ function inferPlatform(url: string): 'pixiv' | 'twitter' | 'artstation' | 'offic
   return 'official';
 }
 
-const ARTWORKS_QUERY = `*[_type == "artwork"] | order(_createdAt desc) {
+const ARTWORKS_QUERY = `*[_type == "artwork" && hidden != true] | order(_createdAt desc) {
   _id,
   _createdAt,
   title,
