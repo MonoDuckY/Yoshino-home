@@ -136,16 +136,34 @@ export const mockArtworks: Artwork[] = [
 // Character Dossier — Static data (FR-01, DEC-13)
 // ─────────────────────────────────────────────
 export const characterDossier: CharacterDossier = {
-  codename: 'The Hermit',
+  codename: 'Hermit',
   spiritNumber: '02',
   nameRomanized: 'Himekawa Yoshino',
   nameKanji: '氷芽川 四糸乃',
+  age: {
+    appearance: '13 (Appearance)',
+    actual: '39–40 (Actual Age)',
+  },
+  height: '144 cm',
+  measurements: '73/55/78',
+  seiyuu: {
+    nameEn: 'Iori Nomizu',
+    nameJp: '野水 伊織',
+  },
   astralDress: 'Zadkiel Coat',
   angelName: 'Zadkiel',
   personalitySummary: 'Shy, gentle, and deeply caring — yet wielding the absolute power of freezing ice.',
   keyQuoteJp: '私……誰も傷つけたくないんです……',
   keyQuoteEn: "I... don't want to hurt anyone...",
   keyQuote: "I... don't want to hurt anyone...",
+  tribute: {
+    title: 'About Yoshino & Yoshinon',
+    content: `As the second Spirit introduced in Koushi Tachibana’s Date A Live, Yoshino completely captured my heart with both her tender appearance and gentle personality. A fun little trivia: the concept behind this adorable character was actually inspired by the mechanical puppets of Kazuhiro Fujita’s classic manga, Karakuri Circus. In her Spirit form, she simply wears an oversized green raincoat almost larger than her petite frame—yet that is more than enough to keep my eyes glued to her, even if she is often seen as a quieter supporting heroine.
+
+I have always loved the cheeky charm of Yoshinon as well; that little hand puppet did so much to protect and guide our sweet girl. Yoshinon served as an alter ego, shielding Yoshino from her struggle to communicate with the outside world. As Yoshino grew braver and learned to connect with others, Yoshinon eventually faded away—a bittersweet milestone for this irreplaceable duo.
+
+Ultimately, this little sanctuary was created to celebrate my nearly decade-long devotion to this precious character. I truly hope that while you are here, you can feel all the warmth and love poured into this home for our dearest Yoshino. <3`,
+  },
 };
 
 // ─────────────────────────────────────────────

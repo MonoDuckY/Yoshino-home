@@ -3,6 +3,29 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-15] — Sprint 5b: Top Screen Unification, Hololive Appearance Selector & Editorial Monologue
+
+### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)
+- **Hợp nhất màn Profile & Archive thành màn "Top" duy nhất (DEC-20)**:
+  - Thay vì tách rời thành 2 màn Profile và Archive với các thẻ bento phức tạp, toàn bộ nội dung mở đầu được cấu trúc lại thành một màn "Top" (`#top`) hài hòa, thông suốt.
+  - Tinh giản cây component: Xóa bỏ `DataSection.tsx`, `HeroSection.tsx`, và `DossierCard.tsx`; thay thế bằng `TopSection.tsx`.
+- **Bộ chọn trang phục phong cách Hololive Talent (DEC-18, DEC-20)**:
+  - Bố trí thanh chọn trang phục theo hàng dọc bên trái Standee.
+  - Sử dụng avatar tròn (`rounded-full`) viền sáng cyan (`ring-3 ring-[var(--color-ice-blue)]`) khi active.
+  - Tích hợp huy hiệu kính lúp thu nhỏ (`Search` icon) ở góc dưới bên phải mỗi avatar và mũi tên chỉ báo `▼` chỉ vào trang phục đang hiển thị.
+- **Tinh gọn thẻ thông tin cá nhân (Profile Vital Specs)**:
+  - Lược bỏ hoàn toàn các chuỗi giải thích phụ gây rối mắt (`"Petite Spirit frame"`, `"The Hermit (隠居者)"`, `"Bust / Waist / Hip"`).
+  - Trình bày thông số rõ nét, thanh thoát: Age (13 Appearance / 39–40 Actual), Height (144 cm), Codename (Hermit), Voice Actress / CV (Iori Nomizu / 野水 伊織), Measurements (73/55/78).
+- **Đoạn văn tự sự toàn chiều ngang "About Yoshino & Yoshinon" (DEC-20)**:
+  - Đặt ở hàng dưới cùng của màn Top, trải rộng tự nhiên (`max-w-4xl lg:max-w-5xl mx-auto`).
+  - Gỡ bỏ hoàn toàn hộp card/container kính mờ; bao bọc 3 đoạn văn bằng cặp dấu ngoặc kép lớn nghệ thuật (`“` và `”`) màu xanh băng tuyết, mang lại trải nghiệm như một bức tâm thư / lời đề tặng chân thành của curator.
+- **Đồng bộ hóa 100% màu nền & ánh sáng chuyển tiếp**:
+  - Loại bỏ lớp gradient vàng ngà (`warm ivory`) ở chân màn Top; đồng bộ nền xanh trời tuyết `--color-winter-sky: #ECF1FB` liền mạch hoàn toàn với Gallery mà không còn bất kỳ vệt lệch màu nào.
+- **Chuẩn hóa thuần tiếng Anh (English UI — DEC-07)**:
+  - Loại bỏ các ghi chú/chuyển đổi tiếng Việt trên UI, đồng bộ toàn bộ văn bản và Tour Guide FSM sang tiếng Anh chuẩn quốc tế.
+
+---
+
 ## [2026-09-12] — Sprint 5 Complete: Creative Frontend Exhibition & Lore Evolution
 
 ### 🚀 Tính năng & Nâng cấp đã hoàn thiện (Delivered & Verified)

@@ -38,9 +38,9 @@
 ## 📍 Trạng thái hiện tại
 
 - **Phiên bản:** 1.0 MVP
-- **Sprint hoàn thành:** Sprint 1, 2, 2b, 3, 4 (✅ **DONE**)
-- **Sprint tiếp theo:** Sprint 5 — Polish & Deploy (🔜 **NEXT**)
-- **Cập nhật lần cuối:** 2026-09-11 (Sanity Studio & CMS live, Yoshinon Tour Guide FSM live)
+- **Sprint hoàn thành:** Sprint 1, 2, 2b, 3, 4, 5, 5b (✅ **DONE**)
+- **Sprint tiếp theo:** Sprint 6 — Polish, SEO & Deploy (🔜 **NEXT**)
+- **Cập nhật lần cuối:** 2026-09-17 (Hợp nhất màn Top, Hololive Costume Switcher, Full-width Monologue, DEC-20)
 
 ---
 

@@ -8,8 +8,7 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: 'Profile',   href: '#hero'      },
-  { label: 'Archive',   href: '#data'      },
+  { label: 'Top',       href: '#top'       },
   { label: 'Gallery',   href: '#gallery'   },
   { label: 'Guestbook', href: '#guestbook' },
   { label: 'Credits',   href: '#footer'    },
@@ -36,8 +35,8 @@ export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
     >
       {/* Logo */}
       <a
-        href="#hero"
-        onClick={(e) => handleNavClick(e, '#hero')}
+        href="#top"
+        onClick={(e) => handleNavClick(e, '#top')}
         className="flex items-center gap-2.5 no-underline select-none"
         aria-label="Yoshino's Home — back to top"
       >

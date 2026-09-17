@@ -42,12 +42,26 @@ export interface CharacterDossier {
   spiritNumber: string;       // "02"
   nameRomanized: string;      // "Himekawa Yoshino"
   nameKanji: string;          // "氷芽川 四糸乃"
+  age: {
+    appearance: string;       // "13 (Appearance)"
+    actual: string;           // "39-40 (Actual Age)"
+  };
+  height: string;             // "144 cm"
+  measurements: string;       // "73/55/78"
+  seiyuu: {
+    nameEn: string;           // "Iori Nomizu"
+    nameJp: string;           // "野水 伊織"
+  };
   astralDress: string;        // "Zadkiel Coat"
   angelName: string;          // "Zadkiel"
   personalitySummary: string; // English summary (DEC-13)
   keyQuoteJp: string;         // Japanese original: 「私……誰も傷つけたくないんです……」 (DEC-13)
   keyQuoteEn: string;         // English subtitle: "I... don't want to hurt anyone..." (DEC-13)
   keyQuote?: string;          // Optional legacy fallback
+  tribute: {
+    title: string;
+    content: string;
+  };
 }
 
 // ---------------------

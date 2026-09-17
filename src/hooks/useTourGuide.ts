@@ -7,7 +7,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 0,
     title: "Welcome to Yoshino's Home",
-    targetId: 'hero',
+    targetId: 'top',
     message:
       "Yahoo! I'm Yoshinon, Yoshino's best friend! Welcome to our cozy winter room. Yoshino is Spirit No. 02 — The Hermit. She's gentle, kind, and loves peaceful days!",
   },
@@ -20,10 +20,10 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     id: 2,
-    title: 'Spirit Chronicle & Lore',
-    targetId: 'data',
+    title: 'Shrine Chronicle & Tribute',
+    targetId: 'top-tribute',
     message:
-      "Down here is the Ratatoskr Archive Dossier! Discover Yoshino's origins, physical traits, her sub-zero angel Zadkiel, and of course, yours truly — Yoshinon!",
+      "Here is our heartfelt tribute! Read about Yoshino and yours truly, our backstory, and the curator's nearly decade-long devotion to our sweet girl!",
   },
   {
     id: 3,
