@@ -1,5 +1,5 @@
 /* Google Fonts — must precede all other @import rules */
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Klee+One:wght@400;600&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap");
 
 @import "tailwindcss";
 
@@ -32,8 +32,10 @@
   --color-shadow:          rgba(30, 55, 110, 0.08);
 
   /* Typography families */
-  --font-display: "Cinzel", "Georgia", serif;
-  --font-body:    "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display:  "Cinzel", "Georgia", serif;
+  --font-body:     "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-title-en: "Outfit", var(--font-body);
+  --font-title-jp: "Klee One", "Yu Mincho", serif;
 
   /* Layout */
   --spacing-navbar: 64px;

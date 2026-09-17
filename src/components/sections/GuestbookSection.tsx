@@ -85,7 +85,7 @@ export function GuestbookSection() {
   return (
     <section
       id="guestbook"
-      className="relative w-full py-28 px-4 sm:px-6 md:px-10 lg:px-12 overflow-hidden"
+      className="relative w-full py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 overflow-hidden scroll-mt-16"
       aria-label="Winter Hearth Guestbook"
       style={{ backgroundColor: 'transparent', zIndex: 2 }}
     >
@@ -102,48 +102,6 @@ export function GuestbookSection() {
       />
 
       <div className="relative max-w-[1440px] mx-auto" style={{ zIndex: 1 }}>
-        {/* Section Header */}
-        <motion.header
-          className="text-center max-w-2xl mx-auto mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-[0.25em] uppercase mb-4"
-            style={{
-              fontFamily: 'var(--font-body)',
-              color: 'var(--color-ice-blue)',
-              backgroundColor: 'rgba(59, 157, 210, 0.08)',
-              border: '1px solid rgba(59, 157, 210, 0.2)',
-            }}
-          >
-            <span>冬の暖炉</span>
-            <span>&bull;</span>
-            <span>WINTER HEARTH WISHES</span>
-          </div>
-          <h2
-            className="text-3xl md:text-5xl font-bold tracking-wider mb-3"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--color-text-primary)',
-              letterSpacing: '0.08em',
-            }}
-          >
-            HEARTH NOTICEBOARD
-          </h2>
-          <p
-            className="text-sm md:text-base leading-relaxed"
-            style={{
-              fontFamily: 'var(--font-body)',
-              color: 'var(--color-text-secondary)',
-            }}
-          >
-            A spacious sanctuary whiteboard in Yoshino&apos;s home. Pin your warm thoughts and explore wishes from around the world.
-          </p>
-        </motion.header>
-
         {/* ── Expanded Whiteboard Canvas Frame ── */}
         <motion.div
           ref={boardRef}

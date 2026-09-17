@@ -1,52 +1,81 @@
-// Footer — Cozy Hearth
-// DEC-07: English | DEC-09: Light theme | DEC-11: Unified Background & Continuous Snow | spec §4.3, §5.1
-export function Footer() {
+// Footer — Minimalist Non-Commercial Tribute Footnote
+// Tier 1: Minimal Footer with quick links to Credits & Disclaimer modal, GitHub, and Removal Contact
+
+interface FooterProps {
+  onOpenCredits: () => void;
+}
+
+const GITHUB_REPO_URL = 'https://github.com/MonoDuckY/Yoshino-home';
+
+export function Footer({ onOpenCredits }: FooterProps) {
   return (
     <footer
       id="footer"
-      className="relative w-full py-12 px-6"
+      className="relative w-full py-8 px-6 border-t"
       style={{
-        backgroundColor: 'transparent',
-        borderTop: '1px solid rgba(59,157,210,0.14)',
+        backgroundColor: 'rgba(11, 19, 43, 0.88)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderColor: 'rgba(255, 255, 255, 0.08)',
         zIndex: 2,
       }}
     >
-      <div className="max-w-4xl mx-auto flex flex-col items-center gap-5 text-center">
-        {/* Legal disclaimer — required by NFR §4.3 */}
+      <div className="max-w-4xl mx-auto flex flex-col items-center gap-3 text-center">
+        {/* Line 1: Fan-made tribute declaration */}
         <p
-          className="text-xs leading-relaxed"
-          style={{
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text-secondary)',
-          }}
+          className="text-xs sm:text-[13px] font-medium tracking-wide text-slate-300"
+          style={{ fontFamily: 'var(--font-body)' }}
         >
-          Date A Live and the character Yoshino Himekawa are intellectual property of{' '}
-          <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>Koushi Tachibana</span>,
-          illustrator{' '}
-          <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>Tsunako</span>,
-          and publisher{' '}
-          <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>KADOKAWA Corporation</span>.
-          All artwork belongs to their respective artists. This is a non-commercial fan tribute.
+          &copy; 2026 <span className="font-semibold text-white">Yoshino&apos;s Home</span> &bull; Fan-made tribute project.
         </p>
 
+        {/* Line 2: Original IP attribution */}
+        <p
+          className="text-[11px] sm:text-xs text-slate-400 max-w-2xl leading-relaxed"
+          style={{ fontFamily: 'var(--font-body)' }}
+        >
+          Date A Live belongs to{' '}
+          <span className="text-slate-300 font-medium">Koushi Tachibana</span> /{' '}
+          <span className="text-slate-300 font-medium">Tsunako</span> /{' '}
+          <span className="text-slate-300 font-medium">KADOKAWA</span>. All featured artwork belongs to their respective creators.
+        </p>
+
+        {/* Line 3: Interactive Quick Links */}
         <div
-          style={{
-            width: '3rem',
-            height: '1px',
-            backgroundColor: 'rgba(59,157,210,0.2)',
-          }}
-        />
-
-        <p
-          className="text-xs"
-          style={{
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-text-muted)',
-          }}
+          className="flex items-center justify-center gap-4 sm:gap-6 pt-2 text-xs font-medium text-slate-400"
+          style={{ fontFamily: 'var(--font-body)' }}
         >
-          Fan-made Non-profit Tribute &bull; Designed &amp; built with ❤
-        </p>
+          <button
+            type="button"
+            onClick={onOpenCredits}
+            className="hover:text-sky-300 transition-colors duration-200 cursor-pointer underline underline-offset-4 decoration-sky-400/40 hover:decoration-sky-300"
+          >
+            Credits &amp; Disclaimer
+          </button>
+
+          <span className="text-slate-600 select-none">&bull;</span>
+
+          <a
+            href={GITHUB_REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-sky-300 transition-colors duration-200 no-underline"
+          >
+            GitHub
+          </a>
+
+          <span className="text-slate-600 select-none">&bull;</span>
+
+          <button
+            type="button"
+            onClick={onOpenCredits}
+            className="hover:text-emerald-300 transition-colors duration-200 cursor-pointer text-slate-400"
+          >
+            Contact &amp; Removal
+          </button>
+        </div>
       </div>
     </footer>
   );
 }
+

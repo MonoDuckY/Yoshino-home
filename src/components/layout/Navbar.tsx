@@ -5,18 +5,23 @@ import React from 'react';
 interface NavbarProps {
   snowActive: boolean;
   onSnowToggle: () => void;
+  onOpenCredits: () => void;
 }
 
 const NAV_LINKS = [
   { label: 'Top',       href: '#top'       },
   { label: 'Gallery',   href: '#gallery'   },
   { label: 'Guestbook', href: '#guestbook' },
-  { label: 'Credits',   href: '#footer'    },
+  { label: 'Credits',   href: '#credits'   },
 ];
 
-export function Navbar({ snowActive, onSnowToggle }: NavbarProps) {
+export function Navbar({ snowActive, onSnowToggle, onOpenCredits }: NavbarProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    if (href === '#credits') {
+      onOpenCredits();
+      return;
+    }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };

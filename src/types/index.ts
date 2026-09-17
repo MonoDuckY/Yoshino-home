@@ -75,6 +75,8 @@ export interface Costume {
   description: string;
   imageUrl: string;
   accentColor?: string;
+  avatarPosition?: string;
+  avatarScale?: number;
 }
 
 // ---------------------

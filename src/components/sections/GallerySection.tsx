@@ -32,7 +32,7 @@ export function GallerySection() {
   return (
     <section
       id="gallery"
-      className="relative w-full py-28 px-6 md:px-12 lg:px-20 overflow-hidden"
+      className="relative w-full pt-16 pb-24 px-6 md:px-12 lg:px-20 overflow-hidden scroll-mt-16"
       aria-label="Curated Art Gallery"
       style={{
         backgroundColor: 'transparent',
@@ -52,53 +52,16 @@ export function GallerySection() {
       />
 
       <div className="relative max-w-7xl mx-auto" style={{ zIndex: 1 }}>
-        {/* ── Section Header ── */}
-        <motion.header
-          className="text-center max-w-2xl mx-auto mb-14"
-          initial={{ opacity: 0, y: 20 }}
+        {/* ── Filter Bar ── */}
+        <motion.div
+          className="flex justify-center mb-10"
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-[0.25em] uppercase mb-4"
-            style={{
-              fontFamily: 'var(--font-body)',
-              color: 'var(--color-yoshino-green)',
-              backgroundColor: 'rgba(16, 184, 126, 0.08)',
-              border: '1px solid rgba(16, 184, 126, 0.2)',
-            }}
-          >
-            <span>氷結の回廊</span>
-            <span>&bull;</span>
-            <span>GALLERY COLLECTION</span>
-          </div>
-
-          <h2
-            className="text-3xl md:text-5xl font-bold tracking-wider mb-4"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--color-text-primary)',
-              letterSpacing: '0.08em',
-            }}
-          >
-            ART GALLERY
-          </h2>
-
-          <p
-            className="text-base leading-relaxed mb-8"
-            style={{
-              fontFamily: 'var(--font-body)',
-              color: 'var(--color-text-secondary)',
-            }}
-          >
-            Curated illustrations celebrating Yoshino&apos;s peaceful world across
-            official volumes, community fanart, and special crossover events.
-          </p>
-
-          {/* FilterBar */}
           <FilterBar active={activeFilter} onChange={handleFilterChange} />
-        </motion.header>
+        </motion.div>
 
         {/* ── Adaptive Multi-column Masonry Gallery (DEC-12, DEC-16) ── */}
         {loading ? (

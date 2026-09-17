@@ -3,6 +3,43 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-17] — Sprint 6: Character Forms Modernization, UI Streamlining & Layered Legal Credits Architecture
+
+### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)
+- **Hiện diện nhân vật & 3 Form tinh gọn (DEC-21)**:
+  - Thay thế toàn bộ mock cũ bằng 3 form trang phục chính thức từ tài nguyên ảnh chất lượng cao:
+    - **Normal Form** (`Yoshino_normal.webp`): Trang phục thường ngày ấm áp mùa đông.
+    - **School Uniform** (`Yoshino_raizen.webp`): Đồng phục nữ sinh trường Cao trung Raizen.
+    - **Spirit Form** (`Yoshino_Spirit_Form.webp`): Linh phục Astral Dress (Zadkiel Coat).
+  - Tối ưu hóa hiển thị Standee: Khung chiều cao `clamp(420px, 60vh, 640px)` với `objectFit: contain` và `objectPosition: bottom center`, hiển thị trọn vẹn toàn thân không bị cắt xén chân.
+  - Thêm bệ đứng acrylic mờ nhân vật (Frosted Dual-ring Acrylic Pedestal) với bóng đổ sàn đa lớp (`shadow-[0_12px_28px_rgba(30,58,138,0.22)]`), tạo chiều sâu như mô hình acrylic figure thực thụ.
+  - Đồng bộ hóa tiêu cự Avatar Switcher tròn (`avatarPosition` + `transformOrigin`) giúp phóng to chính xác gương mặt Yoshino mà không bị lệch xuống eo hay thân.
+- **Typography & Nâng cấp Thẩm mỹ Tên Nhân vật (DEC-22)**:
+  - Tích hợp 2 web fonts Google cao cấp: `Outfit` (sans-serif geometric hiện đại cho Romaji) và `Klee One` (font bút lông thanh thoát bán thủ công cho Kanji).
+  - Bổ sung huy hiệu phân loại nhân vật: `SPIRIT NO. 02`, `IV • CHESED`, `Absolute Zero`.
+  - Bổ sung khối trích dẫn câu thoại iconic phủ sương mờ (`❄️「私……誰も傷つけたくないんです……」` kèm phụ đề Anh ngữ) ngay trên thẻ thông tin.
+  - Thử nghiệm và loại bỏ watermark "02" to ở nền nhằm tránh cảm giác nhầm lẫn thị giác như vệt ố tròn / ký tự "O" lơ lửng.
+- **Tinh gọn tiêu đề các phân đoạn nội dung (Section Header Streamlining - DEC-23)**:
+  - Dựa trên hệ thống Navbar cố định đã định hướng rõ các phân đoạn (Top, Gallery, Noticeboard, Credits), loại bỏ các đoạn tiêu đề và mô tả trùng lặp gây thừa thãi:
+    - **Gallery**: Lược bỏ badge `氷結の回廊`, tiêu đề `ART GALLERY` và mô tả dài; đưa `FilterBar` lên làm điểm nhấn trung tâm với `scroll-mt-16`.
+    - **Noticeboard / Guestbook**: Lược bỏ badge `冬の暖炉`, tiêu đề `HEARTH NOTICEBOARD` và đoạn mô tả; khung bảng trắng `whiteboard frame` bắt đầu ngay từ đỉnh section với `scroll-mt-16`.
+- **Kiến trúc bản quyền phân tầng & Hộp thoại Credits / Gỡ bỏ tác phẩm (Layered Legal & Takedown Architecture - DEC-24)**:
+  - Thay vì nhồi nhét văn bản pháp lý dài vào chân trang gây nặng nề, áp dụng mô hình phân tầng 2 cấp cho website fan-made phi thương mại:
+    - **Tầng 1 - Minimal Dark Frosted Footer**: Đặt ở chân trang với nền tối trong suốt mờ (`bg-slate-950/70 backdrop-blur-md border-t border-white/10 py-6`), gồm 3 dòng ngắn gọn ghi nhận bản quyền Date A Live thuộc Koushi Tachibana / Tsunako / KADOKAWA cùng các nút mở modal Credits, kho mã nguồn GitHub và nút liên hệ.
+    - **Tầng 2 - Credits & Disclaimer Modal (`CreditsModal.tsx`)**: Hộp thoại kính mờ 3 card chuyên sâu:
+      1. *Copyright & Intellectual Property*: Tuyên bố dự án phi thương mại (Non-commercial Tribute), quyền sở hữu IP thuộc KADOKAWA.
+      2. *Artist Rights & Takedown Request*: Tôn trọng tác quyền của từng artist với chính sách gỡ bỏ tác phẩm trong vòng 24–48 giờ.
+      3. *Sanctuary & Community Pledge*: Cam kết phi lợi nhuận vĩnh viễn, không quảng cáo, không nhận đóng góp tài chính.
+    - Cơ chế liên hệ gỡ bỏ qua email chính thức `pvietduc204@gmail.com`:
+      - Tích hợp nút mở trực tiếp Gmail Web Compose (`https://mail.google.com/mail/?view=cm&...`) trong tab mới, giải quyết triệt để lỗi người dùng Windows/Chrome không cấu hình ứng dụng mail mặc định khiến lệnh `mailto:` bị bỏ qua silently.
+      - Nút tiện ích 1-click "Copy Email Address" kèm phản hồi trực quan ("Copied to clipboard!").
+      - Nút fallback ứng dụng Email mặc định.
+    - Liên kết "Credits" trên thanh điều hướng `Navbar` mở trực tiếp `CreditsModal`.
+- **Cập nhật Tour Guide FSM**:
+  - Bước 1 của Tour Guide cập nhật giới thiệu chuẩn xác 3 form ngoại hình mới (Normal, Raizen Uniform, Spirit Form).
+
+---
+
 ## [2026-09-15] — Sprint 5b: Top Screen Unification, Hololive Appearance Selector & Editorial Monologue
 
 ### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)

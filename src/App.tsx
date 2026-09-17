@@ -6,10 +6,12 @@ import { GallerySection } from './components/sections/GallerySection';
 import { GuestbookSection } from './components/sections/GuestbookSection';
 import { Footer } from './components/sections/Footer';
 import { YoshinonMascot } from './components/ui/YoshinonMascot';
+import { CreditsModal } from './components/ui/CreditsModal';
 import { useTourGuide } from './hooks/useTourGuide';
 
 function App() {
   const [snowActive, setSnowActive] = useState(true);
+  const [isCreditsOpen, setIsCreditsOpen] = useState(false);
   const {
     tourState,
     currentStep,
@@ -34,6 +36,7 @@ function App() {
       <Navbar
         snowActive={snowActive}
         onSnowToggle={() => setSnowActive((prev) => !prev)}
+        onOpenCredits={() => setIsCreditsOpen(true)}
       />
 
       {/* Layer 2: Page content */}
@@ -43,9 +46,15 @@ function App() {
         <GuestbookSection />
       </main>
 
-      <Footer />
+      <Footer onOpenCredits={() => setIsCreditsOpen(true)} />
 
-      {/* Layer 3: Yoshinon Tour Guide Mascot (fixed bottom-right) */}
+      {/* Layer 3: Credits & Disclaimer Slide-Over/Dialog Modal */}
+      <CreditsModal
+        isOpen={isCreditsOpen}
+        onClose={() => setIsCreditsOpen(false)}
+      />
+
+      {/* Layer 4: Yoshinon Tour Guide Mascot (fixed bottom-right) */}
       <YoshinonMascot
         tourState={tourState}
         currentStep={currentStep}

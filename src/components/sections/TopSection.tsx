@@ -52,6 +52,8 @@ export function TopSection() {
         }}
       />
 
+
+
       <div className="relative max-w-7xl mx-auto px-6 md:px-12 lg:px-16" style={{ zIndex: 1 }}>
         {/* ── Upper Row: Two Columns (Standee with Hololive Switcher & Profile Card) ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -69,12 +71,13 @@ export function TopSection() {
                 aria-hidden="true"
                 className="absolute rounded-full pointer-events-none"
                 style={{
-                  width: '380px',
-                  height: '380px',
-                  left: '20%',
-                  top: '10%',
+                  width: '400px',
+                  height: '400px',
+                  left: '50%',
+                  top: '42%',
+                  transform: 'translate(-50%, -50%)',
                   background:
-                    'radial-gradient(circle, rgba(59,157,210,0.14) 0%, rgba(16,184,126,0.07) 40%, transparent 70%)',
+                    'radial-gradient(circle, rgba(59,157,210,0.16) 0%, rgba(16,184,126,0.06) 45%, transparent 70%)',
                   filter: 'blur(36px)',
                 }}
               />
@@ -94,8 +97,8 @@ export function TopSection() {
                       onClick={() => setSelectedCostumeId(costume.id)}
                       role="tab"
                       aria-selected={isActive}
-                      title={costume.name}
-                      aria-label={`Select ${costume.name}`}
+                      title={`${costume.badge} — ${costume.name}`}
+                      aria-label={`Select ${costume.badge}: ${costume.name}`}
                       className="group relative cursor-pointer focus:outline-none transition-transform duration-200 active:scale-95"
                     >
                       {/* Circular Avatar Container */}
@@ -115,12 +118,11 @@ export function TopSection() {
                         <img
                           src={costume.imageUrl}
                           alt={costume.name}
-                          width={800}
-                          height={1608}
                           className="w-full h-full object-cover"
                           style={{
-                            objectPosition: '50% 18%',
-                            transform: 'scale(2.5)',
+                            objectPosition: costume.avatarPosition || '50% 18%',
+                            transformOrigin: costume.avatarPosition || '50% 18%',
+                            transform: `scale(${costume.avatarScale || 2.4})`,
                             display: 'block',
                           }}
                           draggable={false}
@@ -167,38 +169,67 @@ export function TopSection() {
                 </div>
               </div>
 
-              {/* Full Standee with Gentle Breathing Animation */}
+              {/* Full Standee with Gentle Breathing Animation & Acrylic Stage */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
+                animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative flex-1 flex justify-center"
+                className="relative flex-1 flex flex-col items-center justify-end"
               >
                 <div
-                  className="relative select-none overflow-hidden"
+                  className="relative select-none overflow-hidden flex items-end justify-center"
                   style={{
-                    height: 'clamp(380px, 56vh, 600px)',
+                    height: 'clamp(420px, 60vh, 640px)',
                     width: 'auto',
-                    maxWidth: '360px',
+                    maxWidth: '380px',
                   }}
                 >
                   <img
                     src={activeCostume.imageUrl}
-                    alt={`Yoshino Himekawa — ${activeCostume.name}`}
-                    width={800}
-                    height={1608}
+                    alt={`Yoshino Himekawa — ${activeCostume.badge} (${activeCostume.name})`}
                     fetchPriority="high"
                     style={{
-                      height: '125%', // crop bottom logo cleanly
+                      height: '100%',
                       width: 'auto',
-                      maxWidth: 'none',
+                      maxWidth: '100%',
                       objectFit: 'contain',
-                      objectPosition: 'top center',
+                      objectPosition: 'bottom center',
                       filter:
-                        'drop-shadow(0 10px 36px rgba(59,157,210,0.20)) drop-shadow(0 2px 10px rgba(30,55,110,0.08))',
+                        'drop-shadow(0 10px 32px rgba(59,157,210,0.22)) drop-shadow(0 2px 8px rgba(30,55,110,0.08))',
                       display: 'block',
                     }}
                     draggable={false}
                   />
+                </div>
+
+                {/* Frosted Acrylic Pedestal Base (Mica stand stage) */}
+                <div
+                  aria-hidden="true"
+                  className="relative -mt-3.5 pointer-events-none flex flex-col items-center select-none"
+                >
+                  {/* Soft Ground Shadow on Pedestal */}
+                  <div
+                    className="w-44 sm:w-52 h-4 rounded-[100%]"
+                    style={{
+                      background:
+                        'radial-gradient(ellipse at center, rgba(30,55,110,0.22) 0%, rgba(59,157,210,0.07) 55%, transparent 75%)',
+                      filter: 'blur(3px)',
+                    }}
+                  />
+                  {/* Dual-ring Frosted Glass Pedestal */}
+                  <div
+                    className="relative -mt-2 w-48 sm:w-56 h-6 rounded-[100%] border border-white/90"
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.55)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      boxShadow:
+                        '0 8px 20px rgba(59, 157, 210, 0.18), inset 0 2px 3px rgba(255, 255, 255, 0.95), inset 0 -1.5px 3px rgba(59, 157, 210, 0.12)',
+                    }}
+                  >
+                    <div
+                      className="absolute inset-[2px] rounded-[100%] border border-[rgba(59,157,210,0.25)]"
+                    />
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
@@ -234,31 +265,93 @@ export function TopSection() {
                   '0 8px 32px rgba(30, 55, 110, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
               }}
             >
-              {/* Character Name */}
+              {/* Spirit Badges Header */}
+              <div className="flex items-center gap-2 flex-wrap mb-3.5">
+                <span
+                  className="px-3 py-1 rounded-full text-[11px] font-bold tracking-[0.16em] uppercase border"
+                  style={{
+                    backgroundColor: 'rgba(59, 157, 210, 0.09)',
+                    borderColor: 'rgba(59, 157, 210, 0.28)',
+                    color: 'var(--color-ice-blue)',
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  Spirit No. 02
+                </span>
+                <span
+                  className="px-3 py-1 rounded-full text-[11px] font-bold tracking-[0.16em] uppercase border"
+                  style={{
+                    backgroundColor: 'rgba(16, 184, 126, 0.09)',
+                    borderColor: 'rgba(16, 184, 126, 0.28)',
+                    color: 'var(--color-yoshino-green)',
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  IV • Chesed
+                </span>
+                <span
+                  className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-[var(--color-text-secondary)] border"
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    borderColor: 'rgba(59, 157, 210, 0.15)',
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  Absolute Zero
+                </span>
+              </div>
+
+              {/* Character Name (Option 2: Outfit + Klee One) */}
               <h1
-                className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-wider mb-1.5"
+                className="text-3xl sm:text-4xl md:text-[2.65rem] font-bold uppercase tracking-[0.09em] mb-1 leading-tight"
                 style={{
-                  fontFamily: 'var(--font-display)',
+                  fontFamily: 'var(--font-title-en)',
                   color: 'var(--color-text-primary)',
-                  letterSpacing: '0.06em',
                 }}
               >
                 {characterDossier.nameRomanized}
               </h1>
 
               <p
-                className="text-lg md:text-xl mb-6"
+                className="text-xl md:text-2xl font-semibold mb-5 tracking-[0.18em]"
                 style={{
-                  fontFamily: 'var(--font-display)',
-                  color: 'var(--color-text-secondary)',
-                  letterSpacing: '0.08em',
+                  fontFamily: 'var(--font-title-jp)',
+                  color: 'var(--color-ice-blue)',
                 }}
               >
                 {characterDossier.nameKanji}
               </p>
 
+              {/* Iconic Voice Line Quote Box */}
+              <div
+                className="mb-5 p-3.5 sm:p-4 rounded-2xl border relative overflow-hidden"
+                style={{
+                  backgroundColor: 'rgba(240, 249, 255, 0.85)',
+                  borderColor: 'rgba(186, 230, 253, 0.8)',
+                  boxShadow: '0 2px 10px rgba(59, 157, 210, 0.05)',
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-xl select-none mt-0.5" aria-hidden="true">❄️</span>
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-sm sm:text-base font-semibold text-[var(--color-text-primary)] leading-snug mb-0.5"
+                      style={{ fontFamily: 'var(--font-title-jp)' }}
+                    >
+                      {characterDossier.keyQuoteJp}
+                    </p>
+                    <p
+                      className="text-xs text-[var(--color-text-secondary)] italic leading-relaxed"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      &ldquo;{characterDossier.keyQuoteEn}&rdquo;
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* ── Streamlined Vital Profile Specifications ── */}
-              <div className="pt-6 border-t border-[rgba(59,157,210,0.15)]">
+              <div className="pt-4 border-t border-[rgba(59,157,210,0.15)]">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                   {/* Age */}
                   <div

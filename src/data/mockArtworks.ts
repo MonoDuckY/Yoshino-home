@@ -4,7 +4,9 @@
 // Replace with Sanity client.fetch() in Sprint 3
 // ─────────────────────────────────────────────
 import type { Artwork, CharacterDossier, Costume, ArchiveRecord, GuestbookEntry } from '../types';
-import yoshinoStandee from '../assets/yoshino-standee.webp';
+import yoshinoNormal from '../assets/Yoshino_normal.webp';
+import yoshinoRaizen from '../assets/Yoshino_raizen.webp';
+import yoshinoSpirit from '../assets/Yoshino_Spirit_Form.webp';
 
 export const mockArtworks: Artwork[] = [
   {
@@ -171,28 +173,34 @@ Ultimately, this little sanctuary was created to celebrate my nearly decade-long
 // ─────────────────────────────────────────────
 export const mockCostumes: Costume[] = [
   {
-    id: 'astral-dress',
+    id: 'normal-form',
+    name: 'Sundress & Straw Hat',
+    badge: 'Normal Form',
+    description: 'Yoshino in her gentle white sundress and ribboned straw hat, enjoying peaceful everyday moments alongside Yoshinon.',
+    imageUrl: yoshinoNormal,
+    accentColor: '#38BDF8',
+    avatarPosition: '50% 16%',
+    avatarScale: 2.2,
+  },
+  {
+    id: 'school-uniform',
+    name: 'Raizen High Uniform',
+    badge: 'School Uniform',
+    description: 'The standard Raizen High navy uniform worn by Yoshino during cheerful school days in Tenguu City.',
+    imageUrl: yoshinoRaizen,
+    accentColor: '#3B82F6',
+    avatarPosition: '50% 12%',
+    avatarScale: 2.2,
+  },
+  {
+    id: 'spirit-form',
     name: 'Astral Dress: Zadkiel Coat',
     badge: 'Spirit Form',
-    description: 'Iconic emerald bunny-eared winter coat with white petal lace, designed for sub-zero astral manifestation.',
-    imageUrl: yoshinoStandee,
-    accentColor: '#38BDF8',
-  },
-  {
-    id: 'winter-casual',
-    name: 'Winter Casual Knit',
-    badge: 'Everyday Life',
-    description: 'A cozy sky-blue wool sweater paired with a pleated cream skirt and rabbit-ear earmuffs for peaceful strolls in Tenguu City.',
-    imageUrl: yoshinoStandee,
-    accentColor: '#A78BFA',
-  },
-  {
-    id: 'raizen-uniform',
-    name: 'Raizen High Uniform',
-    badge: 'School Days',
-    description: 'The standard Raizen High navy sailor uniform, featuring a soft blue neckerchief and her ever-present rabbit companion on her wrist.',
-    imageUrl: yoshinoStandee,
-    accentColor: '#34D399',
+    description: 'Iconic emerald bunny-eared winter coat with white petal lace, designed for sub-zero astral spirit manifestation.',
+    imageUrl: yoshinoSpirit,
+    accentColor: '#10B981',
+    avatarPosition: '50% 19%',
+    avatarScale: 2.0,
   },
 ];
 

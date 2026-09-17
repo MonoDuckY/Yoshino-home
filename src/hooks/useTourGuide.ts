@@ -13,10 +13,10 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     id: 1,
-    title: 'Wardrobe & Outfits',
+    title: 'Forms & Appearance',
     targetId: 'hero-wardrobe',
     message:
-      "Take a look here! You can switch Yoshino's attire between her iconic Zadkiel Coat Astral Dress, cozy Winter Casual knit, and Raizen High uniform!",
+      "Take a look here! You can switch Yoshino's appearance between Normal Form, School Uniform, and Spirit Form!",
   },
   {
     id: 2,
