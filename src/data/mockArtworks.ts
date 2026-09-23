@@ -173,6 +173,16 @@ Ultimately, this little sanctuary was created to celebrate my nearly decade-long
 // ─────────────────────────────────────────────
 export const mockCostumes: Costume[] = [
   {
+    id: 'spirit-form',
+    name: 'Astral Dress: Zadkiel Coat',
+    badge: 'Spirit Form',
+    description: 'Iconic emerald bunny-eared winter coat with white petal lace, designed for sub-zero astral spirit manifestation.',
+    imageUrl: yoshinoSpirit,
+    accentColor: '#10B981',
+    avatarPosition: '50% 19%',
+    avatarScale: 2.0,
+  },
+  {
     id: 'normal-form',
     name: 'Sundress & Straw Hat',
     badge: 'Normal Form',
@@ -191,16 +201,6 @@ export const mockCostumes: Costume[] = [
     accentColor: '#3B82F6',
     avatarPosition: '50% 12%',
     avatarScale: 2.2,
-  },
-  {
-    id: 'spirit-form',
-    name: 'Astral Dress: Zadkiel Coat',
-    badge: 'Spirit Form',
-    description: 'Iconic emerald bunny-eared winter coat with white petal lace, designed for sub-zero astral spirit manifestation.',
-    imageUrl: yoshinoSpirit,
-    accentColor: '#10B981',
-    avatarPosition: '50% 19%',
-    avatarScale: 2.0,
   },
 ];
 

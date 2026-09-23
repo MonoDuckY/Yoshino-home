@@ -20,7 +20,10 @@ export function Footer({ onOpenCredits }: FooterProps) {
         zIndex: 2,
       }}
     >
-      <div className="max-w-4xl mx-auto flex flex-col items-center gap-3 text-center">
+      <div
+        id="footer-content"
+        className="max-w-4xl mx-auto flex flex-col items-center gap-3 text-center p-4 rounded-2xl transition-all"
+      >
         {/* Line 1: Fan-made tribute declaration */}
         <p
           className="text-xs sm:text-[13px] font-medium tracking-wide text-slate-300"

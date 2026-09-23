@@ -54,7 +54,8 @@ export function GallerySection() {
       <div className="relative max-w-7xl mx-auto" style={{ zIndex: 1 }}>
         {/* ── Filter Bar ── */}
         <motion.div
-          className="flex justify-center mb-10"
+          id="gallery-filter"
+          className="flex justify-center mb-10 scroll-mt-24 rounded-full transition-all"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

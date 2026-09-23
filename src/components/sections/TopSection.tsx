@@ -1,7 +1,5 @@
-// TopSection — Streamlined Character Profile & Editorial Shrine Tribute ("Top")
-// Hololive-style Appearance selector & full-width spoken monologue with giant quotes
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { characterDossier, mockCostumes } from '../../data/mockArtworks';
 
 const standeeVariants = {
@@ -85,7 +83,7 @@ export function TopSection() {
               {/* Hololive-Style Vertical Circular Costume Selector */}
               <div
                 id="hero-wardrobe"
-                className="flex flex-col items-center gap-3.5 z-10 select-none flex-shrink-0"
+                className="flex flex-col items-center gap-3.5 z-10 select-none flex-shrink-0 p-2 sm:p-2.5 rounded-3xl bg-white/40 backdrop-blur-xs border border-white/60 shadow-xs transition-all"
                 role="tablist"
                 aria-label="Hololive style appearance selector"
               >
@@ -183,22 +181,29 @@ export function TopSection() {
                     maxWidth: '380px',
                   }}
                 >
-                  <img
-                    src={activeCostume.imageUrl}
-                    alt={`Yoshino Himekawa — ${activeCostume.badge} (${activeCostume.name})`}
-                    fetchPriority="high"
-                    style={{
-                      height: '100%',
-                      width: 'auto',
-                      maxWidth: '100%',
-                      objectFit: 'contain',
-                      objectPosition: 'bottom center',
-                      filter:
-                        'drop-shadow(0 10px 32px rgba(59,157,210,0.22)) drop-shadow(0 2px 8px rgba(30,55,110,0.08))',
-                      display: 'block',
-                    }}
-                    draggable={false}
-                  />
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={activeCostume.id}
+                      src={activeCostume.imageUrl}
+                      alt={`Yoshino Himekawa — ${activeCostume.badge} (${activeCostume.name})`}
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.35, ease: 'easeInOut' }}
+                      fetchPriority="high"
+                      style={{
+                        height: '100%',
+                        width: 'auto',
+                        maxWidth: '100%',
+                        objectFit: 'contain',
+                        objectPosition: 'bottom center',
+                        filter:
+                          'drop-shadow(0 10px 32px rgba(59,157,210,0.22)) drop-shadow(0 2px 8px rgba(30,55,110,0.08))',
+                        display: 'block',
+                      }}
+                      draggable={false}
+                    />
+                  </AnimatePresence>
                 </div>
 
                 {/* Frosted Acrylic Pedestal Base (Mica stand stage) */}
@@ -265,41 +270,7 @@ export function TopSection() {
                   '0 8px 32px rgba(30, 55, 110, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
               }}
             >
-              {/* Spirit Badges Header */}
-              <div className="flex items-center gap-2 flex-wrap mb-3.5">
-                <span
-                  className="px-3 py-1 rounded-full text-[11px] font-bold tracking-[0.16em] uppercase border"
-                  style={{
-                    backgroundColor: 'rgba(59, 157, 210, 0.09)',
-                    borderColor: 'rgba(59, 157, 210, 0.28)',
-                    color: 'var(--color-ice-blue)',
-                    fontFamily: 'var(--font-body)',
-                  }}
-                >
-                  Spirit No. 02
-                </span>
-                <span
-                  className="px-3 py-1 rounded-full text-[11px] font-bold tracking-[0.16em] uppercase border"
-                  style={{
-                    backgroundColor: 'rgba(16, 184, 126, 0.09)',
-                    borderColor: 'rgba(16, 184, 126, 0.28)',
-                    color: 'var(--color-yoshino-green)',
-                    fontFamily: 'var(--font-body)',
-                  }}
-                >
-                  IV • Chesed
-                </span>
-                <span
-                  className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider text-[var(--color-text-secondary)] border"
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    borderColor: 'rgba(59, 157, 210, 0.15)',
-                    fontFamily: 'var(--font-body)',
-                  }}
-                >
-                  Absolute Zero
-                </span>
-              </div>
+
 
               {/* Character Name (Option 2: Outfit + Klee One) */}
               <h1
@@ -460,6 +431,26 @@ export function TopSection() {
                     </div>
                   </div>
                 </div>
+
+                {/* ── Interactive CTA: Explore Curated Gallery ── */}
+                <div className="mt-5 pt-4 border-t border-[rgba(59,157,210,0.15)]">
+                  <a
+                    href="#gallery"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold text-white transition-all duration-300 shadow-sm hover:shadow-md hover:brightness-105 active:scale-98 no-underline cursor-pointer tracking-wider"
+                    style={{
+                      background: 'linear-gradient(135deg, var(--color-ice-blue) 0%, #2563EB 100%)',
+                      boxShadow: '0 4px 14px rgba(59, 157, 210, 0.35)',
+                      fontFamily: 'var(--font-body)',
+                    }}
+                  >
+                    <span>Explore Curated Gallery</span>
+                    <span className="text-sm font-extrabold select-none">↓</span>
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -468,7 +459,7 @@ export function TopSection() {
         {/* ── Lower Row: Full-Width Editorial Monologue ("About Yoshino & Yoshinon") ── */}
         <motion.div
           id="top-tribute"
-          className="relative max-w-4xl lg:max-w-5xl mx-auto mt-20 md:mt-28 px-4 sm:px-8 text-center"
+          className="relative max-w-4xl lg:max-w-5xl mx-auto mt-20 md:mt-28 px-4 sm:px-8 py-8 rounded-3xl text-center transition-all scroll-mt-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

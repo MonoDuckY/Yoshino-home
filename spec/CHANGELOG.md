@@ -3,6 +3,31 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-23] — Sprint 6 Polish: Crystalline Snowflake Canvas, Tour Guide Retirement & Spirit Form Priority (DEC-25)
+
+### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)
+- **Nâng cấp Hiệu ứng Bông tuyết Tinh thể 6 cánh (Crystalline Hexagonal Snowflakes - DEC-25)**:
+  - Thay thế hoàn toàn các đốm tròn mờ (dots) đơn điệu bằng hoa văn băng tuyết đối xứng 6 trục chân thực (Hexagonal Crystalline Geometry).
+  - Phân tầng không gian 3 lớp chiều sâu (3D Depth of Field):
+    - *Tiền cảnh (~25%)*: Bông tuyết hoa băng phân nhánh lớn (`Dendrite Sprite`, 18px–26px) có nhánh con xương cá (chevrons) và tâm lục giác, xoay từ từ khi rơi.
+    - *Trung cảnh (~40%)*: Bông tuyết cánh sao băng vừa (`Stellar Star Sprite`, 11px–18px) với đầu búp thoi và vòng tâm tinh xảo.
+    - *Hậu cảnh (~35%)*: Bụi băng phát quang mờ (`Bokeh Sprite`, 4px–9px) tạo chiều sâu điện ảnh.
+  - Phối màu tương phản cao trên nền sáng ban ngày (`#ECF1FB`): Viền xanh ngọc băng tuyết (`rgba(50, 135, 210, 0.88)` / `rgba(56, 140, 215, 0.85)`) và lõi trắng tinh khiết (`rgba(255, 255, 255, 0.95)`) kèm vầng hào quang băng mờ (`shadowColor: rgba(56, 189, 248, 0.7)`).
+  - Chuyển động vật lý rơi mượt mà: Góc xoay `rotation`, tốc độ xoay `rotationSpeed` tự nhiên và dao động đung đưa hình sin theo gió.
+  - Tối ưu hiệu năng 60 FPS tuyệt đối: Sử dụng kỹ thuật **Offscreen Canvas Sprite Caching** (pre-render mẫu 1 lần và dùng GPU `drawImage` tăng tốc phần cứng).
+- **Lược bỏ cơ chế Yoshinon Web Tour (Tour Guide Retirement - DEC-25)**:
+  - Nhận thấy website có cấu trúc cuộn dọc trực quan, mạch lạc và dễ tiếp cận, lược bỏ hoàn toàn máy trạng thái FSM Tour 6 bước, tính năng tự động bung popup sau 2 giây và viền highlight gây phân tâm.
+  - Dọn dẹp keyframes `@keyframes tour-pulse` và class `.tour-highlight-target` trong `index.css`.
+  - Tối ưu hóa cụm CTA dưới thẻ thông tin Vital Specs thành 1 nút hành động trung tâm duy nhất: **`Explore Curated Gallery ↓`** sang trọng và nổi bật, giúp giảm kích thước bundle JS ~10 kB.
+- **Tái sắp xếp Character Appearance — Ưu tiên Spirit Form (DEC-25)**:
+  - Cập nhật thứ tự hiển thị: `Spirit Form` (Astral Dress: Zadkiel Coat) đứng đầu tiên, tiếp theo là `Normal Form` và `School Uniform`.
+  - Đảm bảo khi người dùng truy cập trang lần đầu, Yoshino xuất hiện ngay lập tức trong tạo hình Linh phục Zadkiel kinh điển nhất cùng avatar đầu danh sách với viền cyan active.
+- **Tinh giản Thẻ Nhận diện trên Hồ sơ (Badge Tags Removal - DEC-26)**:
+  - Lược bỏ cụm 3 badge tag (`SPIRIT NO. 02`, `IV • CHESED`, `Absolute Zero`) trên đỉnh thẻ Vital Profile Card.
+  - Mang lại khoảng đệm thị giác thoáng đãng, giúp người dùng tập trung trọn vẹn vào khối typography tên nhân vật HIMEKAWA YOSHINO (Outfit) và 氷芽川 四糸乃 (Klee One).
+
+---
+
 ## [2026-09-17] — Sprint 6: Character Forms Modernization, UI Streamlining & Layered Legal Credits Architecture
 
 ### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)

@@ -104,12 +104,13 @@ export function GuestbookSection() {
       <div className="relative max-w-[1440px] mx-auto" style={{ zIndex: 1 }}>
         {/* ── Expanded Whiteboard Canvas Frame ── */}
         <motion.div
+          id="guestbook-board"
           ref={boardRef}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative rounded-[2.5rem] border overflow-hidden flex flex-col shadow-2xl"
+          className="relative rounded-[2.5rem] border overflow-hidden flex flex-col shadow-2xl scroll-mt-20 transition-all"
           style={{
             backgroundColor: 'rgba(255, 255, 255, 0.72)',
             backdropFilter: 'blur(22px)',
