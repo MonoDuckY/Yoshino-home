@@ -16,8 +16,8 @@ function App() {
       className="relative"
       style={{ backgroundColor: 'var(--color-winter-sky)' }}
     >
-      {/* Layer 0: Crystalline Snow Canvas (fixed, behind everything) */}
-      <SnowCanvas isActive={snowActive} />
+      {/* Layer 0: Background Crystalline Snow Canvas (Behind content, visible through frosted glass) */}
+      <SnowCanvas isActive={snowActive} layer="background" />
 
       {/* Layer 1: Fixed Navbar */}
       <Navbar
@@ -34,6 +34,9 @@ function App() {
       </main>
 
       <Footer onOpenCredits={() => setIsCreditsOpen(true)} />
+
+      {/* Layer 2.5: Foreground Crystalline Snow Canvas (In front of content for true 3D spatial depth) */}
+      <SnowCanvas isActive={snowActive} layer="foreground" />
 
       {/* Layer 3: Credits & Disclaimer Slide-Over/Dialog Modal */}
       <CreditsModal

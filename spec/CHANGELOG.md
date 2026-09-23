@@ -27,6 +27,14 @@
        - Thẻ soạn thảo Sticky Pad Composer: kính xanh bạc hà dịu nhẹ `rgba(255, 255, 255, 0.55)`, `blur(14px)` cùng ô input/textarea trong mờ `rgba(255, 255, 255, 0.65)` và viền washi băng keo pastel.
        - Toàn bộ giấy nhớ ước nguyện (Wish Notes): palette xanh băng (`#38BDF8`) và xanh bạc hà (`#34D399`) mờ kính `rgba(..., 0.52)` kèm `blur(12px)`, ghim kim loại nổi khối 3D.
   - Mang lại trải nghiệm thị giác cao cấp: các bông tuyết tinh thể 6 cánh rơi nhẹ nhàng trôi qua phía sau lớp kính một cách tự nhiên mà không làm suy giảm độ tương phản hay tính dễ đọc của văn bản.
+- **Hệ thống Tuyết rơi Đa tầng Không gian 3D Chân thực & Cân chỉnh Kính mờ (True 3D Multi-Layer Snowfall System - DEC-29)**:
+  - Khắc phục triệt để vấn đề thị giác khi tuyết bị che khuất hoặc thiếu chiều sâu:
+    1. **Tách biệt 2 tầng Canvas tuyết vật lý (Background vs Foreground Layering)**:
+       - *Tầng Tuyết Hậu cảnh (Background Canvas - `z-index: 0`)*: Rơi phía sau toàn bộ nội dung. Nhờ tối ưu độ đục kính mờ từ `blur(20px)` xuống `blur(10px)` và nền `rgba(255, 255, 255, 0.28)`, các bông tuyết rơi sau thẻ giờ đây hiện lên rõ nét dưới dạng các vệt sao băng mờ ảo phát quang lãng mạn.
+       - *Tầng Tuyết Tiền cảnh (Foreground Canvas - `z-index: 20`, `pointer-events: none`)*: Rơi trực tiếp ở phía trước Standee nhân vật và các thẻ giao diện. Tuyển tập các tinh thể hoa băng 6 cánh (`Dendrite` 20px–32px & `Star`) xoay nhẹ nhàng, chầm chậm bay ngang qua mặt thẻ thông tin và bục đứng.
+    2. **Tạo hiệu ứng Kẹp không gian 3D (3D Depth Sandwich Effect)**:
+       - Thẻ hồ sơ nhân vật và bảng lưu niệm Yoshino's Memory Board giờ đây nằm trọn vẹn ở **Tầng Trung cảnh (Midground Plane)** — kẹp giữa lớp tuyết tiền cảnh sắc nét ở phía trước và lớp tuyết hậu cảnh mờ sương lướt qua ở phía sau.
+       - Nâng độ đậm nét đường viền tinh thể (`lineWidth: 2.0px`) và hào quang xanh băng (`rgba(56, 189, 248, 0.85)`). Toàn bộ thao tác click/drag vẫn 100% trơn tru nhờ thuộc tính `pointer-events-none`.
 
 ---
 

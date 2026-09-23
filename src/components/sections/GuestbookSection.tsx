@@ -11,7 +11,7 @@ const BATCH_SIZE = 14;
 const NOTE_PALETTES = [
   // 1. Yoshino's Hair & Eyes — Soft Ice Blue Frosted Glass
   {
-    bg: 'rgba(240, 249, 255, 0.52)',
+    bg: 'rgba(240, 249, 255, 0.40)',
     border: 'rgba(186, 230, 253, 0.75)',
     boxShadow: '0 8px 24px rgba(59, 157, 210, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
     pinColor: '#38BDF8',
@@ -21,7 +21,7 @@ const NOTE_PALETTES = [
   },
   // 2. Yoshino's Raincoat (Zadkiel Coat) — Soft Mint Frosted Glass
   {
-    bg: 'rgba(237, 253, 246, 0.52)',
+    bg: 'rgba(237, 253, 246, 0.40)',
     border: 'rgba(167, 243, 208, 0.75)',
     boxShadow: '0 8px 24px rgba(16, 184, 126, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
     pinColor: '#34D399',
@@ -114,9 +114,9 @@ export function GuestbookSection() {
           transition={{ duration: 0.7 }}
           className="relative rounded-[2.5rem] border overflow-hidden flex flex-col shadow-2xl scroll-mt-20 transition-all"
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.45)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
+            backgroundColor: 'rgba(255, 255, 255, 0.32)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             borderColor: 'rgba(255, 255, 255, 0.85)',
             boxShadow:
               '0 24px 60px rgba(30, 55, 110, 0.09), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
@@ -133,7 +133,7 @@ export function GuestbookSection() {
           />
 
           {/* ── Whiteboard Clean Toolbar ── */}
-          <div className="relative z-10 flex items-center justify-between px-6 md:px-8 py-3.5 border-b border-[rgba(59,157,210,0.12)] bg-white/35 backdrop-blur-md">
+          <div className="relative z-10 flex items-center justify-between px-6 md:px-8 py-3.5 border-b border-[rgba(59,157,210,0.12)] bg-white/30 backdrop-blur-md">
             {/* Left title */}
             <div className="flex items-center gap-2.5">
               <span className="text-xl">📌</span>
@@ -196,9 +196,9 @@ export function GuestbookSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="relative rounded-2xl p-5 border-2 border-dashed shadow-md transition-all duration-300 sm:col-span-1"
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.55)',
-                  backdropFilter: 'blur(14px)',
-                  WebkitBackdropFilter: 'blur(14px)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.45)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
                   borderColor: 'rgba(16, 184, 126, 0.45)',
                   boxShadow: '0 8px 24px rgba(16, 184, 126, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
                   transform: 'rotate(-1deg)',
@@ -318,8 +318,8 @@ export function GuestbookSection() {
                         style={{
                           backgroundColor: palette.bg,
                           borderColor: palette.border,
-                          backdropFilter: 'blur(12px)',
-                          WebkitBackdropFilter: 'blur(12px)',
+                          backdropFilter: 'blur(8px)',
+                          WebkitBackdropFilter: 'blur(8px)',
                           boxShadow: palette.boxShadow,
                           transform: `rotate(${rotation}deg)`,
                         }}

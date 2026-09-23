@@ -16,11 +16,11 @@ function createDendriteSprite(size = 96): HTMLCanvasElement {
   const r = size * 0.42;
 
   // Outer Ice-Glow Shadow
-  ctx.shadowColor = 'rgba(56, 189, 248, 0.7)';
+  ctx.shadowColor = 'rgba(56, 189, 248, 0.85)';
   ctx.shadowBlur = Math.max(3, size * 0.08);
 
-  ctx.strokeStyle = 'rgba(50, 135, 210, 0.88)';
-  ctx.lineWidth = Math.max(1.8, size * 0.042);
+  ctx.strokeStyle = 'rgba(45, 125, 205, 0.92)';
+  ctx.lineWidth = Math.max(2.0, size * 0.046);
   ctx.lineCap = 'round';
 
   for (let i = 0; i < 6; i++) {
@@ -65,7 +65,7 @@ function createDendriteSprite(size = 96): HTMLCanvasElement {
     // Branch tip crystal bead
     ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
     ctx.beginPath();
-    ctx.arc(cx + r * cos, cy + r * sin, Math.max(1.5, size * 0.038), 0, Math.PI * 2);
+    ctx.arc(cx + r * cos, cy + r * sin, Math.max(1.6, size * 0.04), 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -89,11 +89,11 @@ function createStarSprite(size = 96): HTMLCanvasElement {
   const cy = size / 2;
   const r = size * 0.42;
 
-  ctx.shadowColor = 'rgba(125, 211, 252, 0.8)';
+  ctx.shadowColor = 'rgba(125, 211, 252, 0.85)';
   ctx.shadowBlur = Math.max(3, size * 0.08);
 
-  ctx.strokeStyle = 'rgba(56, 140, 215, 0.85)';
-  ctx.lineWidth = Math.max(1.8, size * 0.045);
+  ctx.strokeStyle = 'rgba(50, 130, 210, 0.90)';
+  ctx.lineWidth = Math.max(2.0, size * 0.048);
   ctx.lineCap = 'round';
 
   for (let i = 0; i < 6; i++) {
@@ -113,7 +113,7 @@ function createStarSprite(size = 96): HTMLCanvasElement {
     const diamondR = r * 0.22;
     const normalA = angle + Math.PI / 2;
 
-    ctx.fillStyle = 'rgba(240, 249, 255, 0.92)';
+    ctx.fillStyle = 'rgba(240, 249, 255, 0.95)';
     ctx.beginPath();
     ctx.moveTo(tipX, tipY);
     ctx.lineTo(
@@ -132,7 +132,7 @@ function createStarSprite(size = 96): HTMLCanvasElement {
 
   // Delicate center ring
   ctx.strokeStyle = 'rgba(125, 211, 252, 0.95)';
-  ctx.lineWidth = Math.max(1.2, size * 0.03);
+  ctx.lineWidth = Math.max(1.4, size * 0.035);
   ctx.beginPath();
   ctx.arc(cx, cy, r * 0.26, 0, Math.PI * 2);
   ctx.stroke();
@@ -183,36 +183,53 @@ interface SnowflakeParticle {
   spriteIndex: number; // 0: Dendrite, 1: Star, 2: Bokeh
 }
 
-function createParticle(canvasWidth: number, canvasHeight: number, isInitial = false): SnowflakeParticle {
-  // Distribution: 25% Dendrite (foreground), 40% Star (midground), 35% Bokeh (background)
-  const rand = Math.random();
+export type SnowLayer = 'background' | 'foreground';
+
+function createParticle(
+  canvasWidth: number,
+  canvasHeight: number,
+  isInitial = false,
+  layer: SnowLayer = 'background',
+): SnowflakeParticle {
   let spriteIndex: number;
   let size: number;
   let velocityY: number;
   let rotationSpeed: number;
   let opacity: number;
 
-  if (rand < 0.25) {
-    // Large intricate Dendrite snowflake (Foreground)
-    spriteIndex = 0;
-    size = 18 + Math.random() * 8; // 18px – 26px
-    velocityY = 0.5 + Math.random() * 0.8; // 0.5 – 1.3 px/f
-    rotationSpeed = (Math.random() - 0.5) * 0.015;
-    opacity = 0.65 + Math.random() * 0.3; // 0.65 – 0.95
-  } else if (rand < 0.65) {
-    // Medium crystalline Star snowflake (Midground)
-    spriteIndex = 1;
-    size = 11 + Math.random() * 7; // 11px – 18px
-    velocityY = 0.6 + Math.random() * 1.1; // 0.6 – 1.7 px/f
-    rotationSpeed = (Math.random() - 0.5) * 0.024;
-    opacity = 0.55 + Math.random() * 0.35; // 0.55 – 0.90
+  if (layer === 'foreground') {
+    // FOREGROUND LAYER: Crisp, prominent 6-pointed crystals passing in front of cards & standee
+    const isDendrite = Math.random() < 0.6;
+    spriteIndex = isDendrite ? 0 : 1;
+    size = 20 + Math.random() * 12; // 20px – 32px
+    velocityY = 0.45 + Math.random() * 0.65; // Slow, dreamy float
+    rotationSpeed = (Math.random() - 0.5) * 0.012;
+    opacity = 0.75 + Math.random() * 0.2; // High clarity and contrast
   } else {
-    // Soft glowing ice dust / bokeh (Background)
-    spriteIndex = 2;
-    size = 4 + Math.random() * 5; // 4px – 9px
-    velocityY = 0.3 + Math.random() * 0.7; // 0.3 – 1.0 px/f
-    rotationSpeed = 0;
-    opacity = 0.35 + Math.random() * 0.35; // 0.35 – 0.70
+    // BACKGROUND LAYER: Drifts behind page content, visible through translucent frosted glass
+    const rand = Math.random();
+    if (rand < 0.3) {
+      // Large intricate Dendrite
+      spriteIndex = 0;
+      size = 18 + Math.random() * 8; // 18px – 26px
+      velocityY = 0.5 + Math.random() * 0.8;
+      rotationSpeed = (Math.random() - 0.5) * 0.015;
+      opacity = 0.7 + Math.random() * 0.25;
+    } else if (rand < 0.7) {
+      // Medium crystalline Star
+      spriteIndex = 1;
+      size = 12 + Math.random() * 7; // 12px – 19px
+      velocityY = 0.6 + Math.random() * 1.0;
+      rotationSpeed = (Math.random() - 0.5) * 0.024;
+      opacity = 0.6 + Math.random() * 0.3;
+    } else {
+      // Soft glowing ice dust / bokeh
+      spriteIndex = 2;
+      size = 5 + Math.random() * 5; // 5px – 10px
+      velocityY = 0.35 + Math.random() * 0.65;
+      rotationSpeed = 0;
+      opacity = 0.4 + Math.random() * 0.3;
+    }
   }
 
   return {
@@ -232,11 +249,12 @@ function createParticle(canvasWidth: number, canvasHeight: number, isInitial = f
 
 interface UseSnowCanvasOptions {
   isActive: boolean;
+  layer?: SnowLayer;
 }
 
 export function useSnowCanvas(
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
-  { isActive }: UseSnowCanvasOptions,
+  { isActive, layer = 'background' }: UseSnowCanvasOptions,
 ) {
   const animationIdRef = useRef<number | null>(null);
   const particlesRef = useRef<SnowflakeParticle[]>([]);
@@ -256,7 +274,10 @@ export function useSnowCanvas(
     }
 
     const isMobile = window.innerWidth < 768;
-    const PARTICLE_COUNT = isMobile ? 28 : 55 + Math.floor(Math.random() * 15); // 55–70 desktop
+    const PARTICLE_COUNT =
+      layer === 'foreground'
+        ? (isMobile ? 8 : 18) // Curated foreground layer
+        : (isMobile ? 32 : 65); // Atmospheric background layer
 
     const handleResize = () => {
       canvas.width = window.innerWidth;
@@ -267,7 +288,7 @@ export function useSnowCanvas(
 
     // Initial particle seeding across the canvas
     particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () =>
-      createParticle(canvas.width, canvas.height, true),
+      createParticle(canvas.width, canvas.height, true, layer),
     );
 
     const animate = () => {
@@ -296,7 +317,7 @@ export function useSnowCanvas(
 
         // Wrap around when falling past bottom edge
         if (flake.y > canvas.height + flake.size) {
-          Object.assign(flake, createParticle(canvas.width, canvas.height, false));
+          Object.assign(flake, createParticle(canvas.width, canvas.height, false, layer));
         }
 
         const sprite = sprites[flake.spriteIndex];
@@ -330,5 +351,5 @@ export function useSnowCanvas(
         cancelAnimationFrame(animationIdRef.current);
       }
     };
-  }, [canvasRef, isActive]);
+  }, [canvasRef, isActive, layer]);
 }
