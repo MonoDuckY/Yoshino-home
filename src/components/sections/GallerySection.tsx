@@ -1,27 +1,49 @@
 // GallerySection — Curated Batching & Scalable Masonry (Option 1)
 // spec/REQUIREMENTS.md §FR-02, §5.1, §7.2, DEC-01, DEC-07, DEC-09, DEC-11, DEC-12, DEC-16
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FilterBar } from '../ui/FilterBar';
 import { ArtworkCard } from '../ui/ArtworkCard';
-import { filterArtworks } from '../../types';
 import type { GalleryFilter } from '../../types';
 import { useArtworks } from '../../hooks/useArtworks';
 
 const INITIAL_BATCH_SIZE = 30;
 const BATCH_INCREMENT = 20;
 
+/** Fisher-Yates shuffle algorithm for uniform random distribution */
+function shuffleArray<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export function GallerySection() {
   const [activeFilter, setActiveFilter] = useState<GalleryFilter>('all');
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_BATCH_SIZE);
   const { artworks, loading } = useArtworks();
+
+  // Memoized randomized list for "All works" — computed once per artworks data load
+  // Ensures stable ordering during pagination/Load More without layout jumping
+  const randomizedAllArtworks = useMemo(() => {
+    return shuffleArray(artworks);
+  }, [artworks]);
 
   const handleFilterChange = (filter: GalleryFilter) => {
     setActiveFilter(filter);
     setVisibleCount(INITIAL_BATCH_SIZE);
   };
 
-  const displayedArtworks = filterArtworks(artworks, activeFilter);
+  // 'all' shows randomized artworks; specific categories preserve upload order (_createdAt desc)
+  const displayedArtworks = useMemo(() => {
+    if (activeFilter === 'all') {
+      return randomizedAllArtworks;
+    }
+    return artworks.filter((art) => art.category === activeFilter);
+  }, [artworks, activeFilter, randomizedAllArtworks]);
+
   const visibleArtworks = displayedArtworks.slice(0, visibleCount);
   const hasMore = visibleCount < displayedArtworks.length;
 
