@@ -3,6 +3,21 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-23] — Sprint 7: Production SEO, Custom Yoshino Favicon & Cloud Deployment Readiness (DEC-27)
+
+### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)
+- **Tích hợp Chibi Yoshino Favicon & Touch Icon (DEC-27)**:
+  - Thay thế icon tia chớp Vite mặc định bằng ảnh chân dung Chibi Yoshino đội mũ thỏ xanh xinh xắn (`src/assets/61977768_p0.png` → `public/favicon.png`).
+  - Cấu hình thẻ `<link rel="icon" type="image/png" href="/favicon.png">` và `<link rel="apple-touch-icon" href="/favicon.png">` hiển thị sắc nét trên thanh tab Chrome, Edge, Safari và màn hình Home di động.
+- **Chuẩn hóa Tiêu đề & Siêu dữ liệu SEO (SEO & Social Sharing Metadata - DEC-27)**:
+  - Đặt tiêu đề tab trình duyệt chuẩn: `Yoshino's Home ❄ — A Cozy Winter Tribute`.
+  - Thiết lập đầy đủ bộ thẻ OpenGraph (`og:title`, `og:description`, `og:image`, `og:site_name`, `og:type`) và Twitter Card (`summary`), tự động hiển thị ảnh preview chibi Yoshino dễ thương khi chia sẻ link lên Facebook, Discord, X/Twitter, Zalo, Telegram.
+  - Cấu hình thẻ nhận diện màu trình duyệt: `<meta name="theme-color" content="#ECF1FB">`.
+- **Cấu hình Triển khai Cloud Sản xuất (Production Deployment Configuration)**:
+  - Khởi tạo tệp `vercel.json` định tuyến SPA chuẩn xác (rewrite toàn bộ routes về `/index.html`) và cấu hình cache bất biến (`Cache-Control: public, max-age=31536000, immutable`) cho thư mục assets tĩnh.
+
+---
+
 ## [2026-09-23] — Sprint 6 Polish: Crystalline Snowflake Canvas, Tour Guide Retirement & Spirit Form Priority (DEC-25)
 
 ### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)

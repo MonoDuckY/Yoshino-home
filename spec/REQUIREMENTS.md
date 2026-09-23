@@ -484,12 +484,13 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | DEC-24 | Kiến trúc bản quyền & Cơ chế tiếp nhận gỡ bỏ tác phẩm (Takedown) | **Two-Tier Legal Credits Architecture & Artist Takedown System**: Áp dụng mô hình phân tầng: Tầng 1 là Minimal Dark Frosted Footer (3 dòng gọn gàng + các link thao tác nhanh); Tầng 2 là Hộp thoại CreditsModal kính mờ phân tách 3 thẻ (IP KADOKAWA, Artist Rights & Takedown 24-48h, Non-profit Pledge); cung cấp kênh liên hệ chính thức `pvietduc204@gmail.com` kèm nút mở trực tiếp Gmail Web Compose (`mail.google.com/mail/?view=cm&...`), nút 1-click Copy Email vào clipboard có phản hồi thị giác tức thì và nút fallback mail client. | 2026-09-17 |
 | DEC-25 | Nâng cấp Bông tuyết Tinh thể 6 cánh, Lược bỏ Tour Guide & Ưu tiên Spirit Form | **Crystalline Snowflake Canvas, Tour Guide Retirement & Spirit Form First**: Nâng cấp hiệu ứng tuyết rơi từ đốm tròn thành hoa văn bông tuyết đối xứng 6 trục chân thực (Dendrite, Stellar Star, Soft Bokeh) với phân tầng 3D, physics xoay chao lượn và tăng tốc phần cứng GPU qua Offscreen Canvas Sprites 60 FPS; lược bỏ hoàn toàn máy trạng thái FSM Tour Guide 6 bước và auto-popup sau 2s để tối ưu luồng duyệt web trực quan; tái sắp xếp trang phục ưu tiên `Spirit Form` (Zadkiel Coat) xuất hiện mặc định ngay khi tải trang. | 2026-09-23 |
 | DEC-26 | Tinh giản Thẻ Nhận diện trên Hồ sơ Hero | **Hero Profile Badge Tags Removal**: Lược bỏ cụm 3 badge tag (`SPIRIT NO. 02`, `IV • CHESED`, `Absolute Zero`) trên đỉnh thẻ Vital Profile Card, tạo khoảng đệm thoáng đãng cho khối typography tên Romaji (Outfit) và Kanji (Klee One). | 2026-09-23 |
+| DEC-27 | Chibi Yoshino Favicon, SEO Metadata & Vercel Deployment | **Production SEO, Custom Yoshino Favicon & Cloud Deployment Readiness**: Tích hợp ảnh Chibi Yoshino xinh xắn làm Favicon & Touch Icon (`favicon.png`), đồng bộ thẻ OpenGraph/Twitter Cards và cấu hình định tuyến SPA/Caching headers qua `vercel.json`. | 2026-09-23 |
 
 ---
 
 ## 9. Implementation Roadmap
 
-> **Cập nhật 2026-09-17** — Sprint 6 hoàn thành xuất sắc toàn bộ các hạng mục tinh chỉnh mỹ thuật nhân vật, tinh gọn luồng nội dung và thiết lập kiến trúc bản quyền phân tầng chuyên nghiệp. Sẵn sàng cho giai đoạn kiểm thử tổng thể và triển khai lên môi trường Production (Sprint 7).
+> **Cập nhật 2026-09-23** — Sprint 6 hoàn thành toàn diện; Sprint 7 đã hoàn tất tích hợp Favicon Chibi Yoshino, thẻ Meta SEO/OpenGraph/Twitter Cards và tệp cấu hình Cloud Deployment `vercel.json`. Sẵn sàng triển khai Production trực tuyến!
 
 ### Trạng thái hiện tại
 
@@ -502,8 +503,8 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | **Sprint 4** — Yoshinon & CMS | Floating Yoshinon widget; Tour FSM (Idle→Welcome→Touring→Completed→Dismissed); Smooth scroll + glow ring; **Sanity.io setup + Studio workspace + simplified schema + API fetch** | MVP v1.0 hoàn chỉnh, Sanity Studio & dữ liệu thực live | ✅ **DONE** `ed4a4ee`, `b8b7ba9` |
 | **Sprint 5** — Creative Exhibition & Lore | **Màn Data (Archive Lore); Hero Costume Switcher (Hololive ref); Masonry Gallery (Pure Vertical Flow - DEC-16 Revision); Winter Hearth Guestbook + Sanity CMS Persistence; Nâng cấp Tour Guide 6 bước; Tuyết toàn trang; Standee WebP & Bundle split** | Khung tính năng cốt lõi hoàn chỉnh | ✅ **DONE** |
 | **Sprint 5b** — Design Refinements & Screen Unification | **Hợp nhất màn "Top" (DEC-20): Bộ chọn trang phục phong cách Hololive Talent (avatar tròn, viền cyan, kính lúp, indicator arrow); Thẻ Vital Specs tinh gọn; Đoạn văn tự sự "About Yoshino & Yoshinon" toàn chiều ngang trong ngoặc kép nghệ thuật; Đồng bộ 100% màu nền xanh tuyết; Tour Guide cập nhật thuần tiếng Anh (DEC-07)** | Giao diện liền mạch, hài hòa, trải nghiệm thị giác cao cấp | ✅ **DONE** |
-| **Sprint 6** — 3 Forms, UI Streamlining & Legal Architecture | **3 Form chính thức (Normal, School, Spirit Form); Bệ đứng acrylic mờ dual-ring; Typography Outfit + Klee One; Huy hiệu & Iconic Quote; Tinh gọn tiêu đề Gallery/Guestbook; Kiến trúc bản quyền phân tầng (Minimal Footer + CreditsModal 3 thẻ, Gmail Compose & 1-click Copy `pvietduc204@gmail.com`)** | UI tinh tế, không thừa thãi, pháp lý & bản quyền hoàn chỉnh | ✅ **DONE** |
-| **Sprint 7** — Production Deployment & SEO | Tối ưu Core Web Vitals (LCP < 2.0s, CLS < 0.05); OpenGraph metadata / Favicon; Triển khai Vercel / GitHub Pages + Custom Domain | Live Production URL | 🚀 **NEXT** |
+| **Sprint 6** — 3 Forms, UI Streamlining & Legal Architecture | **3 Form chính thức (Normal, School, Spirit Form); Bệ đứng acrylic mờ dual-ring; Typography Outfit + Klee One; Tinh gọn tiêu đề Gallery/Guestbook; Kiến trúc bản quyền phân tầng (Minimal Footer + CreditsModal 3 thẻ, Gmail Compose & 1-click Copy `pvietduc204@gmail.com`); Bông tuyết tinh thể 6 cánh 3D** | UI tinh tế, không thừa thãi, pháp lý & bản quyền hoàn chỉnh | ✅ **DONE** |
+| **Sprint 7** — Production Deployment & SEO | **Chibi Yoshino Favicon & Touch Icon; Tiêu đề tab & Meta OpenGraph / Twitter Cards (`index.html`); Cấu hình SPA Routing & Cache Headers (`vercel.json`)** | Ready for Live Production URL | 🚀 **READY / IN-PROGRESS** |
 
 ### Ghi chú điều chỉnh kế hoạch
 
