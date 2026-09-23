@@ -3,6 +3,50 @@
 > Nhật ký ghi lại tất cả thay đổi yêu cầu, quyết định thiết kế và cập nhật spec theo thời gian.
 > Format: `[YYYY-MM-DD] — Loại thay đổi: Mô tả`
 
+## [2026-09-23] — Project Completion: Production Launch on Vercel, Sanity Studio Cloud Deployment, Serverless Security & CMS Enhancements (DEC-31, DEC-32, DEC-33, DEC-34)
+
+### 🚀 Triển khai & Ra mắt Sản xuất Toàn diện (Production Launch — DEC-31)
+- **Frontend Live on Vercel Global Edge Network**:
+  - Website chính thức live tại URL sản xuất: `https://yoshino-home.vercel.app`.
+  - Cấu hình CI/CD tự động: mỗi commit đẩy lên nhánh `main` của GitHub repo `MonoDuckY/Yoshino-home` sẽ tự động trigger Vercel build & deploy trong ~45 giây.
+  - Cấu hình biến môi trường `VITE_SANITY_PROJECT_ID=c45te99f`, `VITE_SANITY_DATASET=production` trên Vercel.
+- **Sanity Studio Cloud Remote Management**:
+  - Triển khai độc lập Sanity Studio lên hạ tầng CDN của Sanity: `https://yoshino-home.sanity.studio`.
+  - Thiết lập `appId: 'nq5qp7m60nwfh3z8i7psv364'` trong `studio/sanity.cli.ts` giúp việc re-deploy Studio trong tương lai hoàn toàn tự động chỉ với `npm run studio:deploy`.
+  - Phân tách hoàn toàn môi trường quản trị: Người quản trị có thể truy cập `*.sanity.studio` trên bất kỳ thiết bị nào (PC, Laptop, iPad, Smartphone) để upload và xuất bản tác phẩm mới mà không cần mở IDE hay chạy máy chủ local.
+
+### 🛡️ Kiến trúc Bảo mật & Serverless Function cho Sổ Lưu bút (DEC-32)
+- **Vercel Serverless Function `/api/guestbook.js`**:
+  - Khắc phục nguy cơ lộ khóa API Token ghi (`writeToken`) ra mã nguồn trình duyệt phía client.
+  - Chuyển toàn bộ logic tạo tài liệu `guestbook` sang serverless endpoint Node.js chạy trên hạ tầng Vercel.
+  - Khóa bí mật được lưu trữ an toàn trong biến môi trường cấp server `SANITY_WRITE_TOKEN`, không hề xuất hiện trong file JavaScript bundle của người dùng.
+  - Cập nhật định tuyến `vercel.json` với rewrite rule `/((?!api/).*)` → `/index.html` để tách biệt đường dẫn API khỏi Single Page Application router.
+- **Cải tiến Trải nghiệm Thông báo (Toast Notification & Error Handling)**:
+  - Khắc phục triệt để hiện tượng "báo thành công ảo" trong bộ nhớ RAM khi chưa cấu hình token ghi.
+  - Bổ sung cơ chế rollback optimistic entry: nếu API ghi gặp lỗi, lời chúc tạm thời sẽ lập tức được gỡ khỏi state để tránh gây hiểu nhầm.
+  - Tinh gọn giao diện thẻ ghim: loại bỏ hộp chữ rườm rà dưới nút "Pin Wish", đồng bộ toàn bộ trạng thái thành công/thất bại lên thanh banner sương mai trang nhã ở mép trên bảng (`🎉 Your warm wish has been pinned to Yoshino's board!`).
+
+### 🖼️ Cải tiến Trải nghiệm Phòng tranh Gallery (DEC-33)
+- **Tải trước Ban đầu & Phân trang Lũy tiến (30 Initial + 20 Load More)**:
+  - Nâng số lượng tranh tải trước ngay khi truy cập trang từ `8` lên **`30` bức tranh** (`INITIAL_BATCH_SIZE = 30`).
+  - Nâng số lượng tranh tải thêm mỗi lần bấm nút từ `+8` lên **`+20` bức tranh** (`BATCH_INCREMENT = 20`).
+  - Nút tải trang tự động cập nhật nhãn động: `Load More Artworks (+20)`. Tăng số lượng khung xương Skeleton placeholder từ 8 lên 12 để hiệu ứng tải trang mượt mà hơn.
+- **Thuật toán Xáo trộn Ngẫu nhiên (Fisher-Yates Shuffle) cho tab "All works"**:
+  - Tab "All works" hiển thị các tác phẩm theo thứ tự ngẫu nhiên sinh động mỗi lần người dùng ghé thăm hoặc F5 lại trang web.
+  - Thuật toán được memoize ổn định trong suốt phiên xem của người dùng: khi bấm "Load More", 20 ảnh tiếp theo trong chuỗi ngẫu nhiên sẽ nối tiếp vào dưới mà không làm nhảy hoặc xáo trộn lại các ảnh đã hiển thị phía trên.
+  - Các tab danh mục cụ thể (`Official Art`, `Community Fanart`, `Collaboration & Events`) **vẫn giữ nguyên 100% thứ tự sắp xếp theo ngày upload mới nhất** (`_createdAt desc`) để thuận tiện theo dõi tranh mới.
+
+### ⚙️ Tinh chỉnh Linh hoạt Schema Sanity Studio (DEC-34)
+- **Cho phép Để trống (Allow Null / Optional) trên Non-Fanart Categories**:
+  - **`title`**: Cho phép để trống cho mọi danh mục; nếu để trống, giao diện sẽ tự động lấy nhãn danh mục làm tiêu đề hiển thị.
+  - **`artistName` & `sourceUrl`**:
+    - **Bắt buộc** đối với `Community Fanart` để bảo đảm tác quyền.
+    - **Cho phép để trống (allow null)** đối với `Official Art` và `Collaboration & Events`.
+  - Tinh chỉnh mã validation sử dụng `context.document` và kiểm tra URL an toàn, chống gián đoạn kết nối khi upload ảnh.
+  - Trên `ArtworkCard`: tự động ẩn nút "View Source" khi tác phẩm không có link nguồn, tránh hiển thị nút rỗng.
+
+---
+
 ## [2026-09-23] — Sprint 7: Production SEO, Custom Yoshino Favicon & Cloud Deployment Readiness (DEC-27)
 
 ### 🎨 Quyết định & Thay đổi thiết kế (Delivered & Verified)

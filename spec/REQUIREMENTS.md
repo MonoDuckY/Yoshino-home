@@ -2,7 +2,7 @@
 
 > Tài liệu này là phiên bản chuẩn hóa và hợp nhất của PRD & DRD gốc, **tích hợp toàn bộ quyết định kỹ thuật đã được thống nhất**.
 > Nguồn gốc tài liệu gốc: `docs/[PRD & DRD] Yoshino's Home - Product & Design Requirements Document.docx`
-> **Cập nhật lần cuối: 2026-09-17** — Sprint 6 hoàn tất: Hiện diện 3 form nhân vật (Normal, School, Spirit), Bệ đứng acrylic, Nâng cấp typography Outfit & Klee One, Tinh gọn tiêu đề Gallery/Guestbook, và Kiến trúc bản quyền phân tầng 2 cấp kèm Hộp thoại CreditsModal & liên hệ gỡ bỏ qua Gmail Web Compose / Copy Email.
+> **Cập nhật lần cuối: 2026-09-23** — **Dự án hoàn thành toàn diện 100% & Triển khai Production thành công**: Website chính thức live trên Vercel (`https://yoshino-home.vercel.app`), Quản trị Sanity Studio Cloud (`https://yoshino-home.sanity.studio`), Kiến trúc Serverless `/api/guestbook` bảo mật API Write Token, Tinh giản tuyết rơi sương mai kết hợp Kính mờ Glassmorphism, Phân trang Gallery 30+20 kèm hiển thị ngẫu nhiên Fisher-Yates cho tab "All works" (DEC-33), và Tinh chỉnh Schema Sanity Studio linh hoạt cho phép để trống Title/Artist/Source URL đối với Official Art và Collab (DEC-34).
 
 ---
 
@@ -484,14 +484,21 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | DEC-25 | Nâng cấp Bông tuyết Tinh thể 6 cánh, Lược bỏ Tour Guide & Ưu tiên Spirit Form | **Crystalline Snowflake Canvas, Tour Guide Retirement & Spirit Form First**: Nâng cấp hiệu ứng tuyết rơi từ đốm tròn thành hoa văn bông tuyết đối xứng 6 trục chân thực (Dendrite, Stellar Star, Soft Bokeh) với phân tầng 3D, physics xoay chao lượn và tăng tốc phần cứng GPU qua Offscreen Canvas Sprites 60 FPS; lược bỏ hoàn toàn máy trạng thái FSM Tour Guide 6 bước và auto-popup sau 2s để tối ưu luồng duyệt web trực quan; tái sắp xếp trang phục ưu tiên `Spirit Form` (Zadkiel Coat) xuất hiện mặc định ngay khi tải trang. | 2026-09-23 |
 | DEC-26 | Tinh giản Thẻ Nhận diện trên Hồ sơ Hero | **Hero Profile Badge Tags Removal**: Lược bỏ cụm 3 badge tag (`SPIRIT NO. 02`, `IV • CHESED`, `Absolute Zero`) trên đỉnh thẻ Vital Profile Card, tạo khoảng đệm thoáng đãng cho khối typography tên Romaji (Outfit) và Kanji (Klee One). | 2026-09-23 |
 | DEC-27 | Chibi Yoshino Favicon, SEO Metadata & Vercel Deployment | **Production SEO, Custom Yoshino Favicon & Cloud Deployment Readiness**: Tích hợp ảnh Chibi Yoshino xinh xắn làm Favicon & Touch Icon (`favicon.png`), đồng bộ thẻ OpenGraph/Twitter Cards và cấu hình định tuyến SPA/Caching headers qua `vercel.json`. | 2026-09-23 |
+| DEC-28 | Tái thiết kế Kính mờ Nhẹ (Frosted Glassmorphism & Backdrop Blur) | **Calibrated Frosted Glassmorphism**: Nâng cấp thẻ Profile Card và Memory Board từ nền đục sang kính bán trong suốt (`rgba(255,255,255,0.32-0.45)` + `backdrop-filter: blur(10px)` + viền trắng sương mai); các bông tuyết rơi trôi qua phía sau lớp kính một cách tự nhiên. | 2026-09-23 |
+| DEC-29 | Hệ thống Tuyết rơi Đa tầng Không gian 3D Chân thực | **True 3D Multi-Layer Snowfall**: Thiết kế 2 tầng Canvas vật lý (Background Canvas `z:0` rơi sau thẻ và Foreground Canvas `z:20` rơi trước Standee), tạo hiệu ứng kẹp không gian 3D Sandwich Effect. | 2026-09-23 |
+| DEC-30 | Tinh giản Tầng Tuyết Tiền cảnh & Kiểm định Hiệu năng Toàn diện | **Foreground Snow Streamlining & Benchmark**: Lược bỏ tầng tuyết tiền cảnh để tránh đè chữ và rối mắt, chỉ giữ 1 lớp tuyết hậu cảnh êm dịu trôi sau kính; Kiểm định hiệu năng: 59-60 FPS, 6.1 MB RAM, 19ms domInteractive, 301 DOM nodes, ~169 kB gzip bundle. | 2026-09-23 |
+| DEC-31 | Triển khai Độc lập Toàn cầu (Vercel + Sanity Studio Cloud) | **Independent Dual Cloud Deployment**: Deploy Website lên Vercel Edge (`https://yoshino-home.vercel.app`) tự động CI/CD từ GitHub; Deploy độc lập Sanity Studio lên CDN Sanity (`https://yoshino-home.sanity.studio`) kèm `appId` trong `sanity.cli.ts` giúp quản lý artwork từ mọi thiết bị không cần mở IDE. | 2026-09-23 |
+| DEC-32 | Bảo mật Serverless API cho Sổ Lưu bút (`/api/guestbook`) | **Serverless Guestbook Persistence & Token Protection**: Triển khai Vercel Serverless Function `/api/guestbook.js` để bảo vệ khóa bí mật `SANITY_WRITE_TOKEN` trên server, không để lộ ra client bundle; Tinh gọn thông báo ghim ước nguyện lên banner trên cùng, triệt tiêu báo thành công ảo. | 2026-09-23 |
+| DEC-33 | Phân trang Gallery 30+20 & Hiển thị Ngẫu nhiên (Fisher-Yates) | **Curated Batching & Shuffle for All Works**: Nâng số lượng ảnh tải ban đầu từ 8 lên 30 (`INITIAL_BATCH_SIZE = 30`), mỗi lần click Load More tải thêm 20 ảnh (`BATCH_INCREMENT = 20`); Áp dụng thuật toán Fisher-Yates shuffle cho tab "All works" (memoized ổn định khi cuộn), các tab danh mục cụ thể giữ nguyên thứ tự upload mới nhất (`_createdAt desc`). | 2026-09-23 |
+| DEC-34 | Linh hoạt Hóa Schema Sanity Studio (Allow Null Non-Fanart) | **Relaxed Validation for Official & Collab Art**: Cho phép để trống (allow null) các trường `title`, `artistName`, `sourceUrl` đối với tác phẩm `official` và `collab`; chỉ bắt buộc đối với `fanart`; Tự động ẩn nút "View Source" trên thẻ tranh khi không có link nguồn; Tối ưu validation bằng `context.document`. | 2026-09-23 |
 
 ---
 
 ## 9. Implementation Roadmap
 
-> **Cập nhật 2026-09-23** — Sprint 6 hoàn thành toàn diện; Sprint 7 đã hoàn tất tích hợp Favicon Chibi Yoshino, thẻ Meta SEO/OpenGraph/Twitter Cards và tệp cấu hình Cloud Deployment `vercel.json`. Sẵn sàng triển khai Production trực tuyến!
+> **Cập nhật 2026-09-23** — **Dự án hoàn tất toàn bộ 7 Sprint (100% COMPLETE)**. Website chính thức phát hành trực tuyến tại **`https://yoshino-home.vercel.app`** và hệ thống quản trị nội dung CMS tại **`https://yoshino-home.sanity.studio`**.
 
-### Trạng thái hiện tại
+### Trạng thái hoàn thành
 
 | Sprint | Nhiệm vụ cốt lõi | Output | Status |
 |---|---|---|---|
@@ -503,11 +510,13 @@ Ghi lại tất cả quyết định kỹ thuật đã được thống nhất. 
 | **Sprint 5** — Creative Exhibition & Lore | **Màn Data (Archive Lore); Hero Costume Switcher (Hololive ref); Masonry Gallery (Pure Vertical Flow - DEC-16 Revision); Winter Hearth Guestbook + Sanity CMS Persistence; Nâng cấp Tour Guide 6 bước; Tuyết toàn trang; Standee WebP & Bundle split** | Khung tính năng cốt lõi hoàn chỉnh | ✅ **DONE** |
 | **Sprint 5b** — Design Refinements & Screen Unification | **Hợp nhất màn "Top" (DEC-20): Bộ chọn trang phục phong cách Hololive Talent (avatar tròn, viền cyan, kính lúp, indicator arrow); Thẻ Vital Specs tinh gọn; Đoạn văn tự sự "About Yoshino & Yoshinon" toàn chiều ngang trong ngoặc kép nghệ thuật; Đồng bộ 100% màu nền xanh tuyết; Tour Guide cập nhật thuần tiếng Anh (DEC-07)** | Giao diện liền mạch, hài hòa, trải nghiệm thị giác cao cấp | ✅ **DONE** |
 | **Sprint 6** — 3 Forms, UI Streamlining & Legal Architecture | **3 Form chính thức (Normal, School, Spirit Form); Bệ đứng acrylic mờ dual-ring; Typography Outfit + Klee One; Tinh gọn tiêu đề Gallery/Guestbook; Kiến trúc bản quyền phân tầng (Minimal Footer + CreditsModal 3 thẻ, Gmail Compose & 1-click Copy `pvietduc204@gmail.com`); Bông tuyết tinh thể 6 cánh 3D** | UI tinh tế, không thừa thãi, pháp lý & bản quyền hoàn chỉnh | ✅ **DONE** |
-| **Sprint 7** — Production Deployment & SEO | **Chibi Yoshino Favicon & Touch Icon; Tiêu đề tab & Meta OpenGraph / Twitter Cards (`index.html`); Cấu hình SPA Routing & Cache Headers (`vercel.json`)** | Ready for Live Production URL | 🚀 **READY / IN-PROGRESS** |
+| **Sprint 7** — Production Deployment, Security & CMS Optimization | **Chibi Yoshino Favicon & Touch Icon; Tiêu đề tab & Meta OpenGraph / Twitter Cards; Triển khai Vercel Production (`https://yoshino-home.vercel.app`); Triển khai Sanity Studio Cloud (`https://yoshino-home.sanity.studio`); Vercel Serverless Function `/api/guestbook` bảo mật API Write Token; Phân trang Gallery 30+20 kèm Shuffle ngẫu nhiên; Schema Sanity Studio allow-null** | **Official Production Launch — LIVE & VERIFIED** | ✅ **DONE** |
 
-### Ghi chú điều chỉnh kế hoạch
+### Ghi chú tổng kết dự án
 
-- **Sanity CMS** được dời từ Sprint 3 → Sprint 4. Lý do: Sprint 3 hoàn toàn có thể build Gallery UI với `mockArtworks.ts` trước — Sanity cần user tạo account + project + cấp `projectId`/`dataset`. Quy trình tốt hơn: UI hoàn thiện trước, CMS wire-in sau.
-- **Sprint 2b** (Design Revision) phát sinh do yêu cầu thay đổi ngôn ngữ, spacing, và color palette sau khi Sprint 2 hoàn thành. Đây là bài học về tầm quan trọng của design sign-off trước khi code.
-- **Sprint 5 & 5b**: Sprint 5 hoàn tất nền tảng tính năng cốt lõi và Sprint 5b hợp nhất màn Profile & Archive thành màn Top duy nhất với đoạn tự sự toàn chiều ngang bọc trong ngoặc kép lớn.
-- **Sprint 6 (Chuẩn bị tiền triển khai)**: Thực hiện chuẩn hóa 3 form nhân vật thực tế (Normal, Raizen Uniform, Spirit Form) với bệ đứng acrylic, nâng cấp font chữ đôi hiện đại (Outfit & Klee One), tinh gọn các khối văn bản tiêu đề thừa ở Gallery và Guestbook, và kiến trúc lại hệ thống pháp lý thành mô hình 2 tầng (Minimal Footer + Hộp thoại CreditsModal kính mờ kèm kênh liên hệ gỡ bỏ tranh `pvietduc204@gmail.com` qua Gmail Web Compose và 1-click Copy Email). Hệ thống hiện đã sẵn sàng 100% cho bước triển khai Cloud Production.
+- **Quy trình chuẩn hóa công nghiệp hoàn tất**: Dự án đã đi trọn vẹn vòng đời phát triển phần mềm chuẩn mực từ Product Discovery → Product Requirements Document (PRD) → Wireframe → Design System Tokens → Component-Driven Development → Performance Audit (60 FPS, 6.1MB RAM) → Cloud Production Deployment.
+- **Vận hành độc lập & Không phụ thuộc IDE**: 
+  - Người xem truy cập: `https://yoshino-home.vercel.app`
+  - Người quản trị đăng/sửa artwork: `https://yoshino-home.sanity.studio`
+  - Toàn bộ tranh mới đăng và lời chúc đều tự động đồng bộ hóa thời gian thực qua Cloud, không cần chạm vào mã nguồn hay chạy máy chủ cục bộ.
+
