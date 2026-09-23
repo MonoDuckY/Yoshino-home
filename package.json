@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "studio": "npm --prefix studio run dev",
+    "studio:login": "npm --prefix studio run login",
     "studio:deploy": "npm --prefix studio run deploy"
   },
   "dependencies": {
