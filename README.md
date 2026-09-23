@@ -5,6 +5,7 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-yoshino--home.vercel.app-00DC82?style=for-the-badge&logo=vercel&logoColor=white)](https://yoshino-home.vercel.app)
 [![Sanity Studio](https://img.shields.io/badge/Sanity%20Studio-yoshino--home.sanity.studio-F03E2F?style=for-the-badge&logo=sanity&logoColor=white)](https://yoshino-home.sanity.studio)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Yoshino--home-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MonoDuckY/Yoshino-home)
+[![Design Spec](https://img.shields.io/badge/Design%20Spec-DESIGN__SPEC.md-3B9DD2?style=for-the-badge&logo=markdown&logoColor=white)](./DESIGN_SPEC.md)
 
 <br />
 
@@ -19,99 +20,101 @@
 
 <br />
 
-**Một không gian tôn vinh nhân vật Yoshino Himekawa (Spirit No. 02 — The Hermit) từ tác phẩm kinh điển *Date A Live*.**  
-*Được thiết kế tinh tế với bầu không khí mùa đông ấm áp, visual art đỉnh cao, hiệu ứng tương tác mượt mà và hệ thống quản lý nội dung Headless CMS chuẩn công nghiệp.*
+**A refined digital sanctuary and fan-made tribute dedicated to Yoshino Himekawa (*Spirit No. 02 — The Hermit*) from the iconic series *Date A Live*.**  
+*Crafted with a cozy "Warm Winter Daylight" atmosphere, high-end visual art, physical acrylic standee aesthetics, seamless micro-interactions, and a production-grade cloud architecture.*
 
 </div>
 
 ---
 
-## 📑 Mục lục
-1. [Giới thiệu dự án](#-giới-thiệu-dự-án)
-2. [Live Links & Triển khai](#-live-links--triển-khai)
-3. [Tính năng nổi bật](#-tính-năng-nổi-bật)
-4. [Kiến trúc Kỹ thuật & Tech Stack](#-kiến-trúc-kỹ-thuật--tech-stack)
-5. [Cấu trúc Thư mục](#-cấu-trúc-thư-mục)
-6. [Hướng dẫn Cài đặt & Chạy Local](#-hướng-dẫn-cài-đặt--chạy-local)
-7. [Quy chuẩn Kỹ thuật (Spec Hub)](#-quy-chuẩn-kỹ-thuật-spec-hub)
-8. [Bản quyền & Tuyên bố Miễn trừ Trách nhiệm](#-bản-quyền--tuyên-bố-miễn-trừ-trách-nhiệm)
+## 📑 Table of Contents
+1. [Project Overview](#-project-overview)
+2. [Live Deployments](#-live-deployments)
+3. [Key Features & Highlights](#-key-features--highlights)
+4. [Technical Architecture & Stack](#-technical-architecture--stack)
+5. [Directory Structure](#-directory-structure)
+6. [Getting Started & Local Development](#-getting-started--local-development)
+7. [Engineering Specification Hub](#-engineering-specification-hub)
+8. [Design Specification](#-design-specification)
+9. [Copyright, Attribution & Disclaimer](#-copyright-attribution--disclaimer)
 
 ---
 
-## 🎯 Giới thiệu dự án
+## 🎯 Project Overview
 
-**Yoshino's Home** là dự án Fan-made Tribute Web Showcase cao cấp dành cho nhân vật **Yoshino (四糸乃)** và bạn rối thỏ **Yoshinon (よしのん) / Zadkiel** trong series *Date A Live* (tác giả Kōshi Tachibana, minh họa Tsunako).
+**Yoshino's Home** is a premium, fan-made non-profit tribute web application created to celebrate **Yoshino Himekawa (四糸乃)** and her companion spirit **Zadkiel / puppet Yoshinon (よしのん)** from *Date A Live* (authored by Kōshi Tachibana and illustrated by Tsunako).
 
-### Sứ mệnh & Phương pháp luận
-Dự án được xây dựng với mục tiêu chuyển hóa triệt để từ phong cách làm web chắp vá (*AI vibe coding*) sang **quy trình phát triển sản phẩm chuẩn công nghiệp**:
-- **Product Discovery & Spec-Driven Development**: Xác lập PRD (Product Requirements Document), DRD (Design Requirements Document) và Decision Logs rõ ràng tại [`spec/`](./spec).
-- **Component-Driven Architecture**: Chia nhỏ hệ thống thành UI primitives, sections độc lập, typed props chặt chẽ với TypeScript.
-- **Production-grade Cloud Stack**: Tách biệt Frontend (Vercel Edge), Serverless Backend API (`/api/guestbook`), và Headless CMS (Sanity Studio Cloud).
+### Engineering Methodology & Mission
+Rather than relying on unguided "vibe coding", this project serves as an end-to-end case study in **spec-driven, industrial-grade web engineering**:
+- **Spec-First Engineering**: Rigorous PRD (Product Requirements Document), DRD (Design Requirements Document), and explicit Architectural Decision Logs maintained in [`spec/`](./spec) and [`DESIGN_SPEC.md`](./DESIGN_SPEC.md).
+- **Component-Driven Architecture**: Structured around atomic design tokens, isolated UI primitives, fully typed contracts with TypeScript, and zero runtime overhead.
+- **Production Cloud Decoupling**: Complete separation between the Frontend SPA (hosted on Vercel Global Edge Network), Serverless Mutation API (`/api/guestbook`), and Headless Content Management (Sanity Studio Cloud).
 
 ---
 
-## 🌐 Live Links & Triển khai
+## 🌐 Live Deployments
 
-| Dịch vụ | Địa chỉ truy cập | Mô tả |
+| Resource | URL | Description |
 |---|---|---|
-| 🌐 **Production Website** | [https://yoshino-home.vercel.app](https://yoshino-home.vercel.app) | Trang showcase công khai được tối ưu hóa toàn cầu qua Vercel Global Edge Network |
-| 🎨 **Sanity Studio Cloud** | [https://yoshino-home.sanity.studio](https://yoshino-home.sanity.studio) | Dashboard CMS quản trị Gallery và kiểm duyệt Guestbook trên đám mây |
-| 📁 **GitHub Repository** | [MonoDuckY/Yoshino-home](https://github.com/MonoDuckY/Yoshino-home) | Toàn bộ mã nguồn, cấu hình CI/CD và tài liệu kỹ thuật |
+| 🌐 **Production Website** | [https://yoshino-home.vercel.app](https://yoshino-home.vercel.app) | Public tribute showcase optimized globally via Vercel Edge Network |
+| 🎨 **Sanity Studio Cloud** | [https://yoshino-home.sanity.studio](https://yoshino-home.sanity.studio) | Cloud-hosted Sanity Studio v3 CMS for gallery curation and guestbook moderation |
+| 📁 **GitHub Repository** | [MonoDuckY/Yoshino-home](https://github.com/MonoDuckY/Yoshino-home) | Open-source codebase, design specifications, and CI/CD pipelines |
 
 ---
 
-## ✨ Tính năng nổi bật
+## ✨ Key Features & Highlights
 
-### 1. ❄️ Màn "Top" Tinh Hoa (Interactive Character Showcase)
-- **Form Costume Switcher**: Chuyển đổi linh hoạt giữa 3 trang phục kinh điển:
-  - 👘 *Astral Dress (Linh phục thần uy linh trang số 2)*
-  - 🧥 *Casual Winter (Áo khoác xanh tai thỏ mùa đông)*
-  - 🏫 *Raizen High School Uniform (Đồng phục học sinh trung học Raizen)*
-  - 🎭 *Easter Egg*: Chế độ trang phục bí mật phong cách VTuber độc đáo.
-- **Acrylic Stand Visualizer**: Bệ mica trong suốt (`acrylic base`) xoay chuyển 3D tinh tế theo con trỏ chuột, hiệu ứng hào quang linh lực tuyết lấp lánh và âm thanh tương tác sống động.
-- **Canvas Snow Particle Engine**: Hiệu ứng bông tuyết 3D tự nhiên rơi trong không gian, tối ưu hóa 60 FPS và **tự động tạm dừng requestAnimationFrame khi chuyển tab** để tiết kiệm điện năng cho thiết bị.
-- **Typography Song ngữ Nghệ thuật**: Kết hợp font `Outfit` (hiện đại, sang trọng cho chữ số & heading) và font bút lông Nhật Bản `Klee One` (cho trích dẫn thơ mộng của Yoshino).
+### 1. ❄️ "Top" Showcase: Acrylic Pedestal & Hololive Wardrobe Switcher
+- **Official Form Switcher**: Seamlessly switch between 3 canonical character appearances:
+  - 🧥 **Normal Form**: Warm everyday winter coat with rabbit-ear hood.
+  - 🏫 **School Uniform**: Raizen High School student uniform.
+  - 👘 **Spirit Form**: Astral Dress (*Zadkiel Coat*).
+- **Physical Frosted Acrylic Stage**: Dual-ring frosted acrylic pedestal with realistic ground ambient occlusion (`radial-gradient` shadow) and a continuous 4.8s gentle breathing animation.
+- **Hololive-style Circular Selector**: Vertical docked circular avatar selector with individual facial focus coordinates (`avatarPosition` and `avatarScale`) ensuring facial centers are always framed accurately.
+- **Full-Viewport Crystalline Snowfall**: GPU-accelerated HTML5 Canvas particle engine delivering a steady 60 FPS with automatic `requestAnimationFrame` pausing when the browser tab is inactive (`document.hidden === true`).
+- **Poetic Bilingual Typography**: High-contrast geometric headings in Google Font `Outfit`, paired with graceful Japanese calligraphy in `Klee One` for Yoshino's iconic voice quote.
 
-### 2. 🖼️ Curated Masonry Gallery
-- **Phân loại 3 danh mục rõ ràng**:
-  - `Official Art`: Tranh minh họa chính thức của Tsunako, Kadokawa, game Date A Live.
-  - `Community Art`: Tác phẩm từ các họa sĩ cộng đồng (bắt buộc credit tên artist và link nguồn gốc).
-  - `Collaboration & Events`: Tranh sự kiện collab đặc biệt, anime movie, triển lãm.
-- **Thuật toán Fisher-Yates Random Shuffle**: Riêng tab *"Tất cả tác phẩm (All works)"* được tự động xáo trộn ngẫu nhiên mỗi phiên truy cập, mang lại trải nghiệm khám phá mới mẻ cho người xem.
-- **Tải lười thông minh (Pagination)**: Ban đầu hiển thị sẵn 30 artwork mượt mà, hỗ trợ nút bấm *"Xem thêm tác phẩm"* nạp tiếp 20 artwork/lần.
-- **Lightbox Trải nghiệm Cao cấp**: Xem ảnh độ phân giải cao kèm bảng thông tin bản quyền chi tiết, huy hiệu thể loại và link chuyển hướng tới bài đăng gốc của tác giả.
+### 2. 🖼️ Curated Vertical Masonry Gallery
+- **Zero-Crop Architecture**: Preserves 100% of the original artist's aspect ratio (16:9, 4:3, 3:4, 1:1) with explicit container aspect-ratios, ensuring Cumulative Layout Shift (**CLS < 0.05**).
+- **Interactive Multi-Column Masonry**: Pure CSS vertical columns (`columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5`) providing smooth, trap-free vertical scrolling.
+- **Fisher-Yates Random Shuffle**: The *"All works"* tab automatically randomizes artwork order on each session visit, offering fresh discovery on every page load.
+- **Instant Category Filtering**: Four client-side filter states: `All`, `Official Art`, `Community Fanart`, and `Collaborations`.
+- **Transparent Attribution**: Hover overlays smoothly slide up to present the artwork title, verified artist handle, platform badge, and a secure 1-click external link to the source post (`target="_blank" rel="noopener noreferrer"`).
+- **Responsive Lightbox Modal**: High-definition artwork inspection modal with escape key navigation and full attribution metadata.
 
-### 3. 💌 Winter Hearth Guestbook (Sổ lưu bút mùa đông)
-- **Gửi lời nhắn yêu thương**: Khách ghé thăm có thể để lại lời chúc cùng các huy hiệu icon đặc trưng (❄️ Bông tuyết, 🐰 Yoshinon, 🍵 Trà ấm, 💖 Trái tim tuyết,...).
-- **Serverless API Bảo mật Tuyệt đối**: Gửi tin nhắn qua Vercel Serverless Function (`/api/guestbook`), đảm bảo **Write Token bí mật (`SANITY_WRITE_TOKEN`) không bao giờ bị lộ ra client bundle**.
-- **Real-time & Optimistic Update**: Lời chúc hiển thị tức thì trên giao diện và được đồng bộ lưu trữ vĩnh viễn vào Sanity.io Cloud CMS.
+### 3. 💌 Winter Hearth Noticeboard (Visitor Guestbook)
+- **Crystalline Sticky Note Board**: Visitors can leave 140-character heartfelt wishes along with custom emotive stamps (❄️ Snow crystal, 💙 Blue heart, 🐰 Rabbit, ✨ Sparkle, 🍵 Warm tea).
+- **Metallic Pushpin Aesthetics**: Notes appear as translucent frosted glass slips fastened with realistic metallic pushpins.
+- **Secure Serverless API**: Submissions are routed through a Vercel Serverless Function (`/api/guestbook`), ensuring the sensitive write token (`SANITY_WRITE_TOKEN`) **is never exposed in the client-side bundle**.
+- **Real-Time Optimistic Updates**: New messages appear immediately in the interface with zero layout jitter and persist permanently to Sanity Cloud.
 
-### 4. ⚖️ Two-tier Legal Attribution & Takedown Policy
-- Modal pháp lý tôn trọng bản quyền 2 tầng minh bạch:
-  - **Tầng 1 (IP Date A Live)**: Thuộc quyền sở hữu của tác giả Kōshi Tachibana, họa sĩ Tsunako, KADOKAWA và Fantasia Bunko.
-  - **Tầng 2 (Quyền tác giả tranh cộng đồng)**: Tôn vinh và bảo hộ công sức của các họa sĩ tự do.
-  - **Cam kết Takedown SLA 24-48 giờ**: Cung cấp form liên hệ nhanh để gỡ bỏ tác phẩm nếu nghệ sĩ gốc không muốn tiếp tục trưng bày.
+### 4. ⚖️ Two-Tier Legal Attribution & 24h Takedown Policy
+- **Tier 1 (Minimal Dark Footer)**: Clean, non-intrusive legal notice attributing the *Date A Live* franchise to Kōshi Tachibana, Tsunako, and KADOKAWA Corporation.
+- **Tier 2 (Credits & Disclaimer Slide-over Modal)**:
+  - Strict non-commercial and non-profit pledge (no ads, no monetization, fan-funded).
+  - Explicit artist copyright protection and clear attribution policy.
+  - Dedicated **1-Click Copy Email** (`pvietduc204@gmail.com`) and **Direct Gmail Web Compose** buttons guaranteeing a 24–48 hour takedown turnaround upon request.
 
 ---
 
-## 🛠️ Kiến trúc Kỹ thuật & Tech Stack
+## 🛠️ Technical Architecture & Stack
 
 ```
 +---------------------------------------------------------------------------------+
 |                                 VISITOR CLIENT                                  |
-|         (React 19 + TypeScript + Vite + Tailwind v4 + Framer Motion)            |
+|         (React 19 + TypeScript + Vite 6 + Tailwind v4 + Framer Motion)          |
 +----------------------------------------+----------------------------------------+
                                          |
                        +-----------------+-----------------+
                        |                                   |
-                (Read Artworks &                     (POST Guestbook
-                  Guestbook Data)                       Message)
+                (Fetch Artworks &                    (POST Guestbook
+                 Guestbook Entries)                      Entry)
                        |                                   |
                        v                                   v
 +-------------------------------+         +-------------------------------------+
 |        SANITY.IO CLOUD        |         |      VERCEL SERVERLESS FUNCTION     |
 |   Headless Content Lake API   | <====== |         (/api/guestbook.js)         |
-|  - Artworks Dataset           | (Write) |  - Request validation               |
+|  - Artworks Dataset           | (Write) |  - Input validation                 |
 |  - Guestbook Dataset          |         |  - Server-side SANITY_WRITE_TOKEN   |
 +---------------+---------------+         +-------------------------------------+
                 ^
@@ -122,133 +125,139 @@ Dự án được xây dựng với mục tiêu chuyển hóa triệt để từ
 +-------------------------------+
 ```
 
-### Công nghệ sử dụng:
-| Lớp (Layer) | Công nghệ | Mục đích |
+### Technology Breakdown
+
+| Layer | Technology | Purpose |
 |---|---|---|
-| **Core Framework** | React 19 + TypeScript 5.8 | Hiệu năng render tối tân, quản lý component và type-safety chặt chẽ |
-| **Build Tool** | Vite 6 | Tốc độ khởi động máy chủ tức thì và build tối ưu hóa cây phụ thuộc |
-| **Styling** | Tailwind CSS v4 | Khai báo design tokens hiện đại qua `@theme`, tối giản CSS bundle |
-| **Motion** | Framer Motion 13 | Animation chuyển động trang phục, modal, card và micro-interactions |
-| **Data Fetching** | `@sanity/client` + GROQ | Truy vấn dữ liệu có cấu trúc từ Headless Content Lake |
-| **Serverless API** | Vercel Edge Serverless | Xử lý mutation ghi dữ liệu an toàn từ server-side |
-| **CMS Platform** | Sanity.io Studio v3 | Giao diện quản trị viên độc lập cho người biên tập nội dung |
+| **Core Framework** | React 19 + TypeScript 5.8 | High-performance component rendering and strict type safety |
+| **Build Tool** | Vite 6 | Instant HMR development server and tree-shaken production bundles |
+| **Styling & Tokens** | Tailwind CSS v4 (`@theme`) | Atomic design tokens, modern CSS custom properties, minimal bundle footprint |
+| **Motion Physics** | Framer Motion 13 | Physics-based spring animations, layout transitions, and dialog entrances |
+| **CMS Data Fetching** | `@sanity/client` + GROQ | Structured content retrieval from Sanity Content Lake |
+| **Serverless Backend** | Vercel Edge Serverless | Server-side request validation and secure write operations |
+| **Content Management** | Sanity.io Studio v3 | Dedicated web dashboard for artwork management and guestbook moderation |
 
 ---
 
-## 📁 Cấu trúc Thư mục
+## 📁 Directory Structure
 
 ```text
 yoshinos-home/
 ├── api/                       # Vercel Serverless Functions
-│   └── guestbook.js           # API ghi nhận lời nhắn bảo mật (sử dụng SANITY_WRITE_TOKEN)
-├── public/                    # Tài nguyên tĩnh công khai (favicons, og-image, svg icons)
-├── sanity/                    # Cấu hình client Sanity phía Frontend
-│   └── client.ts              # Khởi tạo @sanity/client kết nối Content Lake
-├── spec/                      # Sổ tay kỹ thuật (Single Source of Truth)
-│   ├── README.md              # Giới thiệu bộ nhớ dài hạn dự án
-│   ├── REQUIREMENTS.md        # PRD, DRD, Decision Logs và Interface chuẩn hóa
-│   └── CHANGELOG.md           # Lịch sử hoàn thành các Sprint từ v0.1 đến v1.0
-├── src/                       # Mã nguồn ứng dụng Frontend
-│   ├── assets/                # Hình ảnh nhân vật các dạng trang phục (PNG trong suốt)
+│   └── guestbook.js           # Secure guestbook mutation API (utilizing SANITY_WRITE_TOKEN)
+├── public/                    # Static public assets (favicons, og-image, svg icons)
+├── sanity/                    # Frontend Sanity client configuration
+│   └── client.ts              # @sanity/client instance for Content Lake queries
+├── spec/                      # Project Engineering Hub (Single Source of Truth)
+│   ├── README.md              # Overview of engineering documents
+│   ├── REQUIREMENTS.md        # PRD, DRD, Decision Logs (DEC-01 to DEC-34), Data Contracts
+│   └── CHANGELOG.md           # Development history from Sprint 1 to Sprint 7
+├── src/                       # Frontend application source code
+│   ├── assets/                # Transparent character standee graphics (WebP Retina 2x)
 │   ├── components/
-│   │   ├── layout/            # Navbar, Navigation controls
+│   │   ├── layout/            # Fixed Navbar, navigation links, snow toggle
 │   │   ├── sections/          # TopSection, GallerySection, GuestbookSection, Footer
 │   │   └── ui/                # ArtworkCard, FilterBar, SnowCanvas, CreditsModal
-│   ├── data/                  # Dữ liệu tĩnh fallback khi không có kết nối CMS
-│   ├── hooks/                 # Custom React hooks (audio, animations, viewport)
-│   ├── lib/                   # Utility functions & helpers
-│   ├── types/                 # Định nghĩa kiểu dữ liệu TypeScript (Artwork, Guestbook, ...)
-│   ├── App.tsx                # Ứng dụng chính gom các section
-│   ├── index.css              # Custom Tailwind CSS v4 tokens và font imports
-│   └── main.tsx               # Điểm nhập React DOM root
-├── studio/                    # Dự án Sanity Studio độc lập
-│   ├── schemaTypes/           # Cấu trúc schema dữ liệu (artwork.ts, guestbook.ts)
-│   ├── sanity.config.ts       # Cấu hình Sanity Studio
-│   └── package.json           # Quản lý dependencies riêng của Studio
-├── vercel.json                # Cấu hình rewrite routes và cache headers cho Vercel
-├── vite.config.ts             # Cấu hình Vite bundler & Tailwind v4 plugin
-└── package.json               # Quản lý script và gói dependencies của toàn bộ dự án
+│   ├── data/                  # Static fallback mock data for offline resilience
+│   ├── hooks/                 # Custom React hooks (snow particles, animation states)
+│   ├── lib/                   # Utility helpers and formatters
+│   ├── types/                 # Shared TypeScript interfaces (Artwork, Guestbook, Dossier)
+│   ├── App.tsx                # Application root orchestrating sections and modals
+│   ├── index.css              # Tailwind CSS v4 @theme design tokens and typography imports
+│   └── main.tsx               # React DOM entry point
+├── studio/                    # Independent Sanity Studio project
+│   ├── schemaTypes/           # Sanity schema definitions (artwork.ts, guestbook.ts)
+│   ├── sanity.config.ts       # Sanity Studio project configuration
+│   └── package.json           # Studio dependencies and deployment scripts
+├── DESIGN_SPEC.md             # Comprehensive UI/UX Design System Specification
+├── vercel.json                # Vercel routing rules and edge cache headers
+├── vite.config.ts             # Vite configuration with Tailwind CSS v4 integration
+└── package.json               # Frontend dependencies and npm scripts
 ```
 
 ---
 
-## 🚀 Hướng dẫn Cài đặt & Chạy Local
+## 🚀 Getting Started & Local Development
 
-### 1. Yêu cầu hệ thống
-- **Node.js**: Phiên bản `>= 18.0.0` (Khuyên dùng Node 20 LTS hoặc mới hơn).
-- **npm** hoặc **pnpm / yarn**.
-- Một tài khoản [Sanity.io](https://www.sanity.io/) (nếu muốn tự host Studio riêng).
+### 1. Prerequisites
+- **Node.js**: Version `>= 18.0.0` (Node 20 LTS or later recommended).
+- **npm**, **pnpm**, or **yarn**.
+- A [Sanity.io](https://www.sanity.io/) account (optional, for deploying your own studio).
 
-### 2. Cài đặt các gói phụ thuộc
+### 2. Installation
 ```bash
-# Clone repository
+# Clone the repository
 git clone https://github.com/MonoDuckY/Yoshino-home.git
 cd yoshinos-home
 
-# Cài đặt dependencies cho Frontend
+# Install Frontend dependencies
 npm install
 
-# Cài đặt dependencies cho Sanity Studio
+# Install Sanity Studio dependencies
 npm --prefix studio install
 ```
 
-### 3. Cấu hình Biến môi trường
-Tạo file `.env` tại thư mục gốc dự án dựa trên mẫu [`.env.example`](.env.example):
+### 3. Environment Variables Configuration
+Create a `.env` file in the project root based on [`.env.example`](.env.example):
 ```env
 # Sanity Project Configuration
 VITE_SANITY_PROJECT_ID=c45te99f
 VITE_SANITY_DATASET=production
 VITE_SANITY_API_VERSION=2024-03-01
 
-# Sanity API Write Token (Dành cho việc gửi lời chúc lên Sanity)
+# Sanity API Write Token (Required only for local serverless guestbook submission)
 SANITY_WRITE_TOKEN=your_sanity_write_token_here
 ```
 
-### 4. Khởi chạy môi trường phát triển
+### 4. Running the Development Servers
 ```bash
-# 🌐 Khởi chạy Frontend React (Mặc định: http://localhost:5173)
+# 🌐 Start the React Frontend development server (Default: http://localhost:5173)
 npm run dev
 
-# 🎨 Khởi chạy Sanity Studio cục bộ (Mặc định: http://localhost:3333)
+# 🎨 Start Sanity Studio locally (Default: http://localhost:3333)
 npm run studio
 ```
 
-### 5. Lệnh Build & Deploy
+### 5. Build & Deployment Commands
 ```bash
-# Kiểm tra TypeScript và Build Frontend
+# Type check and build the production bundle
 npm run build
 
-# Xem thử bản build production cục bộ
+# Preview the production build locally
 npm run preview
 
-# Đăng nhập vào tài khoản Sanity CLI
-npm run studio:login
-
-# Deploy Sanity Studio lên domain đám mây *.sanity.studio
+# Deploy Sanity Studio to the cloud (*.sanity.studio)
 npm run studio:deploy
 ```
 
 ---
 
-## 📋 Quy chuẩn Kỹ thuật (Spec Hub)
+## 📋 Engineering Specification Hub
 
-Dự án tuân thủ nghiêm ngặt nguyên tắc **Spec-First Engineering**. Folder [`spec/`](./spec) lưu giữ toàn bộ quyết định kiến trúc:
+This project strictly adheres to **Spec-First Engineering**. The [`spec/`](./spec) directory preserves the engineering and product decisions:
 
 - 📖 [`spec/REQUIREMENTS.md`](./spec/REQUIREMENTS.md):
-  - Phân tích người dùng mục tiêu (Persona) và hành trình trải nghiệm.
-  - Bảng Design Tokens chuẩn (Color palette, Spacing scale, Typography pairing).
-  - Định nghĩa chi tiết Decision Logs (DEC-01 đến DEC-34).
+  - User personas and end-to-end journey maps.
+  - Complete Architectural Decision Logs (**DEC-01 through DEC-34**).
+  - TypeScript interfaces, schema contracts, and non-functional requirements (FCP < 1.2s, LCP < 2.0s, CLS < 0.05).
 - 📜 [`spec/CHANGELOG.md`](./spec/CHANGELOG.md):
-  - Nhật ký ghi lại quá trình hoàn thành Sprint 1 đến Sprint 7.
-  - Lịch sử refactor từ local fallback lên Serverless và Cloud deployment.
+  - Detailed release notes across all development sprints.
+  - Architectural evolution from static mockups to cloud-native production.
 
 ---
 
-## 🛡️ Bản quyền & Tuyên bố Miễn trừ Trách nhiệm
+## 🎨 Design Specification
 
-- **Date A Live IP**: Mọi quyền đối với thương hiệu *Date A Live*, nhân vật Yoshino (四糸乃), thiết kế trang phục và linh thú Zadkiel thuộc quyền sở hữu của tác giả **Kōshi Tachibana**, họa sĩ minh họa **Tsunako**, nhà xuất bản **KADOKAWA / Fujimi Shobo**, và Ủy ban sản xuất Anime liên quan.
-- **Fan-made Non-profit Tribute**: Trang web này là một dự án phi thương mại được lập bởi cộng đồng người hâm mộ nhằm mục đích học tập kỹ thuật, tôn vinh và chia sẻ tình yêu với nhân vật. Website không chứa quảng cáo, không bán vật phẩm và không thu bất kỳ nguồn lợi tài chính nào.
-- **Quyền tác giả Nghệ thuật**: Bản quyền của các tác phẩm minh họa trong Gallery thuộc về từng họa sĩ được ghi nhận trong thông tin chi tiết của mỗi bức tranh. Nếu bạn là tác giả và mong muốn chỉnh sửa thông tin hoặc gỡ bỏ tác phẩm, vui lòng mở mục **"Bản quyền & Tín dụng"** ở chân trang hoặc liên hệ trực tiếp để được hỗ trợ trong vòng 24–48 giờ.
+For detailed UI/UX guidelines, design token matrices, typography scales, optical glassmorphism formulas, and component wireframes, see:
+👉 **[`DESIGN_SPEC.md`](./DESIGN_SPEC.md)** — The single source of truth for all visual and interaction design rules.
+
+---
+
+## 🛡️ Copyright, Attribution & Disclaimer
+
+- **Date A Live Intellectual Property**: All rights to the *Date A Live* franchise, the character Yoshino Himekawa (四糸乃), character designs, and the spirit Zadkiel are the sole property of author **Kōshi Tachibana**, illustrator **Tsunako**, publisher **KADOKAWA Corporation / Fujimi Shobo**, and the Date A Live Anime Production Committee.
+- **Non-Profit Fan Tribute**: This website is an independent, non-commercial tribute project developed strictly for technical learning, artistic showcase, and community appreciation. It does not generate revenue, contains no advertisements, and sells no goods or services.
+- **Artwork Attribution**: All artworks in the gallery belong to their respective creators as credited on each card. If you are an artist and wish to have your artwork modified or removed, please trigger the **Credits & Disclaimer** dialog in the footer or email `pvietduc204@gmail.com` for immediate removal within 24–48 hours.
 
 ---
 

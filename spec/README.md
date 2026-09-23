@@ -9,6 +9,7 @@
 | File | Mục đích |
 |---|---|
 | `README.md` | File này — tổng quan và hướng dẫn đọc nhanh |
+| `DESIGN_SPEC.md` (Root) | Đặc tả kỹ thuật thiết kế giao diện (UI/UX Specification, Design Tokens, Component Specs) |
 | `REQUIREMENTS.md` | PRD + DRD đầy đủ đã được chuẩn hóa, bao gồm tất cả quyết định kỹ thuật đã thống nhất |
 | `CHANGELOG.md` | Nhật ký thay đổi yêu cầu và quyết định thiết kế theo thời gian |
 
