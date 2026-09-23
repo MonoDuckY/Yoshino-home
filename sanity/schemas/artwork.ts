@@ -42,8 +42,8 @@ export default {
       description: 'Bắt buộc đối với Community Fanart; Tùy chọn (cho phép trống) đối với Official Art và Collab',
       validation: (Rule: any) =>
         Rule.custom((val: any, context: any) => {
-          const parent = context.parent as { category?: string } | undefined;
-          if (parent?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
+          const doc = (context.document || context.parent) as { category?: string } | undefined;
+          if (doc?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
             return 'Vui lòng điền Artist Name cho tác phẩm Community Fanart';
           }
           return true;
@@ -55,10 +55,20 @@ export default {
       type: 'url',
       description: 'Bắt buộc đối với Community Fanart; Tùy chọn (cho phép trống) đối với Official Art và Collab',
       validation: (Rule: any) =>
-        Rule.uri({ scheme: ['http', 'https'] }).custom((val: any, context: any) => {
-          const parent = context.parent as { category?: string } | undefined;
-          if (parent?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
+        Rule.custom((val: any, context: any) => {
+          const doc = (context.document || context.parent) as { category?: string } | undefined;
+          if (doc?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
             return 'Vui lòng cung cấp Source URL cho tác phẩm Community Fanart';
+          }
+          if (val && typeof val === 'string' && val.trim() !== '') {
+            try {
+              const parsed = new URL(val);
+              if (!['http:', 'https:'].includes(parsed.protocol)) {
+                return 'URL phải bắt đầu bằng http:// hoặc https://';
+              }
+            } catch {
+              return 'Định dạng URL không hợp lệ';
+            }
           }
           return true;
         }),
