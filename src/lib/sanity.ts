@@ -41,14 +41,14 @@ export function urlFor(source: any) {
 export interface SanityArtworkDoc {
   _id: string;
   _createdAt: string;
-  title: string;
+  title?: string;
   category: ArtworkCategory;
   imageUrl?: string;
   blurDataUrl?: string;
   width?: number;
   height?: number;
-  artistName: string;
-  sourceUrl: string;
+  artistName?: string;
+  sourceUrl?: string;
   curatorNote?: string;
 }
 
@@ -63,7 +63,7 @@ export interface SanityGuestbookDoc {
 }
 
 /** Infer platform automatically from source URL */
-function inferPlatform(url: string): 'pixiv' | 'twitter' | 'artstation' | 'official' {
+function inferPlatform(url?: string): 'pixiv' | 'twitter' | 'artstation' | 'official' {
   if (!url) return 'official';
   const lower = url.toLowerCase();
   if (lower.includes('pixiv.net')) return 'pixiv';
@@ -113,21 +113,37 @@ export async function fetchArtworks(): Promise<{ artworks: Artwork[]; isFallback
       return { artworks: mockArtworks, isFallback: true };
     }
 
-    const mappedArtworks: Artwork[] = rawDocs.map((doc) => ({
-      id: doc._id,
-      title: doc.title,
-      category: doc.category,
-      imageUrl: doc.imageUrl || 'https://placehold.co/400x560/0B1325/7DD3FC?text=Art',
-      blurDataUrl: doc.blurDataUrl,
-      width: doc.width || 400,
-      height: doc.height || 560,
-      credit: {
-        name: doc.artistName,
-        platform: inferPlatform(doc.sourceUrl),
-        sourceUrl: doc.sourceUrl,
-      },
-      curatorNote: doc.curatorNote,
-    }));
+    const mappedArtworks: Artwork[] = rawDocs.map((doc) => {
+      const defaultArtist =
+        doc.category === 'official'
+          ? 'Official Art (Kadokawa / Tsunako)'
+          : doc.category === 'collab'
+          ? 'Collaboration & Events'
+          : 'Community Artist';
+
+      const defaultTitle =
+        doc.category === 'official'
+          ? 'Official Art'
+          : doc.category === 'collab'
+          ? 'Collaboration Artwork'
+          : 'Yoshino Fanart';
+
+      return {
+        id: doc._id,
+        title: doc.title?.trim() || defaultTitle,
+        category: doc.category,
+        imageUrl: doc.imageUrl || 'https://placehold.co/400x560/0B1325/7DD3FC?text=Art',
+        blurDataUrl: doc.blurDataUrl,
+        width: doc.width || 400,
+        height: doc.height || 560,
+        credit: {
+          name: doc.artistName?.trim() || defaultArtist,
+          platform: inferPlatform(doc.sourceUrl),
+          sourceUrl: doc.sourceUrl?.trim() || undefined,
+        },
+        curatorNote: doc.curatorNote,
+      };
+    });
 
     return { artworks: mappedArtworks, isFallback: false };
   } catch (error) {

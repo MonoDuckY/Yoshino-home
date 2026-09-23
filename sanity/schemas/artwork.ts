@@ -11,7 +11,7 @@ export default {
       name: 'title',
       title: 'Artwork Title',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      description: 'Tiêu đề tranh (Tùy chọn — có thể để trống cho Official/Collab)',
     },
     {
       name: 'category',
@@ -26,6 +26,7 @@ export default {
         layout: 'radio',
       },
       validation: (Rule: any) => Rule.required(),
+      initialValue: 'official',
     },
     {
       name: 'image',
@@ -38,27 +39,65 @@ export default {
       name: 'artistName',
       title: 'Artist Name',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      description: 'Bắt buộc đối với Community Fanart; Tùy chọn (cho phép trống) đối với Official Art và Collab',
+      validation: (Rule: any) =>
+        Rule.custom((val: any, context: any) => {
+          const parent = context.parent as { category?: string } | undefined;
+          if (parent?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
+            return 'Vui lòng điền Artist Name cho tác phẩm Community Fanart';
+          }
+          return true;
+        }),
     },
     {
       name: 'sourceUrl',
       title: 'Original Source URL',
       type: 'url',
-      validation: (Rule: any) => Rule.required().uri({ scheme: ['http', 'https'] }),
+      description: 'Bắt buộc đối với Community Fanart; Tùy chọn (cho phép trống) đối với Official Art và Collab',
+      validation: (Rule: any) =>
+        Rule.uri({ scheme: ['http', 'https'] }).custom((val: any, context: any) => {
+          const parent = context.parent as { category?: string } | undefined;
+          if (parent?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
+            return 'Vui lòng cung cấp Source URL cho tác phẩm Community Fanart';
+          }
+          return true;
+        }),
     },
     {
       name: 'curatorNote',
       title: 'Curator Note (Review / Thoughts)',
       type: 'text',
       rows: 3,
-      description: 'Your personal thoughts or background note for this artwork (optional)',
+      description: 'Ghi chú, cảm nghĩ hoặc bối cảnh tác phẩm (tùy chọn)',
+    },
+    {
+      name: 'hidden',
+      title: 'Hide from Gallery',
+      type: 'boolean',
+      description: 'Gạt bật tùy chọn này để tạm ẩn tác phẩm khỏi phòng tranh mà không cần xóa',
+      initialValue: false,
     },
   ],
   preview: {
     select: {
       title: 'title',
       subtitle: 'artistName',
+      category: 'category',
       media: 'image',
+    },
+    prepare({ title, subtitle, category, media }: any) {
+      const categoryLabel =
+        category === 'official'
+          ? 'Official Art'
+          : category === 'collab'
+          ? 'Collaboration & Events'
+          : 'Community Fanart';
+
+      return {
+        title: title?.trim() || categoryLabel,
+        subtitle: subtitle?.trim() || (category === 'official' ? 'Official / Tsunako' : category === 'collab' ? 'Official Collab' : 'Unknown Artist'),
+        media,
+      };
     },
   },
 };

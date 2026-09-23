@@ -59,7 +59,7 @@ export function ArtworkCard({ artwork, index, className }: ArtworkCardProps) {
       {/* Artwork image — lazy loaded, CLS-safe via aspect-ratio on parent */}
       <img
         src={artwork.imageUrl}
-        alt={`${artwork.title} — artwork by ${artwork.credit.name}`}
+        alt={`${artwork.title || 'Yoshino Artwork'} — artwork by ${artwork.credit?.name || 'Artist'}`}
         loading="lazy"
         decoding="async"
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -101,18 +101,22 @@ export function ArtworkCard({ artwork, index, className }: ArtworkCardProps) {
               transition={{ duration: 0.2, delay: 0.04 }}
               className="mb-3"
             >
-              <p
-                className="text-sm font-semibold leading-snug mb-0.5"
-                style={{ fontFamily: 'var(--font-display)', color: '#F8FAFC' }}
-              >
-                {artwork.title}
-              </p>
-              <p
-                className="text-xs"
-                style={{ fontFamily: 'var(--font-body)', color: 'rgba(248,250,252,0.75)' }}
-              >
-                {artwork.credit.handle ?? artwork.credit.name}
-              </p>
+              {artwork.title && (
+                <p
+                  className="text-sm font-semibold leading-snug mb-0.5"
+                  style={{ fontFamily: 'var(--font-display)', color: '#F8FAFC' }}
+                >
+                  {artwork.title}
+                </p>
+              )}
+              {artwork.credit?.name && (
+                <p
+                  className="text-xs"
+                  style={{ fontFamily: 'var(--font-body)', color: 'rgba(248,250,252,0.75)' }}
+                >
+                  {artwork.credit.handle ?? artwork.credit.name}
+                </p>
+              )}
               {artwork.curatorNote && (
                 <p
                   className="text-xs mt-1.5 leading-relaxed italic line-clamp-2"
@@ -123,43 +127,45 @@ export function ArtworkCard({ artwork, index, className }: ArtworkCardProps) {
               )}
             </motion.div>
 
-            {/* View Source CTA — US-03: opens in new tab */}
-            <motion.a
-              href={artwork.credit.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ y: 8, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 4, opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.08 }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wide self-start transition-colors duration-150"
-              style={{
-                fontFamily: 'var(--font-body)',
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                color: '#F8FAFC',
-                border: '1px solid rgba(255,255,255,0.25)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-              }}
-              onClick={(e) => e.stopPropagation()}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.28)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-              }}
-            >
-              View Source
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                <path
-                  d="M1.5 8.5L8.5 1.5M8.5 1.5H3.5M8.5 1.5V6.5"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </motion.a>
+            {/* View Source CTA — US-03: opens in new tab if sourceUrl exists */}
+            {artwork.credit?.sourceUrl && (
+              <motion.a
+                href={artwork.credit.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ y: 8, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 4, opacity: 0 }}
+                transition={{ duration: 0.2, delay: 0.08 }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wide self-start transition-colors duration-150"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  backgroundColor: 'rgba(255,255,255,0.15)',
+                  color: '#F8FAFC',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                }}
+                onClick={(e) => e.stopPropagation()}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.28)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
+                }}
+              >
+                View Source
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                  <path
+                    d="M1.5 8.5L8.5 1.5M8.5 1.5H3.5M8.5 1.5V6.5"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.a>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

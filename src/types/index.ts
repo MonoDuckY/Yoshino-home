@@ -14,21 +14,21 @@ export type ArtworkCategory = 'official' | 'fanart' | 'collab';
 export type GalleryFilter = 'all' | ArtworkCategory;
 
 export interface ArtistCredit {
-  name: string;
+  name?: string;
   platform?: 'pixiv' | 'twitter' | 'artstation' | 'official' | string;
   handle?: string;    // e.g. "@tsunako_official"
-  sourceUrl: string;
+  sourceUrl?: string;
 }
 
 export interface Artwork {
   id: string;
-  title: string;
+  title?: string;
   category: ArtworkCategory;  // Never 'all'
   imageUrl: string;
   blurDataUrl?: string;       // From Sanity asset->metadata.lqip (auto, not manual)
   width: number;
   height: number;
-  credit: ArtistCredit;
+  credit?: ArtistCredit;
   publishedDate?: string;     // ISO date string "YYYY-MM-DD"
   curatorNote?: string;       // Personal note from curator — entered manually in Sanity Studio
 }

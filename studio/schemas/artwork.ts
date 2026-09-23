@@ -9,7 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Artwork Title',
       type: 'string',
-      validation: (rule) => rule.required(),
+      description: 'Tiêu đề tranh (Tùy chọn — có thể để trống cho Official/Collab)',
     }),
     defineField({
       name: 'category',
@@ -24,6 +24,7 @@ export default defineType({
         layout: 'radio',
       },
       validation: (rule) => rule.required(),
+      initialValue: 'official',
     }),
     defineField({
       name: 'image',
@@ -36,20 +37,38 @@ export default defineType({
       name: 'artistName',
       title: 'Artist Name',
       type: 'string',
-      validation: (rule) => rule.required(),
+      description: 'Bắt buộc đối với Community Fanart; Tùy chọn (cho phép trống) đối với Official Art và Collab',
+      validation: (rule) =>
+        rule.custom((val, context) => {
+          const parent = context.parent as { category?: string } | undefined;
+          if (parent?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
+            return 'Vui lòng điền Artist Name cho tác phẩm Community Fanart';
+          }
+          return true;
+        }),
     }),
     defineField({
       name: 'sourceUrl',
       title: 'Original Source URL',
       type: 'url',
-      validation: (rule) => rule.required().uri({ scheme: ['http', 'https'] }),
+      description: 'Bắt buộc đối với Community Fanart; Tùy chọn (cho phép trống) đối với Official Art và Collab',
+      validation: (rule) =>
+        rule
+          .uri({ scheme: ['http', 'https'] })
+          .custom((val, context) => {
+            const parent = context.parent as { category?: string } | undefined;
+            if (parent?.category === 'fanart' && (!val || typeof val !== 'string' || !val.trim())) {
+              return 'Vui lòng cung cấp Source URL cho tác phẩm Community Fanart';
+            }
+            return true;
+          }),
     }),
     defineField({
       name: 'curatorNote',
       title: 'Curator Note (Review / Thoughts)',
       type: 'text',
       rows: 3,
-      description: 'Your personal thoughts or background note for this artwork (optional)',
+      description: 'Ghi chú, cảm nghĩ hoặc bối cảnh tác phẩm (tùy chọn)',
     }),
     defineField({
       name: 'hidden',
@@ -63,7 +82,22 @@ export default defineType({
     select: {
       title: 'title',
       subtitle: 'artistName',
+      category: 'category',
       media: 'image',
+    },
+    prepare({ title, subtitle, category, media }) {
+      const categoryLabel =
+        category === 'official'
+          ? 'Official Art'
+          : category === 'collab'
+          ? 'Collaboration & Events'
+          : 'Community Fanart';
+
+      return {
+        title: title?.trim() || categoryLabel,
+        subtitle: subtitle?.trim() || (category === 'official' ? 'Official / Tsunako' : category === 'collab' ? 'Official Collab' : 'Unknown Artist'),
+        media,
+      };
     },
   },
 });
