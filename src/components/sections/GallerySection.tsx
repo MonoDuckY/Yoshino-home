@@ -8,8 +8,8 @@ import { filterArtworks } from '../../types';
 import type { GalleryFilter } from '../../types';
 import { useArtworks } from '../../hooks/useArtworks';
 
-const INITIAL_BATCH_SIZE = 8;
-const BATCH_INCREMENT = 8;
+const INITIAL_BATCH_SIZE = 30;
+const BATCH_INCREMENT = 20;
 
 export function GallerySection() {
   const [activeFilter, setActiveFilter] = useState<GalleryFilter>('all');
@@ -67,7 +67,7 @@ export function GallerySection() {
         {/* ── Adaptive Multi-column Masonry Gallery (DEC-12, DEC-16) ── */}
         {loading ? (
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
-            {Array.from({ length: 8 }).map((_, idx) => {
+            {Array.from({ length: 12 }).map((_, idx) => {
               const aspectClasses = [
                 'aspect-[3/4]',
                 'aspect-[16/9]',

@@ -182,7 +182,7 @@ export function GuestbookSection() {
             </div>
           </div>
 
-          {/* Success Toast banner */}
+          {/* Success / Error Toast banners */}
           <AnimatePresence>
             {showSuccessToast && (
               <motion.div
@@ -193,6 +193,17 @@ export function GuestbookSection() {
               >
                 <span>🎉</span>
                 <span>Your warm wish has been pinned to Yoshino&apos;s board!</span>
+              </motion.div>
+            )}
+            {errorToast && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="relative z-20 bg-rose-500/10 border-b border-rose-500/20 px-6 py-2.5 text-xs font-semibold text-center text-rose-600 flex items-center justify-center gap-2"
+              >
+                <span>⚠️</span>
+                <span>{errorToast}</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -294,31 +305,6 @@ export function GuestbookSection() {
                       <span>{isSubmitting ? 'Pinning...' : 'Pin Wish 📌'}</span>
                     </button>
                   </div>
-
-                  <AnimatePresence>
-                    {showSuccessToast && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -6, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -6, scale: 0.95 }}
-                        className="mt-2 px-3 py-2 rounded-lg text-[11px] font-medium text-emerald-800 bg-emerald-50/90 border border-emerald-300/80 shadow-xs flex items-center gap-1.5"
-                      >
-                        <span className="text-xs">✨</span>
-                        <span>Lời chúc đã được ghim và lưu vĩnh viễn vào Sanity!</span>
-                      </motion.div>
-                    )}
-                    {errorToast && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -6, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -6, scale: 0.95 }}
-                        className="mt-2 px-3 py-2 rounded-lg text-[11px] font-medium text-rose-800 bg-rose-50/95 border border-rose-300/80 shadow-xs flex items-start gap-1.5 leading-snug"
-                      >
-                        <span className="text-xs flex-shrink-0">⚠️</span>
-                        <span>{errorToast}</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </form>
               </motion.div>
 
