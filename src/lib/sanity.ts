@@ -178,32 +178,62 @@ export async function createGuestbookEntry(entry: {
   message: string;
   badgeIcon: string;
 }): Promise<GuestbookEntry> {
-  if (!sanityWriteClient) {
-    console.info('[Sanity] No write client available (missing VITE_SANITY_WRITE_TOKEN). Entry saved locally.');
-    return {
-      id: `gb-local-${Date.now()}`,
+  // 1. Try Vercel Serverless Function first (/api/guestbook) — keeps token private
+  try {
+    const res = await fetch('/api/guestbook', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(entry),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        id: data.id,
+        authorName: data.authorName,
+        message: data.message,
+        badgeIcon: data.badgeIcon,
+        createdAt: data.createdAt,
+      };
+    }
+
+    // If server responded with a non-404 error (e.g. 500 missing token or 400 validation error)
+    if (res.status !== 404) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || `Lỗi máy chủ (${res.status})`);
+    }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!message.includes('404')) {
+      throw error;
+    }
+  }
+
+  // 2. Direct client fallback (used in local dev if VITE_SANITY_WRITE_TOKEN is set)
+  if (sanityWriteClient) {
+    const doc = await sanityWriteClient.create({
+      _type: 'guestbook',
       authorName: entry.authorName,
       message: entry.message,
       badgeIcon: entry.badgeIcon,
-      createdAt: new Date().toISOString().split('T')[0],
+      approved: true,
+      createdAt: new Date().toISOString(),
+    });
+
+    return {
+      id: doc._id,
+      authorName: doc.authorName,
+      message: doc.message,
+      badgeIcon: doc.badgeIcon,
+      createdAt: (doc.createdAt || doc._createdAt).split('T')[0],
     };
   }
 
-  const doc = await sanityWriteClient.create({
-    _type: 'guestbook',
-    authorName: entry.authorName,
-    message: entry.message,
-    badgeIcon: entry.badgeIcon,
-    approved: true,
-    createdAt: new Date().toISOString(),
-  });
-
-  return {
-    id: doc._id,
-    authorName: doc.authorName,
-    message: doc.message,
-    badgeIcon: doc.badgeIcon,
-    createdAt: (doc.createdAt || doc._createdAt).split('T')[0],
-  };
+  // 3. Neither serverless API nor direct write token is configured
+  throw new Error(
+    'Chưa cấu hình Token ghi dữ liệu (SANITY_WRITE_TOKEN). Vui lòng thêm token trên Vercel để lưu lời chúc vào Sanity!'
+  );
 }
 

@@ -37,6 +37,7 @@ export function GuestbookSection() {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [errorToast, setErrorToast] = useState<string | null>(null);
   const [isShuffled, setIsShuffled] = useState(false);
   const [shuffledList, setShuffledList] = useState<GuestbookEntry[]>([]);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -66,22 +67,31 @@ export function GuestbookSection() {
     if (!authorName.trim() || !message.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
-    const newDoc = await postEntry({
-      authorName: authorName.trim(),
-      message: message.trim(),
-      badgeIcon: '❄️',
-    });
+    setErrorToast(null);
 
-    // If currently in shuffle mode, insert new note right at the front
-    if (isShuffled) {
-      setShuffledList((prev) => [newDoc, ...prev]);
+    try {
+      const newDoc = await postEntry({
+        authorName: authorName.trim(),
+        message: message.trim(),
+        badgeIcon: '❄️',
+      });
+
+      // If currently in shuffle mode, insert new note right at the front
+      if (isShuffled) {
+        setShuffledList((prev) => [newDoc, ...prev]);
+      }
+
+      setAuthorName('');
+      setMessage('');
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 4000);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Không thể lưu lời chúc. Vui lòng thử lại sau.';
+      setErrorToast(msg);
+      setTimeout(() => setErrorToast(null), 7000);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setAuthorName('');
-    setMessage('');
-    setIsSubmitting(false);
-    setShowSuccessToast(true);
-    setTimeout(() => setShowSuccessToast(false), 3500);
   };
 
   return (
@@ -284,6 +294,31 @@ export function GuestbookSection() {
                       <span>{isSubmitting ? 'Pinning...' : 'Pin Wish 📌'}</span>
                     </button>
                   </div>
+
+                  <AnimatePresence>
+                    {showSuccessToast && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                        className="mt-2 px-3 py-2 rounded-lg text-[11px] font-medium text-emerald-800 bg-emerald-50/90 border border-emerald-300/80 shadow-xs flex items-center gap-1.5"
+                      >
+                        <span className="text-xs">✨</span>
+                        <span>Lời chúc đã được ghim và lưu vĩnh viễn vào Sanity!</span>
+                      </motion.div>
+                    )}
+                    {errorToast && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                        className="mt-2 px-3 py-2 rounded-lg text-[11px] font-medium text-rose-800 bg-rose-50/95 border border-rose-300/80 shadow-xs flex items-start gap-1.5 leading-snug"
+                      >
+                        <span className="text-xs flex-shrink-0">⚠️</span>
+                        <span>{errorToast}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </form>
               </motion.div>
 

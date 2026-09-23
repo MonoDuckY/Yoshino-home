@@ -57,8 +57,10 @@ export function useGuestbook() {
         setEntries((prev) => prev.map((item) => (item.id === optimisticEntry.id ? savedDoc : item)));
         return savedDoc;
       } catch (err) {
+        // Rollback optimistic entry so UI does not show false positive
+        setEntries((prev) => prev.filter((item) => item.id !== optimisticEntry.id));
         console.error('[Sanity] Error submitting guestbook entry:', err);
-        return optimisticEntry;
+        throw err;
       }
     },
     []
