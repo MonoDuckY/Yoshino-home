@@ -260,14 +260,14 @@ export function TopSection() {
             animate="visible"
           >
             <div
-              className="rounded-3xl p-7 sm:p-9 md:p-10 border"
+              className="rounded-3xl p-7 sm:p-9 md:p-10 border transition-all duration-300"
               style={{
-                backgroundColor: 'var(--color-glass)',
+                backgroundColor: 'rgba(255, 255, 255, 0.45)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
-                borderColor: 'rgba(255, 255, 255, 0.95)',
+                borderColor: 'rgba(255, 255, 255, 0.85)',
                 boxShadow:
-                  '0 8px 32px rgba(30, 55, 110, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+                  '0 16px 48px rgba(30, 55, 110, 0.07), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
               }}
             >
 
@@ -293,13 +293,15 @@ export function TopSection() {
                 {characterDossier.nameKanji}
               </p>
 
-              {/* Iconic Voice Line Quote Box */}
+              {/* Iconic Voice Line Quote Box with Glassmorphism */}
               <div
-                className="mb-5 p-3.5 sm:p-4 rounded-2xl border relative overflow-hidden"
+                className="mb-5 p-3.5 sm:p-4 rounded-2xl border relative overflow-hidden transition-all duration-300"
                 style={{
-                  backgroundColor: 'rgba(240, 249, 255, 0.85)',
-                  borderColor: 'rgba(186, 230, 253, 0.8)',
-                  boxShadow: '0 2px 10px rgba(59, 157, 210, 0.05)',
+                  backgroundColor: 'rgba(224, 242, 254, 0.35)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  borderColor: 'rgba(186, 230, 253, 0.7)',
+                  boxShadow: '0 4px 16px rgba(59, 157, 210, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
                 }}
               >
                 <div className="flex items-start gap-3">
@@ -321,15 +323,18 @@ export function TopSection() {
                 </div>
               </div>
 
-              {/* ── Streamlined Vital Profile Specifications ── */}
+              {/* ── Streamlined Vital Profile Specifications with Glassmorphism ── */}
               <div className="pt-4 border-t border-[rgba(59,157,210,0.15)]">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                   {/* Age */}
                   <div
-                    className="p-3.5 rounded-2xl border"
+                    className="p-3.5 rounded-2xl border transition-all duration-300 hover:bg-white/55 hover:border-white/95 hover:shadow-xs"
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                      borderColor: 'rgba(59, 157, 210, 0.15)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      borderColor: 'rgba(255, 255, 255, 0.75)',
+                      boxShadow: '0 2px 8px rgba(30, 55, 110, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.85)',
                     }}
                   >
                     <span
@@ -346,10 +351,13 @@ export function TopSection() {
 
                   {/* Height */}
                   <div
-                    className="p-3.5 rounded-2xl border"
+                    className="p-3.5 rounded-2xl border transition-all duration-300 hover:bg-white/55 hover:border-white/95 hover:shadow-xs"
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                      borderColor: 'rgba(59, 157, 210, 0.15)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      borderColor: 'rgba(255, 255, 255, 0.75)',
+                      boxShadow: '0 2px 8px rgba(30, 55, 110, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.85)',
                     }}
                   >
                     <span
@@ -365,10 +373,13 @@ export function TopSection() {
 
                   {/* Codename */}
                   <div
-                    className="p-3.5 rounded-2xl border"
+                    className="p-3.5 rounded-2xl border transition-all duration-300 hover:bg-white/55 hover:border-white/95 hover:shadow-xs"
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                      borderColor: 'rgba(59, 157, 210, 0.15)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      borderColor: 'rgba(255, 255, 255, 0.75)',
+                      boxShadow: '0 2px 8px rgba(30, 55, 110, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.85)',
                     }}
                   >
                     <span
@@ -384,10 +395,13 @@ export function TopSection() {
 
                   {/* Voice Actress (Seiyuu) */}
                   <div
-                    className="p-3.5 rounded-2xl border sm:col-span-2"
+                    className="p-3.5 rounded-2xl border sm:col-span-2 transition-all duration-300 hover:bg-white/55 hover:border-white/95 hover:shadow-xs"
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                      borderColor: 'rgba(59, 157, 210, 0.15)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      borderColor: 'rgba(255, 255, 255, 0.75)',
+                      boxShadow: '0 2px 8px rgba(30, 55, 110, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.85)',
                     }}
                   >
                     <span
@@ -414,10 +428,13 @@ export function TopSection() {
 
                   {/* Measurements */}
                   <div
-                    className="p-3.5 rounded-2xl border"
+                    className="p-3.5 rounded-2xl border transition-all duration-300 hover:bg-white/55 hover:border-white/95 hover:shadow-xs"
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                      borderColor: 'rgba(59, 157, 210, 0.15)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      borderColor: 'rgba(255, 255, 255, 0.75)',
+                      boxShadow: '0 2px 8px rgba(30, 55, 110, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.85)',
                     }}
                   >
                     <span

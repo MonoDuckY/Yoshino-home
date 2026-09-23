@@ -15,6 +15,18 @@
   - Cấu hình thẻ nhận diện màu trình duyệt: `<meta name="theme-color" content="#ECF1FB">`.
 - **Cấu hình Triển khai Cloud Sản xuất (Production Deployment Configuration)**:
   - Khởi tạo tệp `vercel.json` định tuyến SPA chuẩn xác (rewrite toàn bộ routes về `/index.html`) và cấu hình cache bất biến (`Cache-Control: public, max-age=31536000, immutable`) cho thư mục assets tĩnh.
+- **Tái thiết kế Thẩm mỹ Kính mờ Nhẹ (Frosted Glassmorphism & Backdrop Blur - DEC-28)**:
+  - Ứng dụng hiệu ứng kính mờ sương nhẹ nhàng (`backdrop-blur` + độ trong suốt bán mờ `rgba`) cho 2 khu vực trọng điểm theo yêu cầu:
+    1. **Thẻ Hồ sơ Nhân vật (Vital Profile Card - `TopSection.tsx`)**:
+       - Vỏ container chính: nền bán trong suốt `rgba(255, 255, 255, 0.45)`, độ mờ sương quang học `backdropFilter: blur(20px)`, viền ánh sáng sương mai `rgba(255, 255, 255, 0.85)` và vệt sáng viền `inset 0 1px 2px rgba(255, 255, 255, 0.95)`.
+       - Khối trích dẫn thoại iconic: nền xanh tuyết trong trẻo `rgba(224, 242, 254, 0.35)`, `blur(12px)` với viền băng nhẹ `rgba(186, 230, 253, 0.7)`.
+       - 5 thẻ chỉ số Vital Specs (Age, Height, Codename, CV, Measurements): kính mờ `rgba(255, 255, 255, 0.38)`, `blur(10px)`, hiệu ứng hover sáng bóng kính `hover:bg-white/55`.
+    2. **Bảng Lưu niệm Yoshino's Memory Board (`GuestbookSection.tsx`)**:
+       - Khung bảng lớn: chuyển từ màu trắng đục đặc sang kính băng trong mờ `rgba(255, 255, 255, 0.45)` với `blur(20px)`.
+       - Thanh Toolbar điều khiển: nền kính `bg-white/35 backdrop-blur-md` tinh tế.
+       - Thẻ soạn thảo Sticky Pad Composer: kính xanh bạc hà dịu nhẹ `rgba(255, 255, 255, 0.55)`, `blur(14px)` cùng ô input/textarea trong mờ `rgba(255, 255, 255, 0.65)` và viền washi băng keo pastel.
+       - Toàn bộ giấy nhớ ước nguyện (Wish Notes): palette xanh băng (`#38BDF8`) và xanh bạc hà (`#34D399`) mờ kính `rgba(..., 0.52)` kèm `blur(12px)`, ghim kim loại nổi khối 3D.
+  - Mang lại trải nghiệm thị giác cao cấp: các bông tuyết tinh thể 6 cánh rơi nhẹ nhàng trôi qua phía sau lớp kính một cách tự nhiên mà không làm suy giảm độ tương phản hay tính dễ đọc của văn bản.
 
 ---
 

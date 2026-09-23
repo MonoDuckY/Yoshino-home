@@ -211,21 +211,20 @@ Trang hoạt động phi thương mại. Footer bắt buộc có:
   ├── Row 1 (Hero Main):
   │     ├── Col Left (Costume Selector): 3 Avatar Switchers (Normal, School, Spirit) + Cyan Ring Indicator
   │     ├── Col Center (Standee Stage): WebP Retina Standee + Frosted Acrylic Dual-ring Pedestal & Ground Shadow
-  │     └── Col Right (Vital Profile):
-  │           ├── Badges: SPIRIT NO. 02 • IV • CHESED • Absolute Zero
+  │     └── Col Right (Vital Profile - Frosted Glassmorphism):
   │           ├── Title: HIMEKAWA YOSHINO (Outfit) / 氷芽川 四糸乃 (Klee One)
   │           ├── Frosted Quote: ❄️「私……誰も傷つけたくないんです……」
-  │           └── Specs List: Age (13/39-40), Height (144cm), Codename (Hermit), CV (Iori Nomizu), BWH (73/55/78)
+  │           └── Specs List (Frosted Glass pills): Age (13/39-40), Height (144cm), Codename (Hermit), CV (Iori Nomizu), BWH (73/55/78)
   └── Row 2 (Tribute Monologue): Full-width Editorial Reflection bounded by large artistic ice quotes (“ ”)
 
 [Section 2: Curated Gallery Wall — Vertical Adaptive Masonry]
   ├── Centered FilterBar (scroll-mt-16): [All] | [Official Art] | [Community Fanart] | [Collaborations]
   └── Adaptive Masonry Grid: Multi-column layout with natural aspect-ratio artworks (ArtworkCard × N)
 
-[Section 3: Winter Hearth Noticeboard — Mini Guestbook]
-  ├── Whiteboard Frame (scroll-mt-16) with natural pins & warm ambiance
-  ├── Note Wall: Multi-color frost cards with visitor wishes & stamps (❄️, 💙, 🐰, ✨, 🍵)
-  └── Interactive Form: Submit wish (140 max) + nickname + stamp
+[Section 3: Winter Hearth Noticeboard — Yoshino's Memory Board (Frosted Glassmorphism)]
+  ├── Frosted Whiteboard Frame (scroll-mt-16) with backdrop-blur & dot grid
+  ├── Note Wall: Translucent frosted glass slips (Ice Blue & Mint) with visitor wishes & metallic pushpins
+  └── Interactive Sticky Pad Composer: Frosted card + translucent inputs + Pin Wish button
 
 [Section 4: Minimal Dark Frosted Footer]
   ├── Line 1: © 2026 Yoshino's Home • Fan-made tribute project.

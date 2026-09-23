@@ -9,21 +9,23 @@ const ROTATIONS = [-2.2, 1.6, -1.4, 2.4, -1.8, 1.2, -2.5, 2.0];
 const BATCH_SIZE = 14;
 
 const NOTE_PALETTES = [
-  // 1. Yoshino's Hair & Eyes — Soft Ice Blue
+  // 1. Yoshino's Hair & Eyes — Soft Ice Blue Frosted Glass
   {
-    bg: 'rgba(240, 249, 255, 0.95)',
-    border: 'rgba(186, 230, 253, 0.85)',
+    bg: 'rgba(240, 249, 255, 0.52)',
+    border: 'rgba(186, 230, 253, 0.75)',
+    boxShadow: '0 8px 24px rgba(59, 157, 210, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
     pinColor: '#38BDF8',
-    tapeColor: 'rgba(224, 242, 254, 0.7)',
+    tapeColor: 'rgba(224, 242, 254, 0.6)',
     textColor: 'var(--color-text-primary)',
     accent: 'var(--color-ice-blue)',
   },
-  // 2. Yoshino's Raincoat (Zadkiel Coat) — Soft Mint (#EDFDF6)
+  // 2. Yoshino's Raincoat (Zadkiel Coat) — Soft Mint Frosted Glass
   {
-    bg: 'rgba(237, 253, 246, 0.95)',
-    border: 'rgba(167, 243, 208, 0.85)',
+    bg: 'rgba(237, 253, 246, 0.52)',
+    border: 'rgba(167, 243, 208, 0.75)',
+    boxShadow: '0 8px 24px rgba(16, 184, 126, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
     pinColor: '#34D399',
-    tapeColor: 'rgba(209, 250, 229, 0.7)',
+    tapeColor: 'rgba(209, 250, 229, 0.6)',
     textColor: 'var(--color-text-primary)',
     accent: 'var(--color-yoshino-green)',
   },
@@ -112,18 +114,18 @@ export function GuestbookSection() {
           transition={{ duration: 0.7 }}
           className="relative rounded-[2.5rem] border overflow-hidden flex flex-col shadow-2xl scroll-mt-20 transition-all"
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.72)',
-            backdropFilter: 'blur(22px)',
-            WebkitBackdropFilter: 'blur(22px)',
-            borderColor: 'rgba(255, 255, 255, 0.95)',
+            backgroundColor: 'rgba(255, 255, 255, 0.45)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderColor: 'rgba(255, 255, 255, 0.85)',
             boxShadow:
-              '0 24px 60px rgba(30, 55, 110, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+              '0 24px 60px rgba(30, 55, 110, 0.09), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
           }}
         >
           {/* Board Grid Dot Pattern overlay */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 pointer-events-none opacity-40"
+            className="absolute inset-0 pointer-events-none opacity-30"
             style={{
               backgroundImage: 'radial-gradient(rgba(59, 157, 210, 0.25) 1px, transparent 1px)',
               backgroundSize: '24px 24px',
@@ -131,7 +133,7 @@ export function GuestbookSection() {
           />
 
           {/* ── Whiteboard Clean Toolbar ── */}
-          <div className="relative z-10 flex items-center justify-between px-6 md:px-8 py-3.5 border-b border-[rgba(59,157,210,0.14)] bg-white/60 backdrop-blur-md">
+          <div className="relative z-10 flex items-center justify-between px-6 md:px-8 py-3.5 border-b border-[rgba(59,157,210,0.12)] bg-white/35 backdrop-blur-md">
             {/* Left title */}
             <div className="flex items-center gap-2.5">
               <span className="text-xl">📌</span>
@@ -150,10 +152,12 @@ export function GuestbookSection() {
                 onClick={handleShuffle}
                 title="Shuffle wishes"
                 aria-label="Shuffle wishes"
-                className="w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-300 cursor-pointer border shadow-xs hover:bg-white hover:shadow-md hover:scale-110 active:scale-95 group"
+                className="w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center text-2xl md:text-3xl transition-all duration-300 cursor-pointer border shadow-xs hover:bg-white/80 hover:shadow-md hover:scale-110 active:scale-95 group"
                 style={{
-                  backgroundColor: isShuffled ? 'rgba(59, 157, 210, 0.12)' : 'rgba(255, 255, 255, 0.85)',
-                  borderColor: 'rgba(59, 157, 210, 0.3)',
+                  backgroundColor: isShuffled ? 'rgba(59, 157, 210, 0.16)' : 'rgba(255, 255, 255, 0.65)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  borderColor: 'rgba(59, 157, 210, 0.35)',
                   color: 'var(--color-ice-blue)',
                 }}
               >
@@ -192,9 +196,11 @@ export function GuestbookSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="relative rounded-2xl p-5 border-2 border-dashed shadow-md transition-all duration-300 sm:col-span-1"
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  borderColor: 'rgba(16, 184, 126, 0.5)',
-                  boxShadow: '0 8px 24px rgba(16, 184, 126, 0.08)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.55)',
+                  backdropFilter: 'blur(14px)',
+                  WebkitBackdropFilter: 'blur(14px)',
+                  borderColor: 'rgba(16, 184, 126, 0.45)',
+                  boxShadow: '0 8px 24px rgba(16, 184, 126, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
                   transform: 'rotate(-1deg)',
                 }}
               >
@@ -208,7 +214,7 @@ export function GuestbookSection() {
                   }}
                 />
 
-                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-emerald-100">
+                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-emerald-100/60">
                   <span className="text-sm">✏️</span>
                   <span
                     className="text-xs font-bold uppercase tracking-wider text-[var(--color-yoshino-green)]"
@@ -229,8 +235,10 @@ export function GuestbookSection() {
                       placeholder="Your name / nickname..."
                       className="w-full px-3 py-1.5 rounded-lg text-xs outline-none border transition-all focus:ring-1 focus:ring-[var(--color-yoshino-green)]"
                       style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        borderColor: 'rgba(16, 184, 126, 0.3)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.65)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        borderColor: 'rgba(16, 184, 126, 0.35)',
                         color: 'var(--color-text-primary)',
                         fontFamily: 'var(--font-body)',
                       }}
@@ -247,8 +255,10 @@ export function GuestbookSection() {
                       placeholder="Warm words for Yoshino & Yoshinon..."
                       className="w-full px-3 py-2 rounded-xl text-xs outline-none resize-none border transition-all focus:ring-1 focus:ring-[var(--color-yoshino-green)]"
                       style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        borderColor: 'rgba(16, 184, 126, 0.3)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.65)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        borderColor: 'rgba(16, 184, 126, 0.35)',
                         color: 'var(--color-text-primary)',
                         fontFamily: 'var(--font-body)',
                       }}
@@ -282,7 +292,7 @@ export function GuestbookSection() {
                 Array.from({ length: 6 }).map((_, idx) => (
                   <div
                     key={idx}
-                    className="h-44 rounded-2xl animate-pulse bg-white/60 border border-sky-100"
+                    className="h-44 rounded-2xl animate-pulse bg-white/40 border border-sky-100"
                   />
                 ))
               ) : (
@@ -308,6 +318,9 @@ export function GuestbookSection() {
                         style={{
                           backgroundColor: palette.bg,
                           borderColor: palette.border,
+                          backdropFilter: 'blur(12px)',
+                          WebkitBackdropFilter: 'blur(12px)',
+                          boxShadow: palette.boxShadow,
                           transform: `rotate(${rotation}deg)`,
                         }}
                       >
